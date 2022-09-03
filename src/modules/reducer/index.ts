@@ -11,20 +11,8 @@ import {
   createMutationResetState,
   createMutationSuccessState,
 } from "../mutation/utils";
-import { EffectActionTypePatterns } from "../../utils";
-import { CreatedKey, State } from "../../types";
-
-interface GetReducerArgs {
-  effectActionPatterns: EffectActionTypePatterns;
-};
-
-type Action = {
-  type: string | null;
-  payload: {
-    createdKey: CreatedKey | null;
-    data: unknown;
-  };
-};
+import { State } from "../../types";
+import { Action, GetReducerArgs } from "./types";
 
 const defaultState = {};
 
@@ -40,12 +28,12 @@ export const getReducer = ({ effectActionPatterns }: GetReducerArgs) => {
   return function reducer(
     state: State = defaultState,
     action: Action = defaultAction,
-  ) {
+  ): State {
     const { type, payload } = action;
 
-    // Query
-
     if (type && payload?.createdKey) {
+      // Query
+
       if (type.includes(effectActionPatterns.query.request)) {
         return {
           ...state,
