@@ -21,8 +21,8 @@ export type MutationEffectActionTypesShape<R, S, F, RS> = {
 };
 
 export type MutationEffectActionType<
-  A extends Exclude<ActionTypeKind, ActionTypeKind.Invalidate>
-> = EffectActionType<Effect.Mutation, A>;
+  K extends Exclude<ActionTypeKind, ActionTypeKind.Invalidate>
+> = EffectActionType<Effect.Mutation, K>;
 
 export type MutationEffectActionTypes = MutationEffectActionTypesShape<
   MutationEffectActionType<ActionTypeKind.Request>,

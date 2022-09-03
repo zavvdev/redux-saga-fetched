@@ -13,7 +13,7 @@ export type QueryEffectActionTypesShape<R, S, F, I, RS> = {
   [ActionTypeKind.Reset]: RS;
 };
 
-export type QueryEffectActionType<A extends ActionTypeKind> = EffectActionType<Effect.Query, A>;
+export type QueryEffectActionType<K extends ActionTypeKind> = EffectActionType<Effect.Query, K>;
 
 export type QueryEffectActionTypes = QueryEffectActionTypesShape<
   QueryEffectActionType<ActionTypeKind.Request>,

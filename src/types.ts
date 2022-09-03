@@ -18,8 +18,8 @@ export enum ActionTypeKind {
 
 export type EffectActionType<
   E extends Effect = Effect,
-  A extends ActionTypeKind = ActionTypeKind
-> = `${E}/${A}`;
+  K extends ActionTypeKind = ActionTypeKind
+> = `${E}/${K}`;
 
 export type EffectActionTypePattern<
   E extends EffectActionType = EffectActionType
