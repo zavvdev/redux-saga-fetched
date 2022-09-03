@@ -2,8 +2,8 @@ import {
   all,
   call, put,
 } from "redux-saga/effects";
-import { createActionType, createKey } from "../../utils";
-import { DEFAULT_MUTATION_OPTIONS, EFFECT_TYPES } from "../../config";
+import { createActionType, createKey } from "utils";
+import { DEFAULT_MUTATION_OPTIONS, EFFECT_TYPES } from "config";
 import { getInvalidate } from "../invalidate";
 
 /*

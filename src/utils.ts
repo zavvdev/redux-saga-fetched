@@ -1,8 +1,8 @@
-import { MUTATION_EFFECT_ACTIONS } from "./modules/mutation/config";
-import { MutationEffectActionTypePatterns } from "./modules/mutation/types";
-import { QUERY_EFFECT_ACTIONS } from "./modules/query/config";
-import { QueryEffectActionTypePatterns } from "./modules/query/types";
-import { ActionType, CreatedKey, Domain, Effect, EffectActionTypePattern, Key } from "./types";
+import { MUTATION_EFFECT_ACTIONS } from "modules/mutation/config";
+import { MutationEffectActionTypePatterns } from "modules/mutation/types";
+import { QUERY_EFFECT_ACTIONS } from "modules/query/config";
+import { QueryEffectActionTypePatterns } from "modules/query/types";
+import { ActionType, CreatedKey, Domain, Effect, EffectActionTypePattern, Key } from "types";
 
 /* --------- */
 

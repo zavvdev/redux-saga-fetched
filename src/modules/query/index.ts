@@ -1,11 +1,11 @@
 import {
   call, delay, put, select, spawn,
 } from "redux-saga/effects";
-import { getInvalidate } from "../invalidate";
-import { createActionType, createKey } from "../../utils";
+import { getInvalidate } from "modules/invalidate";
+import { createActionType, createKey } from "utils";
 import {
   DEFAULT_QUERY_OPTIONS, EFFECT_TYPES,
-} from "../../config";
+} from "config";
 
 /*
   key: string[];

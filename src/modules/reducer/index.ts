@@ -4,15 +4,15 @@ import {
   createQueryRequestState,
   createQueryResetState,
   createQuerySuccessState,
-} from "../query/utils";
+} from "modules/query/utils";
 import {
   createMutationFailureState,
   createMutationRequestState,
   createMutationResetState,
   createMutationSuccessState,
-} from "../mutation/utils";
-import { State } from "../../types";
-import { Action, GetReducerArgs } from "./types";
+} from "modules/mutation/utils";
+import { State } from "types";
+import { Action, GetReducerArgs } from "modules/reducer/types";
 
 const defaultState = {};
 

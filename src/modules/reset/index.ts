@@ -1,6 +1,6 @@
 import { put, select } from "redux-saga/effects";
-import { createActionType, createKey } from "../../utils";
-import { DATA_STATUS_TYPES, EFFECT_TYPES } from "../../config";
+import { createActionType, createKey } from "utils";
+import { DATA_STATUS_TYPES, EFFECT_TYPES } from "config";
 
 const getActionTypePattern = ({ effectType, actionTypePatterns }) => {
   let result = null;

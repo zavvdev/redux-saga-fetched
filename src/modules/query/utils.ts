@@ -1,4 +1,4 @@
-import { DATA_STATUS_TYPES, EFFECT_TYPES } from "../config";
+import { DATA_STATUS_TYPES, EFFECT_TYPES } from "config";
 
 export const createQueryState = ({
   isLoading,

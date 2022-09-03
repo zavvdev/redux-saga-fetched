@@ -2,9 +2,9 @@ import {
   createActionType,
   createActionTypePatterns,
   createKey,
-} from "../../utils";
-import { ACTION_TYPES, EFFECT_TYPES } from "../../config";
-import { ActionType, Domain, Key } from "../../types";
+} from "utils";
+import { ACTION_TYPES, EFFECT_TYPES } from "config";
+import { ActionType, Domain, Key } from "types";
 
 interface GetCreateActionTypeFromKeyArgs {
   domain: Domain;

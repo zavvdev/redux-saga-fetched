@@ -1,4 +1,4 @@
-import { ActionTypeKind, Effect, EffectActionType, EffectActionTypePattern } from "../../types";
+import { ActionTypeKind, Effect, EffectActionType, EffectActionTypePattern } from "types";
 
 export type QueryOptions = {
   useCache?: boolean;

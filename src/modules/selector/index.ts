@@ -1,4 +1,4 @@
-import { createKey } from "../../utils";
+import { createKey } from "utils";
 
 export const getSelector = ({ domain }) => (state, key) => {
   const createdKey = createKey(key);

@@ -1,6 +1,6 @@
 import { put, select } from "redux-saga/effects";
-import { createActionType, createKey } from "../../utils";
-import { EFFECT_TYPES } from "../../config";
+import { createActionType, createKey } from "utils";
+import { EFFECT_TYPES } from "config";
 
 export const getInvalidate = ({
   actionTypePatterns,

@@ -1,5 +1,5 @@
-import { CreatedKey } from "../../types";
-import { EffectActionTypePatterns } from "../../utils";
+import { CreatedKey } from "types";
+import { EffectActionTypePatterns } from "utils";
 
 export interface GetReducerArgs {
   effectActionPatterns: EffectActionTypePatterns;

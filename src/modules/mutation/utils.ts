@@ -1,5 +1,5 @@
-import { DATA_STATUS_TYPES, EFFECT_TYPES } from "../config";
-import { MutationState } from "../types";
+import { DATA_STATUS_TYPES, EFFECT_TYPES } from "config";
+import { MutationState } from "types";
 
 export function createMutationState<T>({
   isLoading,
