@@ -2,7 +2,14 @@ import { MUTATION_EFFECT_ACTIONS } from "modules/mutation/config";
 import { MutationEffectActionTypePatterns } from "modules/mutation/types";
 import { QUERY_EFFECT_ACTIONS } from "modules/query/config";
 import { QueryEffectActionTypePatterns } from "modules/query/types";
-import { ActionType, CreatedKey, Domain, Effect, EffectActionTypePattern, Key } from "types";
+import {
+  ActionType,
+  CreatedKey,
+  Domain,
+  Effect,
+  EffectActionTypePattern,
+  Key,
+} from "types";
 
 /* --------- */
 
@@ -15,9 +22,10 @@ interface CreateActionTypeArgs {
   effectActionPattern: EffectActionTypePattern;
 }
 
-export const createActionType = (
-  { createdKey, effectActionPattern }: CreateActionTypeArgs
-): ActionType => {
+export const createActionType = ({
+  createdKey,
+  effectActionPattern,
+}: CreateActionTypeArgs): ActionType => {
   return `${createdKey}_${effectActionPattern}`;
 };
 
@@ -26,9 +34,11 @@ export const createActionType = (
 export interface EffectActionTypePatterns {
   [Effect.Query]: QueryEffectActionTypePatterns;
   [Effect.Mutation]: MutationEffectActionTypePatterns;
-};
+}
 
-export const createEffectActionPatterns = (domain: Domain): EffectActionTypePatterns => ({
+export const createEffectActionPatterns = (
+  domain: Domain
+): EffectActionTypePatterns => ({
   query: {
     request: `${domain}@${QUERY_EFFECT_ACTIONS.request}`,
     success: `${domain}@${QUERY_EFFECT_ACTIONS.success}`,

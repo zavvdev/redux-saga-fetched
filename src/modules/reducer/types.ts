@@ -3,7 +3,7 @@ import { EffectActionTypePatterns } from "utils";
 
 export interface GetReducerArgs {
   effectActionPatterns: EffectActionTypePatterns;
-};
+}
 
 export type Action = {
   type: string | null;

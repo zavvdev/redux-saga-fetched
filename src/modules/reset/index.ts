@@ -12,30 +12,27 @@ const getActionTypePattern = ({ effectType, actionTypePatterns }) => {
   return result;
 };
 
-export const getReset = (
-  { actionTypePatterns, domain },
-) => function* reset(key) {
-  const createdKey = createKey(key);
-  const isNotReset = yield select(
-    (store) => {
+export const getReset = ({ actionTypePatterns, domain }) =>
+  function* reset(key) {
+    const createdKey = createKey(key);
+    const isNotReset = yield select(store => {
       return store?.[domain]?.[createdKey]?.status !== DATA_STATUS_TYPES.reset;
-    },
-  );
-  const effectType = yield select(
-    (store) => store?.[domain]?.[createdKey]?.type,
-  );
-  if (isNotReset) {
-    yield put({
-      type: createActionType({
-        createdKey,
-        actionTypePattern: getActionTypePattern({
-          effectType,
-          actionTypePatterns,
-        }),
-      }),
-      payload: {
-        createdKey,
-      },
     });
-  }
-};
+    const effectType = yield select(
+      store => store?.[domain]?.[createdKey]?.type
+    );
+    if (isNotReset) {
+      yield put({
+        type: createActionType({
+          createdKey,
+          actionTypePattern: getActionTypePattern({
+            effectType,
+            actionTypePatterns,
+          }),
+        }),
+        payload: {
+          createdKey,
+        },
+      });
+    }
+  };

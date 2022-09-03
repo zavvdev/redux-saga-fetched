@@ -1,4 +1,9 @@
-import { ActionTypeKind, Effect, EffectActionType, EffectActionTypePattern } from "types";
+import {
+  ActionTypeKind,
+  Effect,
+  EffectActionType,
+  EffectActionTypePattern,
+} from "types";
 
 export type QueryOptions = {
   useCache?: boolean;
@@ -13,7 +18,10 @@ export type QueryEffectActionTypesShape<R, S, F, I, RS> = {
   [ActionTypeKind.Reset]: RS;
 };
 
-export type QueryEffectActionType<K extends ActionTypeKind> = EffectActionType<Effect.Query, K>;
+export type QueryEffectActionType<K extends ActionTypeKind> = EffectActionType<
+  Effect.Query,
+  K
+>;
 
 export type QueryEffectActionTypes = QueryEffectActionTypesShape<
   QueryEffectActionType<ActionTypeKind.Request>,

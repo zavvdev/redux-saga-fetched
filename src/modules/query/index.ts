@@ -1,11 +1,7 @@
-import {
-  call, delay, put, select, spawn,
-} from "redux-saga/effects";
+import { call, delay, put, select, spawn } from "redux-saga/effects";
 import { getInvalidate } from "modules/invalidate";
 import { createActionType, createKey } from "utils";
-import {
-  DEFAULT_QUERY_OPTIONS, EFFECT_TYPES,
-} from "config";
+import { DEFAULT_QUERY_OPTIONS, EFFECT_TYPES } from "config";
 
 /*
   key: string[];
@@ -22,11 +18,8 @@ function* delayedInvalidate({ key, invalidateFn, ms }) {
   yield call(invalidateFn, key);
 }
 
-export const getQuery = (
-  { actionTypePatterns, domain },
-) => function* query({
-  key, fn, options,
-}) {
+export const getQuery = ({ actionTypePatterns, domain }) =>
+  function* query({ key, fn, options }) {
     const createdKey = createKey(key);
 
     try {
@@ -37,7 +30,7 @@ export const getQuery = (
         ...(options || {}),
       };
 
-      const isValid = yield select((store) => {
+      const isValid = yield select(store => {
         return store?.[domain]?.[createdKey]?.isValid;
       });
       if (useCache && isValid) {

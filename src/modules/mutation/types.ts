@@ -1,9 +1,14 @@
-import { ActionTypeKind, Effect, EffectActionType, EffectActionTypePattern } from "types";
+import {
+  ActionTypeKind,
+  Effect,
+  EffectActionType,
+  EffectActionTypePattern,
+} from "types";
 import { Key } from "../../types";
 
 export interface MutationOptions {
   invalidateKeysOnSuccess?: Array<Key>;
-};
+}
 
 export interface MutationState<T> {
   isLoading: boolean;
@@ -11,7 +16,7 @@ export interface MutationState<T> {
   isError: boolean;
   status: string;
   data: T | null;
-};
+}
 
 export type MutationEffectActionTypesShape<R, S, F, RS> = {
   [ActionTypeKind.Request]: R;

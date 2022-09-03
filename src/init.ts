@@ -1,17 +1,17 @@
 import { getReducer } from "modules/reducer";
-import { getQuery } from "modules/query";
-import { getSelector } from "modules/selector";
+// import { getQuery } from "modules/query";
+// import { getSelector } from "modules/selector";
 import { DOMAIN } from "config";
-import { getMutation } from "modules/mutation";
-import { getInvalidate } from "modules/invalidate";
+// import { getMutation } from "modules/mutation";
+// import { getInvalidate } from "modules/invalidate";
 import { createEffectActionPatterns } from "utils";
-import { getCreateActionTypeFromKey } from "modules/createActionTypeFromKey";
-import { getReset } from "modules/reset";
+// import { getCreateActionTypeFromKey } from "modules/createActionTypeFromKey";
+// import { getReset } from "modules/reset";
 import { Domain } from "types";
 
 interface InitArgs {
   domain: Domain;
-};
+}
 
 export const init = ({ domain }: InitArgs) => {
   const options = {

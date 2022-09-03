@@ -1,7 +1,4 @@
-import {
-  all,
-  call, put,
-} from "redux-saga/effects";
+import { all, call, put } from "redux-saga/effects";
 import { createActionType, createKey } from "utils";
 import { DEFAULT_MUTATION_OPTIONS, EFFECT_TYPES } from "config";
 import { getInvalidate } from "../invalidate";
@@ -14,11 +11,8 @@ import { getInvalidate } from "../invalidate";
   }
 */
 
-export const getMutation = (
-  { actionTypePatterns, domain },
-) => function* mutation({
-  key, fn, options,
-}) {
+export const getMutation = ({ actionTypePatterns, domain }) =>
+  function* mutation({ key, fn, options }) {
     const invalidate = getInvalidate({ actionTypePatterns, domain });
     const createdKey = createKey(key);
     const { invalidateKeys } = {
@@ -46,13 +40,12 @@ export const getMutation = (
           createdKey,
         },
       });
-      if (
-        Array.isArray(invalidateKeys)
-        && invalidateKeys.length > 0
-      ) {
-        yield all(invalidateKeys.map(
-          (keyToInvalidate) => call(invalidate, keyToInvalidate),
-        ));
+      if (Array.isArray(invalidateKeys) && invalidateKeys.length > 0) {
+        yield all(
+          invalidateKeys.map(keyToInvalidate =>
+            call(invalidate, keyToInvalidate)
+          )
+        );
       }
     } catch (e) {
       yield put({

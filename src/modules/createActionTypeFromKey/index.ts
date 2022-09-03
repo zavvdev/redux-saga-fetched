@@ -1,14 +1,10 @@
-import {
-  createActionType,
-  createActionTypePatterns,
-  createKey,
-} from "utils";
+import { createActionType, createActionTypePatterns, createKey } from "utils";
 import { ACTION_TYPES, EFFECT_TYPES } from "config";
 import { ActionType, Domain, Key } from "types";
 
 interface GetCreateActionTypeFromKeyArgs {
   domain: Domain;
-};
+}
 
 export const getCreateActionTypeFromKey = ({
   domain,

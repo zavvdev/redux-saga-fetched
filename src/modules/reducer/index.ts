@@ -27,7 +27,7 @@ const defaultAction = {
 export const getReducer = ({ effectActionPatterns }: GetReducerArgs) => {
   return function reducer(
     state: State = defaultState,
-    action: Action = defaultAction,
+    action: Action = defaultAction
   ): State {
     const { type, payload } = action;
 
@@ -94,4 +94,4 @@ export const getReducer = ({ effectActionPatterns }: GetReducerArgs) => {
     }
     return state;
   };
-}
+};

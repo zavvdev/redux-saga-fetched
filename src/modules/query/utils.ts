@@ -19,15 +19,16 @@ export const createQueryState = ({
   data,
 });
 
-export const createQueryResetState = () => createQueryState({
-  isLoading: false,
-  isFetching: false,
-  isLoaded: false,
-  isError: false,
-  isValid: false,
-  status: DATA_STATUS_TYPES.reset,
-  data: null,
-});
+export const createQueryResetState = () =>
+  createQueryState({
+    isLoading: false,
+    isFetching: false,
+    isLoaded: false,
+    isError: false,
+    isValid: false,
+    status: DATA_STATUS_TYPES.reset,
+    data: null,
+  });
 
 export const createQueryRequestState = ({ state, payload }) => {
   const isLoading = !state[payload.createdKey]?.data;
@@ -43,36 +44,35 @@ export const createQueryRequestState = ({ state, payload }) => {
   });
 };
 
-export const createQuerySuccessState = ({ payload }) => createQueryState({
-  isLoading: false,
-  isFetching: false,
-  isLoaded: true,
-  isError: false,
-  isValid: true,
-  status: DATA_STATUS_TYPES.loaded,
-  data: payload.data,
-});
+export const createQuerySuccessState = ({ payload }) =>
+  createQueryState({
+    isLoading: false,
+    isFetching: false,
+    isLoaded: true,
+    isError: false,
+    isValid: true,
+    status: DATA_STATUS_TYPES.loaded,
+    data: payload.data,
+  });
 
-export const createQueryFailureState = (
-  { state, payload },
-) => createQueryState({
-  isLoading: false,
-  isFetching: false,
-  isLoaded: false,
-  isError: true,
-  isValid: false,
-  status: DATA_STATUS_TYPES.error,
-  data: state[payload.createdKey]?.data || null,
-});
+export const createQueryFailureState = ({ state, payload }) =>
+  createQueryState({
+    isLoading: false,
+    isFetching: false,
+    isLoaded: false,
+    isError: true,
+    isValid: false,
+    status: DATA_STATUS_TYPES.error,
+    data: state[payload.createdKey]?.data || null,
+  });
 
-export const createQueryInvalidateState = (
-  { state, payload },
-) => createQueryState({
-  isLoading: state[payload.createdKey]?.isLoading,
-  isFetching: state[payload.createdKey]?.isFetching,
-  isLoaded: state[payload.createdKey]?.isLoaded,
-  isError: state[payload.createdKey]?.isError,
-  isValid: false,
-  status: state[payload.createdKey]?.status,
-  data: state[payload.createdKey]?.data,
-});
+export const createQueryInvalidateState = ({ state, payload }) =>
+  createQueryState({
+    isLoading: state[payload.createdKey]?.isLoading,
+    isFetching: state[payload.createdKey]?.isFetching,
+    isLoaded: state[payload.createdKey]?.isLoaded,
+    isError: state[payload.createdKey]?.isError,
+    isValid: false,
+    status: state[payload.createdKey]?.status,
+    data: state[payload.createdKey]?.data,
+  });
