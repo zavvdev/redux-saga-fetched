@@ -1,6 +1,6 @@
 export type Domain = string;
 export type State = Record<string, unknown>;
-export type Key = Array<string>;
+export type Key = string[];
 export type CreatedKey = string;
 
 export enum Effect {

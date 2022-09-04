@@ -22,10 +22,7 @@ interface CreateActionTypeArgs {
   effectActionPattern: EffectActionTypePattern;
 }
 
-export const createActionType = ({
-  createdKey,
-  effectActionPattern,
-}: CreateActionTypeArgs): ActionType => {
+export const createActionType = ({ createdKey, effectActionPattern }: CreateActionTypeArgs): ActionType => {
   return `${createdKey}_${effectActionPattern}`;
 };
 

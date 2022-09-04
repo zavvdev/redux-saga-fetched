@@ -7,7 +7,7 @@ import {
 import { Key } from "../../types";
 
 export interface MutationOptions {
-  invalidateKeysOnSuccess?: Array<Key>;
+  invalidateKeysOnSuccess?: Key[];
 }
 
 export interface MutationState<T> {

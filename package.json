@@ -1,46 +1,27 @@
 {
-  "version": "0.1.0",
-  "license": "MIT",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
-  "engines": {
-    "node": ">=10"
-  },
-  "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test",
-    "lint": "tsc --noEmit && tsdx lint",
-    "prepare": "husky install",
-    "size": "size-limit",
-    "analyze": "size-limit --why"
-  },
   "name": "redux-saga-fetched",
-  "author": "zavvdev",
-  "module": "dist/redux-saga-fetched.esm.js",
-  "size-limit": [
-    {
-      "path": "dist/redux-saga-fetched.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/redux-saga-fetched.esm.js",
-      "limit": "10 KB"
-    }
-  ],
-  "devDependencies": {
-    "@size-limit/preset-small-lib": "^8.0.1",
-    "husky": "^8.0.1",
-    "size-limit": "^8.0.1",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.4.0",
-    "typescript": "^3.9.10"
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "tsc --noEmit && eslint . --max-warnings=0"
   },
-  "dependencies": {
-    "redux-saga": "^1.2.1"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zavvdev/redux-saga-fetched.git"
+  },
+  "keywords": [],
+  "author": "zavvdev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zavvdev/redux-saga-fetched/issues"
+  },
+  "homepage": "https://github.com/zavvdev/redux-saga-fetched#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
+    "eslint": "^8.23.0",
+    "typescript": "^4.8.2"
   }
 }
