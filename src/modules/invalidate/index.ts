@@ -1,18 +1,25 @@
 import { put, select } from "redux-saga/effects";
-import { createActionType, createKey } from "utils";
-import { EFFECT_TYPES } from "config";
+import { createActionType, createKey, EffectActionTypePatterns } from "utils";
+import { Domain, Key } from "types";
 
-export const getInvalidate = ({ actionTypePatterns, domain }) =>
-  function* invalidate(key) {
+type GetInvalidateArgs = {
+  effectActionTypePatterns: EffectActionTypePatterns;
+  domain: Domain;
+}
+
+export const getInvalidate = (
+  { effectActionTypePatterns, domain }: GetInvalidateArgs,
+) =>
+  function* invalidate(key: Key) {
     const createdKey = createKey(key);
-    const isNotInvalidated = yield select(
-      store => store?.[domain]?.[createdKey]?.isValid === true
+    const isNotInvalidated: boolean = yield select(
+      store => store?.[domain]?.[createdKey]?.isValid === true,
     );
     if (isNotInvalidated) {
       yield put({
         type: createActionType({
           createdKey,
-          actionTypePattern: actionTypePatterns[EFFECT_TYPES.query].invalidate,
+          effectActionTypePattern: effectActionTypePatterns.query.invalidate,
         }),
         payload: {
           createdKey,

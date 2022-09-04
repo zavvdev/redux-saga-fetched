@@ -3,20 +3,18 @@ import {
   Effect,
   EffectActionType,
   EffectActionTypePattern,
+  EffectState,
 } from "types";
 import { Key } from "../../types";
 
-export interface MutationOptions {
+export type MutationOptions = {
   invalidateKeysOnSuccess?: Key[];
 }
 
-export interface MutationState<T> {
-  isLoading: boolean;
-  isLoaded: boolean;
-  isError: boolean;
-  status: string;
-  data: T | null;
-}
+export type MutationEffectState<T = unknown> = Omit<
+  EffectState<Effect.Mutation, T>,
+  "isValid" | "isFetching"
+>;
 
 export type MutationEffectActionTypesShape<R, S, F, RS> = {
   [ActionTypeKind.Request]: R;
@@ -25,8 +23,12 @@ export type MutationEffectActionTypesShape<R, S, F, RS> = {
   [ActionTypeKind.Reset]: RS;
 };
 
+export type MutationActionTypeKind = Exclude<
+  ActionTypeKind, ActionTypeKind.Invalidate
+>;
+
 export type MutationEffectActionType<
-  K extends Exclude<ActionTypeKind, ActionTypeKind.Invalidate>
+  K extends MutationActionTypeKind = MutationActionTypeKind
 > = EffectActionType<Effect.Mutation, K>;
 
 export type MutationEffectActionTypes = MutationEffectActionTypesShape<

@@ -3,7 +3,10 @@ import {
   Effect,
   EffectActionType,
   EffectActionTypePattern,
+  EffectState,
 } from "types";
+
+export type QueryEffectState<T = unknown> = EffectState<Effect.Query, T>;
 
 export type QueryOptions = {
   useCache?: boolean;
@@ -18,10 +21,11 @@ export type QueryEffectActionTypesShape<R, S, F, I, RS> = {
   [ActionTypeKind.Reset]: RS;
 };
 
-export type QueryEffectActionType<K extends ActionTypeKind> = EffectActionType<
-  Effect.Query,
-  K
->;
+export type QueryActionTypeKind = ActionTypeKind;
+
+export type QueryEffectActionType<
+K extends QueryActionTypeKind = QueryActionTypeKind
+> = EffectActionType<Effect.Query, K>;
 
 export type QueryEffectActionTypes = QueryEffectActionTypesShape<
   QueryEffectActionType<ActionTypeKind.Request>,

@@ -17,24 +17,26 @@ export const createKey = (key: Key): CreatedKey => key.join("_");
 
 /* --------- */
 
-interface CreateActionTypeArgs {
+type CreateActionTypeArgs = {
   createdKey: CreatedKey;
-  effectActionPattern: EffectActionTypePattern;
-}
+  effectActionTypePattern: EffectActionTypePattern;
+};
 
-export const createActionType = ({ createdKey, effectActionPattern }: CreateActionTypeArgs): ActionType => {
-  return `${createdKey}_${effectActionPattern}`;
+export const createActionType = ({
+  createdKey, effectActionTypePattern,
+}: CreateActionTypeArgs): ActionType => {
+  return `${createdKey}_${effectActionTypePattern}`;
 };
 
 /* --------- */
 
-export interface EffectActionTypePatterns {
+export type EffectActionTypePatterns = {
   [Effect.Query]: QueryEffectActionTypePatterns;
   [Effect.Mutation]: MutationEffectActionTypePatterns;
-}
+};
 
-export const createEffectActionPatterns = (
-  domain: Domain
+export const createEffectActionTypePatterns = (
+  domain: Domain,
 ): EffectActionTypePatterns => ({
   query: {
     request: `${domain}@${QUERY_EFFECT_ACTIONS.request}`,

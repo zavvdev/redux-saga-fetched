@@ -1,36 +1,50 @@
 import { call, delay, put, select, spawn } from "redux-saga/effects";
 import { getInvalidate } from "modules/invalidate";
-import { createActionType, createKey } from "utils";
-import { DEFAULT_QUERY_OPTIONS, EFFECT_TYPES } from "config";
+import { createActionType, createKey, EffectActionTypePatterns } from "utils";
+import { DEFAULT_QUERY_OPTIONS } from "modules/query/config";
+import { Domain, Key } from "types";
+import { QueryOptions } from "./types";
 
-/*
-  key: string[];
-  fn: () => Promise<unknown>;
-  options: {
-    useCache: boolean;
-    invalidateInterval: number;
-  };
-*/
+/* --------- */
 
-function* delayedInvalidate({ key, invalidateFn, ms }) {
+type DelayedInvalidateArgs = {
+  key: Key;
+  invalidateFn: (key: Key) => void;
+  ms: number
+}
+
+function* delayedInvalidate({ key, invalidateFn, ms }: DelayedInvalidateArgs) {
   yield Promise.resolve();
   yield delay(ms);
   yield call(invalidateFn, key);
 }
 
-export const getQuery = ({ actionTypePatterns, domain }) =>
-  function* query({ key, fn, options }) {
+/* --------- */
+
+type GetQueryArgs = {
+  effectActionTypePatterns: EffectActionTypePatterns;
+  domain: Domain;
+}
+
+type QueryFnArgs<T = unknown> = {
+  key: Key;
+  fn: () => Promise<T> | T;
+  options: QueryOptions;
+}
+
+export const getQuery = ({ effectActionTypePatterns, domain }: GetQueryArgs) =>
+  function* query<T>({ key, fn, options }: QueryFnArgs<T>) {
     const createdKey = createKey(key);
 
     try {
-      const invalidate = getInvalidate({ actionTypePatterns, domain });
+      const invalidate = getInvalidate({ effectActionTypePatterns, domain });
 
       const { useCache, invalidateInterval } = {
         ...DEFAULT_QUERY_OPTIONS,
         ...(options || {}),
       };
 
-      const isValid = yield select(store => {
+      const isValid: boolean = yield select(store => {
         return store?.[domain]?.[createdKey]?.isValid;
       });
       if (useCache && isValid) {
@@ -39,17 +53,17 @@ export const getQuery = ({ actionTypePatterns, domain }) =>
       yield put({
         type: createActionType({
           createdKey,
-          actionTypePattern: actionTypePatterns[EFFECT_TYPES.query].request,
+          effectActionTypePattern: effectActionTypePatterns.query.request,
         }),
         payload: {
           createdKey,
         },
       });
-      const data = yield call(fn);
+      const data: T = yield call(fn);
       yield put({
         type: createActionType({
           createdKey,
-          actionTypePattern: actionTypePatterns[EFFECT_TYPES.query].success,
+          effectActionTypePattern: effectActionTypePatterns.query.success,
         }),
         payload: {
           data,
@@ -67,7 +81,7 @@ export const getQuery = ({ actionTypePatterns, domain }) =>
       yield put({
         type: createActionType({
           createdKey,
-          actionTypePattern: actionTypePatterns[EFFECT_TYPES.query].failure,
+          effectActionTypePattern: effectActionTypePatterns.query.failure,
         }),
         payload: {
           createdKey,

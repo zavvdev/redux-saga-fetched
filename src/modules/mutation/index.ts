@@ -1,21 +1,28 @@
 import { all, call, put } from "redux-saga/effects";
-import { createActionType, createKey } from "utils";
-import { DEFAULT_MUTATION_OPTIONS, EFFECT_TYPES } from "config";
+import { createActionType, createKey, EffectActionTypePatterns } from "utils";
+import { DEFAULT_MUTATION_OPTIONS } from "modules/mutation/config";
 import { getInvalidate } from "../invalidate";
+import { Domain, Key } from "types";
+import { MutationOptions } from "./types";
 
-/*
-  key: string[];
-  fn: () => Promise<unknown>;
-  options: {
-    invalidateKeys: Array<string>[];
-  }
-*/
+type GetMutationArgs = {
+  effectActionTypePatterns: EffectActionTypePatterns;
+  domain: Domain;
+}
 
-export const getMutation = ({ actionTypePatterns, domain }) =>
-  function* mutation({ key, fn, options }) {
-    const invalidate = getInvalidate({ actionTypePatterns, domain });
+type MutationFnArgs<T = unknown> = {
+  key: Key;
+  fn: () => Promise<T> | T;
+  options: MutationOptions;
+}
+
+export const getMutation = (
+  { effectActionTypePatterns, domain }: GetMutationArgs,
+) =>
+  function* mutation<T>({ key, fn, options }: MutationFnArgs<T>) {
+    const invalidate = getInvalidate({ effectActionTypePatterns, domain });
     const createdKey = createKey(key);
-    const { invalidateKeys } = {
+    const { invalidateKeysOnSuccess } = {
       ...DEFAULT_MUTATION_OPTIONS,
       ...(options || {}),
     };
@@ -23,35 +30,37 @@ export const getMutation = ({ actionTypePatterns, domain }) =>
       yield put({
         type: createActionType({
           createdKey,
-          actionTypePattern: actionTypePatterns[EFFECT_TYPES.mutation].request,
+          effectActionTypePattern: effectActionTypePatterns.mutation.request,
         }),
         payload: {
           createdKey,
         },
       });
-      const data = yield call(fn);
+      const data: T = yield call(fn);
       yield put({
         type: createActionType({
           createdKey,
-          actionTypePattern: actionTypePatterns[EFFECT_TYPES.mutation].success,
+          effectActionTypePattern: effectActionTypePatterns.mutation.success,
         }),
         payload: {
           data,
           createdKey,
         },
       });
-      if (Array.isArray(invalidateKeys) && invalidateKeys.length > 0) {
+      if (Array.isArray(invalidateKeysOnSuccess)
+        && invalidateKeysOnSuccess.length > 0
+      ) {
         yield all(
-          invalidateKeys.map(keyToInvalidate =>
-            call(invalidate, keyToInvalidate)
-          )
+          invalidateKeysOnSuccess.map(keyToInvalidate =>
+            call(invalidate, keyToInvalidate),
+          ),
         );
       }
     } catch (e) {
       yield put({
         type: createActionType({
           createdKey,
-          actionTypePattern: actionTypePatterns[EFFECT_TYPES.mutation].failure,
+          effectActionTypePattern: effectActionTypePatterns.mutation.failure,
         }),
         payload: {
           createdKey,

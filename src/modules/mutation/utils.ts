@@ -1,15 +1,17 @@
-import { DATA_STATUS_TYPES, EFFECT_TYPES } from "config";
-import { MutationState } from "modules/mutation/types";
+import { MutationEffectState } from "modules/mutation/types";
+import { CreatedKey, DataStatus, Effect, State } from "types";
 
-export function createMutationState<T>({
+/* -------- */
+
+export function createMutationEffectState<T>({
   isLoading,
   isLoaded,
   isError,
   status,
   data,
-}: MutationState<T>) {
+}: Omit<MutationEffectState<T>, "type">): MutationEffectState<T> {
   return {
-    type: EFFECT_TYPES.mutation,
+    type: Effect.Mutation,
     isLoading,
     isLoaded,
     isError,
@@ -18,38 +20,75 @@ export function createMutationState<T>({
   };
 }
 
-export const createMutationResetState = () =>
-  createMutationState({
+/* -------- */
+
+export const createMutationEffectResetState = () =>
+  createMutationEffectState({
     isLoading: false,
     isLoaded: false,
     isError: false,
-    status: DATA_STATUS_TYPES.reset,
+    status: DataStatus.Reset,
     data: null,
   });
 
-export const createMutationRequestState = ({ state, payload }) =>
-  createMutationState({
+/* -------- */
+
+type CreateMutationEffectRequestStateArgs = {
+  state: State<MutationEffectState>;
+  payload: {
+    createdKey: CreatedKey;
+  }
+}
+
+export const createMutationEffectRequestState = (
+  { state, payload }: CreateMutationEffectRequestStateArgs,
+) =>
+  createMutationEffectState({
     isLoading: true,
     isLoaded: false,
     isError: false,
-    status: DATA_STATUS_TYPES.loading,
+    status: DataStatus.Loading,
     data: state[payload.createdKey]?.data || null,
   });
 
-export const createMutationSuccessState = ({ payload }) =>
-  createMutationState({
+/* -------- */
+
+type CreateMutationEffectSuccessStateArgs<T> = {
+  payload: {
+    data: T | null;
+  }
+}
+
+export function createMutationEffectSuccessState<T>(
+  { payload }: CreateMutationEffectSuccessStateArgs<T>,
+) {
+  return createMutationEffectState({
     isLoading: false,
     isLoaded: true,
     isError: false,
-    status: DATA_STATUS_TYPES.loaded,
+    status: DataStatus.Loaded,
     data: payload.data,
   });
+}
 
-export const createMutationFailureState = ({ state, payload }) =>
-  createMutationState({
+/* -------- */
+
+type CreateMutationEffectFailureStateArgs = {
+  state: State<MutationEffectState>;
+  payload: {
+    createdKey: CreatedKey;
+  }
+}
+
+export const createMutationEffectFailureState = (
+  { state, payload }: CreateMutationEffectFailureStateArgs,
+) =>
+  createMutationEffectState({
     isLoading: false,
     isLoaded: false,
     isError: true,
-    status: DATA_STATUS_TYPES.error,
+    status: DataStatus.Error,
     data: state[payload.createdKey]?.data || null,
   });
+
+/* -------- */

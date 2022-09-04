@@ -1,12 +1,24 @@
 export type Domain = string;
-export type State = Record<string, unknown>;
+export type RootState<S = EffectState> = Record<Domain, State<S>>;
+export type State<S = EffectState> = Record<CreatedKey, S>;
 export type Key = string[];
 export type CreatedKey = string;
+
+export type EffectState<E = Effect, D = unknown> = {
+  type: E,
+  isLoading: boolean;
+  isFetching: boolean;
+  isLoaded: boolean;
+  isError: boolean;
+  isValid: boolean;
+  status: DataStatus;
+  data: D | null;
+}
 
 export enum Effect {
   Query = "query",
   Mutation = "mutation",
-};
+}
 
 export enum ActionTypeKind {
   Request = "request",
@@ -14,7 +26,7 @@ export enum ActionTypeKind {
   Failure = "failure",
   Invalidate = "invalidate",
   Reset = "reset",
-};
+}
 
 export type EffectActionType<
   E extends Effect = Effect,
@@ -33,4 +45,4 @@ export enum DataStatus {
   Loaded = "loaded",
   Error = "error",
   Reset = "reset",
-};
+}

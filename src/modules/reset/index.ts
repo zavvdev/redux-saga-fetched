@@ -1,34 +1,47 @@
 import { put, select } from "redux-saga/effects";
-import { createActionType, createKey } from "utils";
-import { DATA_STATUS_TYPES, EFFECT_TYPES } from "config";
+import { createActionType, createKey, EffectActionTypePatterns } from "utils";
+import { DataStatus, Domain, Effect, Key, RootState } from "types";
 
-const getActionTypePattern = ({ effectType, actionTypePatterns }) => {
+type GetActionTypePatternArgs = {
+  effect: Effect;
+  effectActionTypePatterns: EffectActionTypePatterns;
+}
+
+const getActionTypePattern = (
+  { effect, effectActionTypePatterns }: GetActionTypePatternArgs,
+) => {
   let result = null;
-  if (effectType === EFFECT_TYPES.mutation) {
-    result = actionTypePatterns[EFFECT_TYPES.mutation].reset;
-  } else if (effectType === EFFECT_TYPES.query) {
-    result = actionTypePatterns[EFFECT_TYPES.query].reset;
+  if (effect === Effect.Mutation) {
+    result = effectActionTypePatterns.mutation.reset;
+  } else if (effect === Effect.Query) {
+    result = effectActionTypePatterns.query.reset;
   }
   return result;
 };
 
-export const getReset = ({ actionTypePatterns, domain }) =>
-  function* reset(key) {
+type GetResetArgs = {
+  effectActionTypePatterns: EffectActionTypePatterns;
+  domain: Domain;
+}
+
+export const getReset = ({ effectActionTypePatterns, domain }: GetResetArgs) =>
+  function* reset(key: Key) {
     const createdKey = createKey(key);
-    const isNotReset = yield select(store => {
-      return store?.[domain]?.[createdKey]?.status !== DATA_STATUS_TYPES.reset;
+    const isNotReset: boolean = yield select((state: RootState) => {
+      return state?.[domain]?.[createdKey]?.status !== DataStatus.Reset;
     });
-    const effectType = yield select(
-      store => store?.[domain]?.[createdKey]?.type
+    const effect: Effect = yield select(
+      (state: RootState) => state?.[domain]?.[createdKey]?.type,
     );
-    if (isNotReset) {
+    const effectActionTypePattern = getActionTypePattern({
+      effect,
+      effectActionTypePatterns,
+    });
+    if (isNotReset && effectActionTypePattern) {
       yield put({
         type: createActionType({
           createdKey,
-          actionTypePattern: getActionTypePattern({
-            effectType,
-            actionTypePatterns,
-          }),
+          effectActionTypePattern,
         }),
         payload: {
           createdKey,

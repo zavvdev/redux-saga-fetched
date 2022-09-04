@@ -1,14 +1,14 @@
 import { CreatedKey } from "types";
 import { EffectActionTypePatterns } from "utils";
 
-export interface GetReducerArgs {
-  effectActionPatterns: EffectActionTypePatterns;
+export type GetReducerArgs = {
+  effectActionTypePatterns: EffectActionTypePatterns;
 }
 
-export type Action = {
+export type Action<T = unknown> = {
   type: string | null;
   payload: {
     createdKey: CreatedKey | null;
-    data: unknown;
+    data: T | null;
   };
 };

@@ -1,18 +1,20 @@
 import {
-  createQueryFailureState,
-  createQueryInvalidateState,
-  createQueryRequestState,
-  createQueryResetState,
-  createQuerySuccessState,
+  createQueryEffectFailureState,
+  createQueryEffectInvalidateState,
+  createQueryEffectRequestState,
+  createQueryEffectResetState,
+  createQueryEffectSuccessState,
 } from "modules/query/utils";
 import {
-  createMutationFailureState,
-  createMutationRequestState,
-  createMutationResetState,
-  createMutationSuccessState,
+  createMutationEffectFailureState,
+  createMutationEffectRequestState,
+  createMutationEffectResetState,
+  createMutationEffectSuccessState,
 } from "modules/mutation/utils";
 import { State } from "types";
 import { Action, GetReducerArgs } from "modules/reducer/types";
+import { QueryEffectState } from "modules/query/types";
+import { MutationEffectState } from "modules/mutation/types";
 
 const defaultState = {};
 
@@ -24,71 +26,109 @@ const defaultAction = {
   },
 };
 
-export const getReducer = ({ effectActionPatterns }: GetReducerArgs) => {
-  return function reducer(
+export const getReducer = ({ effectActionTypePatterns }: GetReducerArgs) => {
+  return function reducer<T>(
     state: State = defaultState,
-    action: Action = defaultAction
-  ): State {
+    action: Action<T> = defaultAction,
+  ): State<QueryEffectState | MutationEffectState> {
     const { type, payload } = action;
 
     if (type && payload?.createdKey) {
-      // Query
 
-      if (type.includes(effectActionPatterns.query.request)) {
+      /* * * * 
+        Query 
+       * * * */
+
+      if (type.includes(effectActionTypePatterns.query.request)) {
         return {
           ...state,
-          [payload.createdKey]: createQueryRequestState({ state, payload }),
+          [payload.createdKey]: createQueryEffectRequestState({
+            state: state as State<QueryEffectState>,
+            payload: {
+              createdKey: payload.createdKey,
+            },
+          }),
         };
       }
-      if (type.includes(effectActionPatterns.query.success)) {
+      if (type.includes(effectActionTypePatterns.query.success)) {
         return {
           ...state,
-          [payload.createdKey]: createQuerySuccessState({ payload }),
+          [payload.createdKey]: createQueryEffectSuccessState<T>({
+            payload: {
+              data: payload.data,
+            },
+          }),
         };
       }
-      if (type.includes(effectActionPatterns.query.failure)) {
+      if (type.includes(effectActionTypePatterns.query.failure)) {
         return {
           ...state,
-          [payload.createdKey]: createQueryFailureState({ state, payload }),
+          [payload.createdKey]: createQueryEffectFailureState({
+            state: state as State<QueryEffectState>,
+            payload: {
+              createdKey: payload.createdKey,
+            },
+          }),
         };
       }
-      if (type.includes(effectActionPatterns.query.invalidate)) {
+      if (type.includes(effectActionTypePatterns.query.invalidate)) {
         return {
           ...state,
-          [payload.createdKey]: createQueryInvalidateState({ state, payload }),
+          [payload.createdKey]: createQueryEffectInvalidateState({
+            state: state as State<QueryEffectState>,
+            payload: {
+              createdKey: payload.createdKey,
+            },
+          }),
         };
       }
-      if (type.includes(effectActionPatterns.query.reset)) {
+      if (type.includes(effectActionTypePatterns.query.reset)) {
         return {
           ...state,
-          [payload.createdKey]: createQueryResetState(),
+          [payload.createdKey]: createQueryEffectResetState(),
         };
       }
 
-      // Mutation
+      /* * * * * * 
+        Mutation 
+       * * * * * */
 
-      if (type.includes(effectActionPatterns.mutation.request)) {
+      if (type.includes(effectActionTypePatterns.mutation.request)) {
         return {
           ...state,
-          [payload.createdKey]: createMutationRequestState({ state, payload }),
+          [payload.createdKey]: createMutationEffectRequestState({
+            state: state as State<MutationEffectState>,
+            payload: {
+              createdKey: payload.createdKey,
+            },
+          }),
         };
       }
-      if (type.includes(effectActionPatterns.mutation.success)) {
+      if (type.includes(effectActionTypePatterns.mutation.success)) {
         return {
           ...state,
-          [payload.createdKey]: createMutationSuccessState({ payload }),
+          [payload.createdKey]: createMutationEffectSuccessState<T>({
+            payload: {
+              data: payload.data,
+            },
+          }),
         };
       }
-      if (type.includes(effectActionPatterns.mutation.failure)) {
+      if (type.includes(effectActionTypePatterns.mutation.failure)) {
         return {
           ...state,
-          [payload.createdKey]: createMutationFailureState({ state, payload }),
+          [payload.createdKey]: createMutationEffectFailureState({
+            state: state as State<MutationEffectState>,
+            payload: {
+              createdKey: payload.createdKey,
+            },
+          }),
         };
       }
-      if (type.includes(effectActionPatterns.mutation.reset)) {
+      if (type.includes(effectActionTypePatterns.mutation.reset)) {
         return {
           ...state,
-          [payload.createdKey]: createMutationResetState(),
+          [payload.createdKey]: createMutationEffectResetState(),
         };
       }
     }

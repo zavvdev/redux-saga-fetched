@@ -21,6 +21,14 @@
       "error",
       "double"
     ],
+    "semi": [
+      2,
+      "always"
+    ],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
     "max-len": [
       2,
       {
