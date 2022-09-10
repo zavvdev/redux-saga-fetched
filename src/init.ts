@@ -1,6 +1,6 @@
 import { getReducer } from "./modules/reducer";
 import { getQuery } from "./modules/query";
-import { getSelector } from "./modules/selector";
+import { getSelector } from "./modules/select";
 import { DOMAIN } from "./config";
 import { getMutation } from "./modules/mutation";
 import { getInvalidate } from "./modules/invalidate";

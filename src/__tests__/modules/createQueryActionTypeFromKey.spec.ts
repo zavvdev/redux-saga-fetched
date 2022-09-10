@@ -1,20 +1,20 @@
-import { getCreateQueryActionTypeFromKey } from "../../modules/createQueryActionTypeFromKey";
 import { ActionType } from "../../types/action";
 import { Domain, Key } from "../../types/common";
 import { QueryEffectActionTypePattern } from "../../types/modules/query";
 import { createKey } from "../../utils";
 import { getEffectActionTypePatternsMock } from "../__mocks__/common";
+import { init } from "../../init";
 
 describe("createQueryActionTypeFromKey", () => {
   type ExpectedResult = ActionType<QueryEffectActionTypePattern>;
 
+  const domain: Domain = "mockDomain";
   const key: Key = ["getUser", 1];
   const createdKey = createKey(key);
-  const domain: Domain = "mockDomain";
   const effectActionTypePatterns = getEffectActionTypePatternsMock(domain);
 
-  const createQueryActionTypeFromKey = getCreateQueryActionTypeFromKey({
-    effectActionTypePatterns,
+  const { createQueryActionTypeFromKey } = init({
+    domain,
   });
 
   test("should create query request action type", () => {

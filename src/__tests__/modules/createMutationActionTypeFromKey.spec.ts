@@ -1,20 +1,20 @@
-import { getCreateMutationActionTypeFromKey } from "../../modules/createMutationActionTypeFromKey";
 import { ActionType } from "../../types/action";
 import { Domain, Key } from "../../types/common";
 import { MutationEffectActionTypePattern } from "../../types/modules/mutation";
 import { createKey } from "../../utils";
 import { getEffectActionTypePatternsMock } from "../__mocks__/common";
+import { init } from "../../init";
 
 describe("createMutationActionTypeFromKey", () => {
   type ExpectedResult = ActionType<MutationEffectActionTypePattern>;
 
+  const domain: Domain = "mockDomain";
   const key: Key = ["patchUser", 1];
   const createdKey = createKey(key);
-  const domain: Domain = "mockDomain";
   const effectActionTypePatterns = getEffectActionTypePatternsMock(domain);
 
-  const createMutationActionTypeFromKey = getCreateMutationActionTypeFromKey({
-    effectActionTypePatterns,
+  const { createMutationActionTypeFromKey } = init({
+    domain,
   });
 
   test("should create mutation request action type", () => {
