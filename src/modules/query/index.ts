@@ -3,8 +3,9 @@ import { getInvalidate } from "../invalidate/index";
 import { createActionType, createKey } from "../../utils";
 import { DEFAULT_QUERY_OPTIONS } from "./config";
 import { Domain, Key } from "../../types/common";
-import { QueryOptions } from "../../types/modules/query";
+import { QueryEffectState, QueryOptions } from "../../types/modules/query";
 import { EffectActionTypePatterns } from "../../types/action";
+import { State } from "../../types/state";
 
 /* --------- */
 
@@ -45,10 +46,18 @@ export const getQuery = ({ effectActionTypePatterns, domain }: GetQueryArgs) =>
         ...(options || {}),
       };
 
-      const isValid: boolean = yield select((store) => {
-        return store?.[domain]?.[createdKey]?.isValid;
-      });
-      if (useCache && isValid) {
+      const isValid: boolean = yield select(
+        (state: State<QueryEffectState>) => {
+          return state?.[domain]?.[createdKey]?.isValid;
+        },
+      );
+      const isAlreadyInProgress: boolean = yield select(
+        (state: State<QueryEffectState>) => {
+          const stateNode = state?.[domain]?.[createdKey];
+          return stateNode?.isLoading || stateNode?.isFetching;
+        },
+      );
+      if ((useCache && isValid) || isAlreadyInProgress) {
         return;
       }
       yield put({

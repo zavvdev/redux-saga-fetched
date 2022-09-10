@@ -1,10 +1,14 @@
-import { all, call, put } from "redux-saga/effects";
+import { all, call, put, select } from "redux-saga/effects";
 import { createActionType, createKey } from "../../utils";
 import { DEFAULT_MUTATION_OPTIONS } from "./config";
 import { getInvalidate } from "../invalidate";
 import { Domain, Key } from "../../types/common";
-import { MutationOptions } from "../../types/modules/mutation";
+import {
+  MutationEffectState,
+  MutationOptions,
+} from "../../types/modules/mutation";
 import { EffectActionTypePatterns } from "../../types/action";
+import { State } from "../../types/state";
 
 type GetMutationArgs = {
   effectActionTypePatterns: EffectActionTypePatterns;
@@ -29,6 +33,14 @@ export const getMutation = ({
       ...(options || {}),
     };
     try {
+      const isAlreadyInProgress: boolean = yield select(
+        (state: State<MutationEffectState>) => {
+          return state?.[domain]?.[createdKey]?.isLoading;
+        },
+      );
+      if (isAlreadyInProgress) {
+        return;
+      }
       yield put({
         type: createActionType({
           createdKey,
