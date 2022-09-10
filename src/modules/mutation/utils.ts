@@ -1,5 +1,6 @@
-import { MutationEffectState } from "modules/mutation/types";
-import { CreatedKey, DataStatus, Effect, State } from "types";
+import { MutationEffectState } from "../../types/modules/mutation";
+import { CreatedKey, DataStatus, Effect } from "../../types/common";
+import { StateNode } from "../../types/state";
 
 /* -------- */
 
@@ -34,7 +35,7 @@ export const createMutationEffectResetState = () =>
 /* -------- */
 
 type CreateMutationEffectRequestStateArgs = {
-  state: State<MutationEffectState>;
+  state: StateNode<MutationEffectState>;
   payload: {
     createdKey: CreatedKey;
   }
@@ -74,7 +75,7 @@ export function createMutationEffectSuccessState<T>(
 /* -------- */
 
 type CreateMutationEffectFailureStateArgs = {
-  state: State<MutationEffectState>;
+  state: StateNode<MutationEffectState>;
   payload: {
     createdKey: CreatedKey;
   }

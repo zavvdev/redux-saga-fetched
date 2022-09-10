@@ -1,4 +1,4 @@
-import { QueryEffectActionTypes, QueryOptions } from "modules/query/types";
+import { QueryEffectActionTypes, QueryOptions } from "../../types/modules/query";
 
 export const DEFAULT_QUERY_OPTIONS: QueryOptions = {
   useCache: true,

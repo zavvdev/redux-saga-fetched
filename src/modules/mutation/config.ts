@@ -1,7 +1,7 @@
 import {
   MutationEffectActionTypes,
   MutationOptions,
-} from "modules/mutation/types";
+} from "../../types/modules/mutation";
 
 export const DEFAULT_MUTATION_OPTIONS: MutationOptions = {
   invalidateKeysOnSuccess: [],

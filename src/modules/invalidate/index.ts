@@ -1,6 +1,7 @@
 import { put, select } from "redux-saga/effects";
-import { createActionType, createKey, EffectActionTypePatterns } from "utils";
-import { Domain, Key } from "types";
+import { EffectActionTypePatterns } from "../../types/action";
+import { createActionType, createKey } from "../../utils";
+import { Domain, Key } from "../../types/common";
 
 type GetInvalidateArgs = {
   effectActionTypePatterns: EffectActionTypePatterns;

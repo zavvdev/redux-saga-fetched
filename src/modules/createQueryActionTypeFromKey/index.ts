@@ -1,6 +1,7 @@
-import { createActionType, createKey, EffectActionTypePatterns } from "utils";
-import { Key } from "types";
-import { QueryActionTypeKind } from "modules/query/types";
+import { createActionType, createKey } from "../../utils";
+import { Key } from "../../types/common";
+import { QueryActionTypeKind } from "../../types/modules/query";
+import { EffectActionTypePatterns } from "../../types/action";
 
 type GetCreateQueryActionTypeFromKeyArgs = {
   effectActionTypePatterns: EffectActionTypePatterns;

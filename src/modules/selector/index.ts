@@ -1,14 +1,15 @@
 
-import { Domain, Key, RootState } from "types";
-import { createKey } from "utils";
+import { EffectState, State } from "../../types/state";
+import { Domain, Key } from "../../types/common";
+import { createKey } from "../../utils";
 
 type GetSelectorArgs = {
-  domain: Domain
+  domain: Domain;
 }
 
 export const getSelector = (
   { domain }: GetSelectorArgs,
-) => (state: RootState, key: Key) => {
+) => (state: State, key: Key): EffectState => {
   const createdKey = createKey(key);
   return state?.[domain]?.[createdKey];
 };

@@ -1,20 +1,24 @@
 import {
   ActionTypeKind,
+  DataStatus,
   Effect,
-  EffectActionType,
-  EffectActionTypePattern,
-  EffectState,
-} from "types";
-import { Key } from "../../types";
+  EffectActionTypeBuilder,
+  EffectActionTypePatternBuilder,
+  Key,
+} from "../common";
 
 export type MutationOptions = {
   invalidateKeysOnSuccess?: Key[];
 }
 
-export type MutationEffectState<T = unknown> = Omit<
-  EffectState<Effect.Mutation, T>,
-  "isValid" | "isFetching"
->;
+export type MutationEffectState<D = unknown> = {
+  type: Effect.Mutation,
+  isLoading: boolean;
+  isLoaded: boolean;
+  isError: boolean;
+  status: DataStatus;
+  data: D | null;
+}
 
 export type MutationEffectActionTypesShape<R, S, F, RS> = {
   [ActionTypeKind.Request]: R;
@@ -29,7 +33,7 @@ export type MutationActionTypeKind = Exclude<
 
 export type MutationEffectActionType<
   K extends MutationActionTypeKind = MutationActionTypeKind
-> = EffectActionType<Effect.Mutation, K>;
+> = EffectActionTypeBuilder<Effect.Mutation, K>;
 
 export type MutationEffectActionTypes = MutationEffectActionTypesShape<
   MutationEffectActionType<ActionTypeKind.Request>,
@@ -39,8 +43,20 @@ export type MutationEffectActionTypes = MutationEffectActionTypesShape<
 >;
 
 export type MutationEffectActionTypePatterns = MutationEffectActionTypesShape<
-  EffectActionTypePattern<MutationEffectActionType<ActionTypeKind.Request>>,
-  EffectActionTypePattern<MutationEffectActionType<ActionTypeKind.Success>>,
-  EffectActionTypePattern<MutationEffectActionType<ActionTypeKind.Failure>>,
-  EffectActionTypePattern<MutationEffectActionType<ActionTypeKind.Reset>>
+  EffectActionTypePatternBuilder<
+    MutationEffectActionType<ActionTypeKind.Request>
+  >,
+  EffectActionTypePatternBuilder<
+    MutationEffectActionType<ActionTypeKind.Success>
+  >,
+  EffectActionTypePatternBuilder<
+    MutationEffectActionType<ActionTypeKind.Failure>
+  >,
+  EffectActionTypePatternBuilder<
+    MutationEffectActionType<ActionTypeKind.Reset>
+  >
 >;
+
+export type MutationEffectActionTypePattern = MutationEffectActionTypePatterns[
+  MutationActionTypeKind
+];

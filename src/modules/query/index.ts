@@ -1,16 +1,17 @@
 import { call, delay, put, select, spawn } from "redux-saga/effects";
-import { getInvalidate } from "modules/invalidate";
-import { createActionType, createKey, EffectActionTypePatterns } from "utils";
-import { DEFAULT_QUERY_OPTIONS } from "modules/query/config";
-import { Domain, Key } from "types";
-import { QueryOptions } from "./types";
+import { getInvalidate } from "../invalidate/index";
+import { createActionType, createKey } from "../../utils";
+import { DEFAULT_QUERY_OPTIONS } from "./config";
+import { Domain, Key } from "../../types/common";
+import { QueryOptions } from "../../types/modules/query";
+import { EffectActionTypePatterns } from "../../types/action";
 
 /* --------- */
 
 type DelayedInvalidateArgs = {
   key: Key;
   invalidateFn: (key: Key) => void;
-  ms: number
+  ms: number;
 }
 
 function* delayedInvalidate({ key, invalidateFn, ms }: DelayedInvalidateArgs) {

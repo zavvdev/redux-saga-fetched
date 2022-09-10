@@ -1,5 +1,6 @@
-import { CreatedKey, DataStatus, Effect, State } from "types";
-import { QueryEffectState } from "./types";
+import { StateNode } from "../../types/state";
+import { CreatedKey, DataStatus, Effect } from "../../types/common";
+import { QueryEffectState } from "../../types/modules/query";
 
 /* -------- */
 
@@ -40,7 +41,7 @@ export const createQueryEffectResetState = () =>
 /* -------- */
 
 type CreateQueryEffectRequestStateArgs = {
-  state: State<QueryEffectState>;
+  state: StateNode<QueryEffectState>;
   payload: {
     createdKey: CreatedKey;
   }
@@ -87,7 +88,7 @@ export function createQueryEffectSuccessState<T>(
 /* -------- */
 
 type CreateQueryEffectFailureStateArgs = {
-  state: State<QueryEffectState>;
+  state: StateNode<QueryEffectState>;
   payload: {
     createdKey: CreatedKey;
   }
@@ -109,7 +110,7 @@ export const createQueryEffectFailureState = (
 /* -------- */
 
 type CreateQueryEffectInvalidateStateArgs = {
-  state: State<QueryEffectState>;
+  state: StateNode<QueryEffectState>;
   payload: {
     createdKey: CreatedKey;
   }

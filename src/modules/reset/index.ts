@@ -1,6 +1,8 @@
 import { put, select } from "redux-saga/effects";
-import { createActionType, createKey, EffectActionTypePatterns } from "utils";
-import { DataStatus, Domain, Effect, Key, RootState } from "types";
+import { createActionType, createKey } from "../../utils";
+import { DataStatus, Domain, Effect, Key } from "../../types/common";
+import { State } from "../../types/state";
+import { EffectActionTypePatterns } from "../../types/action";
 
 type GetActionTypePatternArgs = {
   effect: Effect;
@@ -27,11 +29,13 @@ type GetResetArgs = {
 export const getReset = ({ effectActionTypePatterns, domain }: GetResetArgs) =>
   function* reset(key: Key) {
     const createdKey = createKey(key);
-    const isNotReset: boolean = yield select((state: RootState) => {
+    const isNotReset: boolean = yield select((state: State) => {
       return state?.[domain]?.[createdKey]?.status !== DataStatus.Reset;
     });
     const effect: Effect = yield select(
-      (state: RootState) => state?.[domain]?.[createdKey]?.type,
+      (state: State) => {
+        return state?.[domain]?.[createdKey]?.type;
+      },
     );
     const effectActionTypePattern = getActionTypePattern({
       effect,

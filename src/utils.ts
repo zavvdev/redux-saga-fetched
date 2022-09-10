@@ -1,15 +1,11 @@
-import { MUTATION_EFFECT_ACTIONS } from "modules/mutation/config";
-import { MutationEffectActionTypePatterns } from "modules/mutation/types";
-import { QUERY_EFFECT_ACTIONS } from "modules/query/config";
-import { QueryEffectActionTypePatterns } from "modules/query/types";
+import { MUTATION_EFFECT_ACTIONS } from "./modules/mutation/config";
+import { QUERY_EFFECT_ACTIONS } from "./modules/query/config";
 import {
-  ActionType,
   CreatedKey,
   Domain,
-  Effect,
-  EffectActionTypePattern,
   Key,
-} from "types";
+} from "./types/common";
+import { ActionType, ActionTypePattern, EffectActionTypePatterns } from "./types/action";
 
 /* --------- */
 
@@ -17,23 +13,20 @@ export const createKey = (key: Key): CreatedKey => key.join("_");
 
 /* --------- */
 
-type CreateActionTypeArgs = {
+type CreateActionTypeArgs<P extends ActionTypePattern = ActionTypePattern> = {
   createdKey: CreatedKey;
-  effectActionTypePattern: EffectActionTypePattern;
+  effectActionTypePattern: P;
 };
 
-export const createActionType = ({
+export function createActionType<
+P extends ActionTypePattern = ActionTypePattern
+>({
   createdKey, effectActionTypePattern,
-}: CreateActionTypeArgs): ActionType => {
+}: CreateActionTypeArgs<P>): ActionType<P> {
   return `${createdKey}_${effectActionTypePattern}`;
-};
+}
 
 /* --------- */
-
-export type EffectActionTypePatterns = {
-  [Effect.Query]: QueryEffectActionTypePatterns;
-  [Effect.Mutation]: MutationEffectActionTypePatterns;
-};
 
 export const createEffectActionTypePatterns = (
   domain: Domain,

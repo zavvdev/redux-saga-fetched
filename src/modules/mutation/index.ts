@@ -1,9 +1,10 @@
 import { all, call, put } from "redux-saga/effects";
-import { createActionType, createKey, EffectActionTypePatterns } from "utils";
-import { DEFAULT_MUTATION_OPTIONS } from "modules/mutation/config";
+import { createActionType, createKey } from "../../utils";
+import { DEFAULT_MUTATION_OPTIONS } from "./config";
 import { getInvalidate } from "../invalidate";
-import { Domain, Key } from "types";
-import { MutationOptions } from "./types";
+import { Domain, Key } from "../../types/common";
+import { MutationOptions } from "../../types/modules/mutation";
+import { EffectActionTypePatterns } from "../../types/action";
 
 type GetMutationArgs = {
   effectActionTypePatterns: EffectActionTypePatterns;

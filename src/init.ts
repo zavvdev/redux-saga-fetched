@@ -1,14 +1,14 @@
-import { getReducer } from "modules/reducer";
-import { getQuery } from "modules/query";
-import { getSelector } from "modules/selector";
-import { DOMAIN } from "config";
-import { getMutation } from "modules/mutation";
-import { getInvalidate } from "modules/invalidate";
-import { createEffectActionTypePatterns } from "utils";
-import { getCreateMutationActionTypeFromKey } from "modules/createMutationActionTypeFromKey";
-import { getReset } from "modules/reset";
-import { Domain } from "types";
-import { getCreateQueryActionTypeFromKey } from "modules/createQueryActionTypeFromKey";
+import { getReducer } from "./modules/reducer";
+import { getQuery } from "./modules/query";
+import { getSelector } from "./modules/selector";
+import { DOMAIN } from "./config";
+import { getMutation } from "./modules/mutation";
+import { getInvalidate } from "./modules/invalidate";
+import { createEffectActionTypePatterns } from "./utils";
+import { getCreateMutationActionTypeFromKey } from "./modules/createMutationActionTypeFromKey";
+import { getReset } from "./modules/reset";
+import { Domain } from "./types/common";
+import { getCreateQueryActionTypeFromKey } from "./modules/createQueryActionTypeFromKey";
 
 type InitArgs = {
   domain: Domain;
