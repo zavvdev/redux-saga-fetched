@@ -5,7 +5,6 @@ import {
 
 export const DEFAULT_QUERY_OPTIONS: QueryOptions = {
   useCache: true,
-  invalidateInterval: 0,
 };
 
 export const QUERY_EFFECT_ACTIONS: QueryEffectActionTypes = {

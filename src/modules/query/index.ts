@@ -1,25 +1,10 @@
-import { call, delay, put, select, spawn } from "redux-saga/effects";
-import { getInvalidate } from "../invalidate/index";
+import { call, put, select } from "redux-saga/effects";
 import { createActionType, createKey } from "../../utils";
 import { DEFAULT_QUERY_OPTIONS } from "./config";
 import { Domain, Key } from "../../types/common";
 import { QueryEffectState, QueryOptions } from "../../types/modules/query";
 import { EffectActionTypePatterns } from "../../types/action";
 import { State } from "../../types/state";
-
-/* --------- */
-
-type DelayedInvalidateArgs = {
-  key: Key;
-  invalidateFn: (key: Key) => void;
-  ms: number;
-};
-
-function* delayedInvalidate({ key, invalidateFn, ms }: DelayedInvalidateArgs) {
-  yield Promise.resolve();
-  yield delay(ms);
-  yield call(invalidateFn, key);
-}
 
 /* --------- */
 
@@ -39,9 +24,7 @@ export const getQuery = ({ effectActionTypePatterns, domain }: GetQueryArgs) =>
     const createdKey = createKey(key);
 
     try {
-      const invalidate = getInvalidate({ effectActionTypePatterns, domain });
-
-      const { useCache, invalidateInterval } = {
+      const { useCache } = {
         ...DEFAULT_QUERY_OPTIONS,
         ...(options || {}),
       };
@@ -80,13 +63,6 @@ export const getQuery = ({ effectActionTypePatterns, domain }: GetQueryArgs) =>
           createdKey,
         },
       });
-      if (invalidateInterval) {
-        yield spawn(delayedInvalidate, {
-          key,
-          invalidateFn: invalidate,
-          ms: invalidateInterval,
-        });
-      }
     } catch (e) {
       yield put({
         type: createActionType({

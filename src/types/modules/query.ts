@@ -19,7 +19,6 @@ export type QueryEffectState<D = unknown> = {
 
 export type QueryOptions = {
   useCache?: boolean;
-  invalidateInterval?: number;
 };
 
 type QueryEffectActionTypesShape<R, S, F, I, RS> = {
