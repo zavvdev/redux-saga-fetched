@@ -4,6 +4,7 @@ import { createActionType, createKey } from "../../utils";
 import { Domain, Key } from "../../types/common";
 import { State } from "../../types/state";
 import { QueryEffectState } from "../../types/modules/query";
+import { createActionWithoutData } from "../reducer/utils";
 
 type GetInvalidateArgs = {
   effectActionTypePatterns: EffectActionTypePatterns;
@@ -28,15 +29,16 @@ export const getInvalidate = ({
         },
       );
       if (isNotInvalidated) {
-        yield put({
-          type: createActionType({
+        yield put(
+          createActionWithoutData({
+            type: createActionType({
+              createdKey,
+              effectActionTypePattern:
+                effectActionTypePatterns.query.invalidate,
+            }),
             createdKey,
-            effectActionTypePattern: effectActionTypePatterns.query.invalidate,
           }),
-          payload: {
-            createdKey,
-          },
-        });
+        );
       }
     }
   };

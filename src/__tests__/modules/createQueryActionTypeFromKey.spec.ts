@@ -3,7 +3,7 @@ import { Domain, Key } from "../../types/common";
 import { QueryEffectActionTypePattern } from "../../types/modules/query";
 import { createKey } from "../../utils";
 import { getEffectActionTypePatternsMock } from "../__mocks__/common";
-import { init } from "../../init";
+import { init } from "../../index";
 
 describe("createQueryActionTypeFromKey", () => {
   type ExpectedResult = ActionType<QueryEffectActionTypePattern>;

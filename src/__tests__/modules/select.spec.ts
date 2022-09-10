@@ -1,4 +1,4 @@
-import { init } from "../../init";
+import { init } from "../../index";
 import { DataStatus, Domain, Effect, Key } from "../../types/common";
 import { QueryEffectState } from "../../types/modules/query";
 import { createKey } from "../../utils";

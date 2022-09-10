@@ -4,6 +4,7 @@ import { Domain, Key } from "../../types/common";
 import { QueryEffectState, QueryOptions } from "../../types/modules/query";
 import { EffectActionTypePatterns } from "../../types/action";
 import { State } from "../../types/state";
+import { createAction, createActionWithoutData } from "../reducer/utils";
 
 /* --------- */
 
@@ -48,37 +49,37 @@ export const getQuery = ({
         if ((withCache && isValid) || isAlreadyInProgress) {
           return;
         }
-        yield put({
-          type: createActionType({
+        yield put(
+          createActionWithoutData({
+            type: createActionType({
+              createdKey,
+              effectActionTypePattern: effectActionTypePatterns.query.request,
+            }),
             createdKey,
-            effectActionTypePattern: effectActionTypePatterns.query.request,
           }),
-          payload: {
-            createdKey,
-          },
-        });
+        );
         const data: T = yield call(fn);
-        yield put({
-          type: createActionType({
-            createdKey,
-            effectActionTypePattern: effectActionTypePatterns.query.success,
-          }),
-          payload: {
+        yield put(
+          createAction({
+            type: createActionType({
+              createdKey,
+              effectActionTypePattern: effectActionTypePatterns.query.success,
+            }),
             data,
             createdKey,
-          },
-        });
+          }),
+        );
       }
     } catch (e) {
-      yield put({
-        type: createActionType({
+      yield put(
+        createActionWithoutData({
+          type: createActionType({
+            createdKey,
+            effectActionTypePattern: effectActionTypePatterns.query.failure,
+          }),
           createdKey,
-          effectActionTypePattern: effectActionTypePatterns.query.failure,
         }),
-        payload: {
-          createdKey,
-        },
-      });
+      );
       throw e;
     }
   };

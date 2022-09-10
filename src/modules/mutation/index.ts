@@ -8,6 +8,7 @@ import {
 } from "../../types/modules/mutation";
 import { EffectActionTypePatterns } from "../../types/action";
 import { State } from "../../types/state";
+import { createAction, createActionWithoutData } from "../reducer/utils";
 
 type GetMutationArgs = {
   effectActionTypePatterns: EffectActionTypePatterns;
@@ -43,26 +44,28 @@ export const getMutation = ({
         if (isAlreadyInProgress) {
           return;
         }
-        yield put({
-          type: createActionType({
+        yield put(
+          createActionWithoutData({
+            type: createActionType({
+              createdKey,
+              effectActionTypePattern:
+                effectActionTypePatterns.mutation.request,
+            }),
             createdKey,
-            effectActionTypePattern: effectActionTypePatterns.mutation.request,
           }),
-          payload: {
-            createdKey,
-          },
-        });
+        );
         const data: T = yield call(fn);
-        yield put({
-          type: createActionType({
-            createdKey,
-            effectActionTypePattern: effectActionTypePatterns.mutation.success,
-          }),
-          payload: {
+        yield put(
+          createAction({
+            type: createActionType({
+              createdKey,
+              effectActionTypePattern:
+                effectActionTypePatterns.mutation.success,
+            }),
             data,
             createdKey,
-          },
-        });
+          }),
+        );
         if (
           Array.isArray(keysToInvalidateOnSuccess) &&
           keysToInvalidateOnSuccess.length > 0
@@ -75,15 +78,15 @@ export const getMutation = ({
         }
       }
     } catch (e) {
-      yield put({
-        type: createActionType({
+      yield put(
+        createActionWithoutData({
+          type: createActionType({
+            createdKey,
+            effectActionTypePattern: effectActionTypePatterns.mutation.failure,
+          }),
           createdKey,
-          effectActionTypePattern: effectActionTypePatterns.mutation.failure,
         }),
-        payload: {
-          createdKey,
-        },
-      });
+      );
       throw e;
     }
   };

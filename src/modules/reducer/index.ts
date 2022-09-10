@@ -12,31 +12,25 @@ import {
   createMutationEffectSuccessState,
 } from "../mutation/utils";
 import { StateNode } from "../../types/state";
-import { Action } from "../../types/modules/reducer";
+import {
+  Action,
+  ActionPayload,
+  ActionWithoutData,
+} from "../../types/modules/reducer";
 import { QueryEffectState } from "../../types/modules/query";
 import { MutationEffectState } from "../../types/modules/mutation";
 import { EffectActionTypePatterns } from "../../types/action";
-
-const defaultState = {};
-
-const defaultAction = {
-  type: null,
-  payload: {
-    createdKey: null,
-    data: null,
-  },
-};
 
 type GetReducerArgs = {
   effectActionTypePatterns: EffectActionTypePatterns;
 };
 
 export const getReducer = ({ effectActionTypePatterns }: GetReducerArgs) => {
-  return function reducer<T>(
-    state: StateNode = defaultState,
-    action: Action<T> = defaultAction,
+  return function reducer<T = unknown>(
+    state: StateNode = {},
+    action?: Action<T> | ActionWithoutData,
   ): StateNode {
-    const { type, payload } = action;
+    const { type, payload } = action || {};
 
     if (type && payload?.createdKey) {
       /* * * * 
@@ -59,7 +53,7 @@ export const getReducer = ({ effectActionTypePatterns }: GetReducerArgs) => {
           ...state,
           [payload.createdKey]: createQueryEffectSuccessState<T>({
             payload: {
-              data: payload.data,
+              data: (payload as ActionPayload<T>)?.data,
             },
           }),
         };
@@ -113,7 +107,7 @@ export const getReducer = ({ effectActionTypePatterns }: GetReducerArgs) => {
           ...state,
           [payload.createdKey]: createMutationEffectSuccessState<T>({
             payload: {
-              data: payload.data,
+              data: (payload as ActionPayload<T>)?.data,
             },
           }),
         };
