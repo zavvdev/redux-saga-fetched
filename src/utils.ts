@@ -1,11 +1,11 @@
 import { MUTATION_EFFECT_ACTIONS } from "./modules/mutation/config";
 import { QUERY_EFFECT_ACTIONS } from "./modules/query/config";
+import { CreatedKey, Domain, Key } from "./types/common";
 import {
-  CreatedKey,
-  Domain,
-  Key,
-} from "./types/common";
-import { ActionType, ActionTypePattern, EffectActionTypePatterns } from "./types/action";
+  ActionType,
+  ActionTypePattern,
+  EffectActionTypePatterns,
+} from "./types/action";
 
 /* --------- */
 
@@ -19,9 +19,10 @@ type CreateActionTypeArgs<P extends ActionTypePattern = ActionTypePattern> = {
 };
 
 export function createActionType<
-P extends ActionTypePattern = ActionTypePattern
+  P extends ActionTypePattern = ActionTypePattern,
 >({
-  createdKey, effectActionTypePattern,
+  createdKey,
+  effectActionTypePattern,
 }: CreateActionTypeArgs<P>): ActionType<P> {
   return `${createdKey}_${effectActionTypePattern}`;
 }

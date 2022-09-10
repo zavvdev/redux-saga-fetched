@@ -9,17 +9,18 @@ import { EffectActionTypePatterns } from "../../types/action";
 type GetMutationArgs = {
   effectActionTypePatterns: EffectActionTypePatterns;
   domain: Domain;
-}
+};
 
 type MutationFnArgs<T = unknown> = {
   key: Key;
   fn: () => Promise<T> | T;
   options: MutationOptions;
-}
+};
 
-export const getMutation = (
-  { effectActionTypePatterns, domain }: GetMutationArgs,
-) =>
+export const getMutation = ({
+  effectActionTypePatterns,
+  domain,
+}: GetMutationArgs) =>
   function* mutation<T>({ key, fn, options }: MutationFnArgs<T>) {
     const invalidate = getInvalidate({ effectActionTypePatterns, domain });
     const createdKey = createKey(key);
@@ -48,11 +49,12 @@ export const getMutation = (
           createdKey,
         },
       });
-      if (Array.isArray(invalidateKeysOnSuccess)
-        && invalidateKeysOnSuccess.length > 0
+      if (
+        Array.isArray(invalidateKeysOnSuccess) &&
+        invalidateKeysOnSuccess.length > 0
       ) {
         yield all(
-          invalidateKeysOnSuccess.map(keyToInvalidate =>
+          invalidateKeysOnSuccess.map((keyToInvalidate) =>
             call(invalidate, keyToInvalidate),
           ),
         );

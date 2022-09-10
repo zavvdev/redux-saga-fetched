@@ -7,7 +7,7 @@ import {
 } from "../common";
 
 export type QueryEffectState<D = unknown> = {
-  type: Effect.Query,
+  type: Effect.Query;
   isLoading: boolean;
   isFetching: boolean;
   isLoaded: boolean;
@@ -15,7 +15,7 @@ export type QueryEffectState<D = unknown> = {
   isValid: boolean;
   status: DataStatus;
   data: D | null;
-}
+};
 
 export type QueryOptions = {
   useCache?: boolean;
@@ -33,7 +33,7 @@ type QueryEffectActionTypesShape<R, S, F, I, RS> = {
 export type QueryActionTypeKind = ActionTypeKind;
 
 export type QueryEffectActionType<
-  K extends QueryActionTypeKind = QueryActionTypeKind
+  K extends QueryActionTypeKind = QueryActionTypeKind,
 > = EffectActionTypeBuilder<Effect.Query, K>;
 
 export type QueryEffectActionTypes = QueryEffectActionTypesShape<
@@ -54,6 +54,5 @@ export type QueryEffectActionTypePatterns = QueryEffectActionTypesShape<
   EffectActionTypePatternBuilder<QueryEffectActionType<ActionTypeKind.Reset>>
 >;
 
-export type QueryEffectActionTypePattern = QueryEffectActionTypePatterns[
-  QueryActionTypeKind
-];
+export type QueryEffectActionTypePattern =
+  QueryEffectActionTypePatterns[QueryActionTypeKind];

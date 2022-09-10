@@ -38,12 +38,13 @@ type CreateMutationEffectRequestStateArgs = {
   state: StateNode<MutationEffectState>;
   payload: {
     createdKey: CreatedKey;
-  }
-}
+  };
+};
 
-export const createMutationEffectRequestState = (
-  { state, payload }: CreateMutationEffectRequestStateArgs,
-) =>
+export const createMutationEffectRequestState = ({
+  state,
+  payload,
+}: CreateMutationEffectRequestStateArgs) =>
   createMutationEffectState({
     isLoading: true,
     isLoaded: false,
@@ -57,12 +58,12 @@ export const createMutationEffectRequestState = (
 type CreateMutationEffectSuccessStateArgs<T> = {
   payload: {
     data: T | null;
-  }
-}
+  };
+};
 
-export function createMutationEffectSuccessState<T>(
-  { payload }: CreateMutationEffectSuccessStateArgs<T>,
-) {
+export function createMutationEffectSuccessState<T>({
+  payload,
+}: CreateMutationEffectSuccessStateArgs<T>) {
   return createMutationEffectState({
     isLoading: false,
     isLoaded: true,
@@ -78,12 +79,13 @@ type CreateMutationEffectFailureStateArgs = {
   state: StateNode<MutationEffectState>;
   payload: {
     createdKey: CreatedKey;
-  }
-}
+  };
+};
 
-export const createMutationEffectFailureState = (
-  { state, payload }: CreateMutationEffectFailureStateArgs,
-) =>
+export const createMutationEffectFailureState = ({
+  state,
+  payload,
+}: CreateMutationEffectFailureStateArgs) =>
   createMutationEffectState({
     isLoading: false,
     isLoaded: false,

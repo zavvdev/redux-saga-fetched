@@ -21,7 +21,7 @@ export type EffectActionTypeBuilder<
 > = `${E}/${K}`;
 
 export type EffectActionTypePatternBuilder<
-  E extends EffectActionTypeBuilder = EffectActionTypeBuilder
+  E extends EffectActionTypeBuilder = EffectActionTypeBuilder,
 > = `${Domain}@${E}`;
 
 export enum DataStatus {

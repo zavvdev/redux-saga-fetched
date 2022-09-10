@@ -44,12 +44,13 @@ type CreateQueryEffectRequestStateArgs = {
   state: StateNode<QueryEffectState>;
   payload: {
     createdKey: CreatedKey;
-  }
-}
+  };
+};
 
-export const createQueryEffectRequestState = (
-  { state, payload }: CreateQueryEffectRequestStateArgs,
-) => {
+export const createQueryEffectRequestState = ({
+  state,
+  payload,
+}: CreateQueryEffectRequestStateArgs) => {
   const isLoading = !state[payload.createdKey]?.data;
   const isFetching = !!state[payload.createdKey]?.data;
   return createQueryEffectState({
@@ -67,13 +68,13 @@ export const createQueryEffectRequestState = (
 
 type CreateQueryEffectSuccessStateArgs<T> = {
   payload: {
-    data: T | null
-  }
-}
+    data: T | null;
+  };
+};
 
-export function createQueryEffectSuccessState<T>(
-  { payload }: CreateQueryEffectSuccessStateArgs<T>,
-) {
+export function createQueryEffectSuccessState<T>({
+  payload,
+}: CreateQueryEffectSuccessStateArgs<T>) {
   return createQueryEffectState<T>({
     isLoading: false,
     isFetching: false,
@@ -91,12 +92,13 @@ type CreateQueryEffectFailureStateArgs = {
   state: StateNode<QueryEffectState>;
   payload: {
     createdKey: CreatedKey;
-  }
-}
+  };
+};
 
-export const createQueryEffectFailureState = (
-  { state, payload }: CreateQueryEffectFailureStateArgs,
-) =>
+export const createQueryEffectFailureState = ({
+  state,
+  payload,
+}: CreateQueryEffectFailureStateArgs) =>
   createQueryEffectState({
     isLoading: false,
     isFetching: false,
@@ -113,12 +115,13 @@ type CreateQueryEffectInvalidateStateArgs = {
   state: StateNode<QueryEffectState>;
   payload: {
     createdKey: CreatedKey;
-  }
-}
+  };
+};
 
-export const createQueryEffectInvalidateState = (
-  { state, payload }: CreateQueryEffectInvalidateStateArgs,
-) =>
+export const createQueryEffectInvalidateState = ({
+  state,
+  payload,
+}: CreateQueryEffectInvalidateStateArgs) =>
   createQueryEffectState({
     isLoading: state[payload.createdKey]?.isLoading,
     isFetching: state[payload.createdKey]?.isFetching,

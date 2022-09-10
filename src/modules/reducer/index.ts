@@ -29,7 +29,7 @@ const defaultAction = {
 
 type GetReducerArgs = {
   effectActionTypePatterns: EffectActionTypePatterns;
-}
+};
 
 export const getReducer = ({ effectActionTypePatterns }: GetReducerArgs) => {
   return function reducer<T>(
@@ -39,7 +39,6 @@ export const getReducer = ({ effectActionTypePatterns }: GetReducerArgs) => {
     const { type, payload } = action;
 
     if (type && payload?.createdKey) {
-
       /* * * * 
         Query 
        * * * */

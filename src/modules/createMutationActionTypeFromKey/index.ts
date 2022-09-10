@@ -5,17 +5,15 @@ import { EffectActionTypePatterns } from "../../types/action";
 
 type GetCreateMutationActionTypeFromKeyArgs = {
   effectActionTypePatterns: EffectActionTypePatterns;
-}
-
-export const getCreateMutationActionTypeFromKey = ({
-  effectActionTypePatterns,
-}: GetCreateMutationActionTypeFromKeyArgs) => (
-  key: Key,
-  actionTypeKind: MutationActionTypeKind,
-) => {
-  const createdKey = createKey(key);
-  return createActionType({
-    createdKey,
-    effectActionTypePattern: effectActionTypePatterns.mutation[actionTypeKind],
-  });
 };
+
+export const getCreateMutationActionTypeFromKey =
+  ({ effectActionTypePatterns }: GetCreateMutationActionTypeFromKeyArgs) =>
+  (key: Key, actionTypeKind: MutationActionTypeKind) => {
+    const createdKey = createKey(key);
+    return createActionType({
+      createdKey,
+      effectActionTypePattern:
+        effectActionTypePatterns.mutation[actionTypeKind],
+    });
+  };

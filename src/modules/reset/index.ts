@@ -7,11 +7,12 @@ import { EffectActionTypePatterns } from "../../types/action";
 type GetActionTypePatternArgs = {
   effect: Effect;
   effectActionTypePatterns: EffectActionTypePatterns;
-}
+};
 
-const getActionTypePattern = (
-  { effect, effectActionTypePatterns }: GetActionTypePatternArgs,
-) => {
+const getActionTypePattern = ({
+  effect,
+  effectActionTypePatterns,
+}: GetActionTypePatternArgs) => {
   let result = null;
   if (effect === Effect.Mutation) {
     result = effectActionTypePatterns.mutation.reset;
@@ -24,7 +25,7 @@ const getActionTypePattern = (
 type GetResetArgs = {
   effectActionTypePatterns: EffectActionTypePatterns;
   domain: Domain;
-}
+};
 
 export const getReset = ({ effectActionTypePatterns, domain }: GetResetArgs) =>
   function* reset(key: Key) {
@@ -32,11 +33,9 @@ export const getReset = ({ effectActionTypePatterns, domain }: GetResetArgs) =>
     const isNotReset: boolean = yield select((state: State) => {
       return state?.[domain]?.[createdKey]?.status !== DataStatus.Reset;
     });
-    const effect: Effect = yield select(
-      (state: State) => {
-        return state?.[domain]?.[createdKey]?.type;
-      },
-    );
+    const effect: Effect = yield select((state: State) => {
+      return state?.[domain]?.[createdKey]?.type;
+    });
     const effectActionTypePattern = getActionTypePattern({
       effect,
       effectActionTypePatterns,

@@ -9,16 +9,16 @@ import {
 
 export type MutationOptions = {
   invalidateKeysOnSuccess?: Key[];
-}
+};
 
 export type MutationEffectState<D = unknown> = {
-  type: Effect.Mutation,
+  type: Effect.Mutation;
   isLoading: boolean;
   isLoaded: boolean;
   isError: boolean;
   status: DataStatus;
   data: D | null;
-}
+};
 
 export type MutationEffectActionTypesShape<R, S, F, RS> = {
   [ActionTypeKind.Request]: R;
@@ -28,11 +28,12 @@ export type MutationEffectActionTypesShape<R, S, F, RS> = {
 };
 
 export type MutationActionTypeKind = Exclude<
-  ActionTypeKind, ActionTypeKind.Invalidate
+  ActionTypeKind,
+  ActionTypeKind.Invalidate
 >;
 
 export type MutationEffectActionType<
-  K extends MutationActionTypeKind = MutationActionTypeKind
+  K extends MutationActionTypeKind = MutationActionTypeKind,
 > = EffectActionTypeBuilder<Effect.Mutation, K>;
 
 export type MutationEffectActionTypes = MutationEffectActionTypesShape<
@@ -52,11 +53,8 @@ export type MutationEffectActionTypePatterns = MutationEffectActionTypesShape<
   EffectActionTypePatternBuilder<
     MutationEffectActionType<ActionTypeKind.Failure>
   >,
-  EffectActionTypePatternBuilder<
-    MutationEffectActionType<ActionTypeKind.Reset>
-  >
+  EffectActionTypePatternBuilder<MutationEffectActionType<ActionTypeKind.Reset>>
 >;
 
-export type MutationEffectActionTypePattern = MutationEffectActionTypePatterns[
-  MutationActionTypeKind
-];
+export type MutationEffectActionTypePattern =
+  MutationEffectActionTypePatterns[MutationActionTypeKind];

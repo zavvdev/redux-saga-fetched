@@ -12,7 +12,7 @@ import { getCreateQueryActionTypeFromKey } from "./modules/createQueryActionType
 
 type InitArgs = {
   domain: Domain;
-}
+};
 
 export const init = ({ domain }: InitArgs) => {
   const options = {

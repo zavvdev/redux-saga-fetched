@@ -5,9 +5,9 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
   ],
-  "overrides": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -16,19 +16,9 @@
   "plugins": [
     "@typescript-eslint"
   ],
+  "overrides": [],
   "rules": {
-    "quotes": [
-      "error",
-      "double"
-    ],
-    "semi": [
-      2,
-      "always"
-    ],
-    "comma-dangle": [
-      "error",
-      "always-multiline"
-    ],
+    "prettier/prettier": "error",
     "max-len": [
       2,
       {
@@ -36,11 +26,6 @@
         "ignorePattern": "^import"
       }
     ],
-    "indent": [
-      "error",
-      2
-    ],
-    "arrow-body-style": "off",
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/consistent-type-definitions": [
       "error",

@@ -12,7 +12,7 @@ type DelayedInvalidateArgs = {
   key: Key;
   invalidateFn: (key: Key) => void;
   ms: number;
-}
+};
 
 function* delayedInvalidate({ key, invalidateFn, ms }: DelayedInvalidateArgs) {
   yield Promise.resolve();
@@ -25,13 +25,13 @@ function* delayedInvalidate({ key, invalidateFn, ms }: DelayedInvalidateArgs) {
 type GetQueryArgs = {
   effectActionTypePatterns: EffectActionTypePatterns;
   domain: Domain;
-}
+};
 
 type QueryFnArgs<T = unknown> = {
   key: Key;
   fn: () => Promise<T> | T;
   options: QueryOptions;
-}
+};
 
 export const getQuery = ({ effectActionTypePatterns, domain }: GetQueryArgs) =>
   function* query<T>({ key, fn, options }: QueryFnArgs<T>) {
@@ -45,7 +45,7 @@ export const getQuery = ({ effectActionTypePatterns, domain }: GetQueryArgs) =>
         ...(options || {}),
       };
 
-      const isValid: boolean = yield select(store => {
+      const isValid: boolean = yield select((store) => {
         return store?.[domain]?.[createdKey]?.isValid;
       });
       if (useCache && isValid) {
