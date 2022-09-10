@@ -1,6 +1,5 @@
 import { all, call, put, select } from "redux-saga/effects";
 import { createActionType, createKey } from "../../utils";
-import { DEFAULT_MUTATION_OPTIONS } from "./config";
 import { getInvalidate } from "../invalidate";
 import { Domain, Key } from "../../types/common";
 import {
@@ -28,10 +27,7 @@ export const getMutation = ({
   function* mutation<T>({ key, fn, options }: MutationFnArgs<T>) {
     const invalidate = getInvalidate({ effectActionTypePatterns, domain });
     const createdKey = createKey(key);
-    const { invalidateKeysOnSuccess } = {
-      ...DEFAULT_MUTATION_OPTIONS,
-      ...(options || {}),
-    };
+    const keysToInvalidateOnSuccess = options?.invalidateKeysOnSuccess || [];
     try {
       const isAlreadyInProgress: boolean = yield select(
         (state: State<MutationEffectState>) => {
@@ -62,11 +58,11 @@ export const getMutation = ({
         },
       });
       if (
-        Array.isArray(invalidateKeysOnSuccess) &&
-        invalidateKeysOnSuccess.length > 0
+        Array.isArray(keysToInvalidateOnSuccess) &&
+        keysToInvalidateOnSuccess.length > 0
       ) {
         yield all(
-          invalidateKeysOnSuccess.map((keyToInvalidate) =>
+          keysToInvalidateOnSuccess.map((keyToInvalidate) =>
             call(invalidate, keyToInvalidate),
           ),
         );

@@ -11,12 +11,14 @@ import { Domain } from "./types/common";
 import { getCreateQueryActionTypeFromKey } from "./modules/createQueryActionTypeFromKey";
 
 type InitArgs = {
-  domain: Domain;
+  domain?: Domain;
+  useCache?: boolean;
 };
 
-export const init = ({ domain }: InitArgs) => {
+export const init = (args: InitArgs) => {
   const options = {
-    domain: domain || DOMAIN,
+    domain: args?.domain || DOMAIN,
+    useCache: args?.useCache,
   };
 
   const effectActionTypePatterns = createEffectActionTypePatterns(
@@ -30,6 +32,7 @@ export const init = ({ domain }: InitArgs) => {
     query: getQuery({
       effectActionTypePatterns,
       domain: options.domain,
+      useCache: options.useCache,
     }),
     mutation: getMutation({
       effectActionTypePatterns,

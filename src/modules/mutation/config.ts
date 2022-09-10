@@ -1,11 +1,4 @@
-import {
-  MutationEffectActionTypes,
-  MutationOptions,
-} from "../../types/modules/mutation";
-
-export const DEFAULT_MUTATION_OPTIONS: MutationOptions = {
-  invalidateKeysOnSuccess: [],
-};
+import { MutationEffectActionTypes } from "../../types/modules/mutation";
 
 export const MUTATION_EFFECT_ACTIONS: MutationEffectActionTypes = {
   request: "mutation/request",

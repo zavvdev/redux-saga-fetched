@@ -1,6 +1,5 @@
 import { call, put, select } from "redux-saga/effects";
 import { createActionType, createKey } from "../../utils";
-import { DEFAULT_QUERY_OPTIONS } from "./config";
 import { Domain, Key } from "../../types/common";
 import { QueryEffectState, QueryOptions } from "../../types/modules/query";
 import { EffectActionTypePatterns } from "../../types/action";
@@ -11,6 +10,7 @@ import { State } from "../../types/state";
 type GetQueryArgs = {
   effectActionTypePatterns: EffectActionTypePatterns;
   domain: Domain;
+  useCache?: boolean;
 };
 
 type QueryFnArgs<T = unknown> = {
@@ -19,15 +19,16 @@ type QueryFnArgs<T = unknown> = {
   options: QueryOptions;
 };
 
-export const getQuery = ({ effectActionTypePatterns, domain }: GetQueryArgs) =>
+export const getQuery = ({
+  effectActionTypePatterns,
+  domain,
+  useCache,
+}: GetQueryArgs) =>
   function* query<T>({ key, fn, options }: QueryFnArgs<T>) {
     const createdKey = createKey(key);
 
     try {
-      const { useCache } = {
-        ...DEFAULT_QUERY_OPTIONS,
-        ...(options || {}),
-      };
+      const withCache = options?.useCache ?? useCache ?? true;
 
       const isValid: boolean = yield select(
         (state: State<QueryEffectState>) => {
@@ -40,7 +41,7 @@ export const getQuery = ({ effectActionTypePatterns, domain }: GetQueryArgs) =>
           return stateNode?.isLoading || stateNode?.isFetching;
         },
       );
-      if ((useCache && isValid) || isAlreadyInProgress) {
+      if ((withCache && isValid) || isAlreadyInProgress) {
         return;
       }
       yield put({
