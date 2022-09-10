@@ -64,7 +64,7 @@ type CreateMutationEffectSuccessStateArgs<T> = {
 export function createMutationEffectSuccessState<T>({
   payload,
 }: CreateMutationEffectSuccessStateArgs<T>) {
-  return createMutationEffectState({
+  return createMutationEffectState<T>({
     isLoading: false,
     isLoaded: true,
     isError: false,

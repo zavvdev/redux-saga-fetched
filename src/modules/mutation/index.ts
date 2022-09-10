@@ -29,43 +29,50 @@ export const getMutation = ({
     const createdKey = createKey(key);
     const keysToInvalidateOnSuccess = options?.invalidateKeysOnSuccess || [];
     try {
-      const isAlreadyInProgress: boolean = yield select(
+      const isKeyDataPresent: boolean = yield select(
         (state: State<MutationEffectState>) => {
-          return state?.[domain]?.[createdKey]?.isLoading;
+          return !!state?.[domain]?.[createdKey];
         },
       );
-      if (isAlreadyInProgress) {
-        return;
-      }
-      yield put({
-        type: createActionType({
-          createdKey,
-          effectActionTypePattern: effectActionTypePatterns.mutation.request,
-        }),
-        payload: {
-          createdKey,
-        },
-      });
-      const data: T = yield call(fn);
-      yield put({
-        type: createActionType({
-          createdKey,
-          effectActionTypePattern: effectActionTypePatterns.mutation.success,
-        }),
-        payload: {
-          data,
-          createdKey,
-        },
-      });
-      if (
-        Array.isArray(keysToInvalidateOnSuccess) &&
-        keysToInvalidateOnSuccess.length > 0
-      ) {
-        yield all(
-          keysToInvalidateOnSuccess.map((keyToInvalidate) =>
-            call(invalidate, keyToInvalidate),
-          ),
+      if (isKeyDataPresent) {
+        const isAlreadyInProgress: boolean = yield select(
+          (state: State<MutationEffectState>) => {
+            return state[domain][createdKey]?.isLoading;
+          },
         );
+        if (isAlreadyInProgress) {
+          return;
+        }
+        yield put({
+          type: createActionType({
+            createdKey,
+            effectActionTypePattern: effectActionTypePatterns.mutation.request,
+          }),
+          payload: {
+            createdKey,
+          },
+        });
+        const data: T = yield call(fn);
+        yield put({
+          type: createActionType({
+            createdKey,
+            effectActionTypePattern: effectActionTypePatterns.mutation.success,
+          }),
+          payload: {
+            data,
+            createdKey,
+          },
+        });
+        if (
+          Array.isArray(keysToInvalidateOnSuccess) &&
+          keysToInvalidateOnSuccess.length > 0
+        ) {
+          yield all(
+            keysToInvalidateOnSuccess.map((keyToInvalidate) =>
+              call(invalidate, keyToInvalidate),
+            ),
+          );
+        }
       }
     } catch (e) {
       yield put({
