@@ -4,7 +4,7 @@ import { ActionType } from "../../types/action";
 import { Domain, Key } from "../../types/common";
 import { MutationEffectActionTypePattern } from "../../types/modules/mutation";
 import { createKey } from "../../utils";
-import { getEffectActionTypePatternsMock } from "../mocks";
+import { getEffectActionTypePatternsMock } from "../__mocks__/common";
 
 describe("createMutationActionTypeFromKey", () => {
   type ExpectedResult = ActionType<MutationEffectActionTypePattern>;

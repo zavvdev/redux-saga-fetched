@@ -1,5 +1,5 @@
-import { EffectActionTypePatterns } from "../types/action";
-import { Domain } from "../types/common";
+import { EffectActionTypePatterns } from "../../types/action";
+import { Domain } from "../../types/common";
 
 export const getEffectActionTypePatternsMock = (
   domain: Domain,

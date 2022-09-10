@@ -6,7 +6,7 @@ import {
   createEffectActionTypePatterns,
   createKey,
 } from "../utils";
-import { getEffectActionTypePatternsMock } from "./mocks";
+import { getEffectActionTypePatternsMock } from "./__mocks__/common";
 
 /* --------- */
 
