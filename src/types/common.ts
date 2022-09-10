@@ -1,5 +1,5 @@
 export type Domain = string;
-export type Key = string[];
+export type Key = (string | number)[];
 export type CreatedKey = string;
 
 export enum Effect {

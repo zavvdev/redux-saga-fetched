@@ -7,8 +7,7 @@
   "scripts": {
     "build": "tsc",
     "test": "jest --config jestconfig.json",
-    "lint": "tsc --noEmit && eslint . --max-warnings=0",
-    "prepare": "husky install"
+    "lint": "tsc --noEmit && eslint . --max-warnings=0"
   },
   "repository": {
     "type": "git",
