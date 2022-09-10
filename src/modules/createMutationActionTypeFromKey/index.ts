@@ -9,7 +9,7 @@ type GetCreateMutationActionTypeFromKeyArgs = {
 
 export const getCreateMutationActionTypeFromKey =
   ({ effectActionTypePatterns }: GetCreateMutationActionTypeFromKeyArgs) =>
-  (key: Key, actionTypeKind: MutationActionTypeKind) => {
+  (key: Key, actionTypeKind: `${MutationActionTypeKind}`) => {
     const createdKey = createKey(key);
     return createActionType({
       createdKey,

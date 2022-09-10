@@ -9,7 +9,7 @@ type GetCreateQueryActionTypeFromKeyArgs = {
 
 export const getCreateQueryActionTypeFromKey =
   ({ effectActionTypePatterns }: GetCreateQueryActionTypeFromKeyArgs) =>
-  (key: Key, actionTypeKind: QueryActionTypeKind) => {
+  (key: Key, actionTypeKind: `${QueryActionTypeKind}`) => {
     const createdKey = createKey(key);
     return createActionType({
       createdKey,

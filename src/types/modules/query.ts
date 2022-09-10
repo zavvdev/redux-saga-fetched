@@ -31,11 +31,6 @@ type QueryEffectActionTypesShape<R, S, F, I, RS> = {
 
 export type QueryActionTypeKind = ActionTypeKind;
 
-export type QueryActionTypeKinds = Record<
-  QueryActionTypeKind,
-  QueryActionTypeKind
->;
-
 export type QueryEffectActionType<
   K extends QueryActionTypeKind = QueryActionTypeKind,
 > = EffectActionTypeBuilder<Effect.Query, K>;
