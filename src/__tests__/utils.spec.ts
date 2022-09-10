@@ -1,12 +1,12 @@
-import { CreatedKey, Domain, Key } from "../types/common";
+import { CreatedKey, Key } from "../types/common";
+import { MutationEffectActionTypePattern } from "../types/modules/mutation";
+import { QueryEffectActionTypePattern } from "../types/modules/query";
 import {
   createActionType,
   createEffectActionTypePatterns,
   createKey,
 } from "../utils";
-import { QueryEffectActionTypePattern } from "../types/modules/query";
-import { MutationEffectActionTypePattern } from "../types/modules/mutation";
-import { EffectActionTypePatterns } from "../types/action";
+import { getEffectActionTypePatternsMock } from "./mocks";
 
 /* --------- */
 
@@ -37,14 +37,13 @@ describe("createKey", () => {
 
 describe("createActionType", () => {
   test("should return action type for query effect", () => {
-    const effectActionTypePattern: QueryEffectActionTypePattern =
-      "123@query/request";
+    const pattern: QueryEffectActionTypePattern = "123@query/request";
     const createdKey: CreatedKey = "created_key";
     const actionType = createActionType({
       createdKey,
-      effectActionTypePattern,
+      effectActionTypePattern: pattern,
     });
-    const expectedActionType = `${createdKey}_${effectActionTypePattern}`;
+    const expectedActionType = `${createdKey}_${pattern}`;
     expect(actionType).toBe(expectedActionType);
   });
 
@@ -65,23 +64,10 @@ describe("createActionType", () => {
 
 describe("createEffectActionTypePatterns", () => {
   test("should return effect action type patterns", () => {
-    const domain: Domain = "test";
-    const expected: EffectActionTypePatterns = {
-      query: {
-        request: `${domain}@query/request`,
-        success: `${domain}@query/success`,
-        failure: `${domain}@query/failure`,
-        invalidate: `${domain}@query/invalidate`,
-        reset: `${domain}@query/reset`,
-      },
-      mutation: {
-        request: `${domain}@mutation/request`,
-        success: `${domain}@mutation/success`,
-        failure: `${domain}@mutation/failure`,
-        reset: `${domain}@mutation/reset`,
-      },
-    };
-    expect(createEffectActionTypePatterns(domain)).toStrictEqual(expected);
+    const domain = "domainMock";
+    expect(createEffectActionTypePatterns(domain)).toStrictEqual(
+      getEffectActionTypePatternsMock(domain),
+    );
   });
 });
 

@@ -32,6 +32,11 @@ export type MutationActionTypeKind = Exclude<
   ActionTypeKind.Invalidate
 >;
 
+export type MutationActionTypeKinds = Record<
+  MutationActionTypeKind,
+  MutationActionTypeKind
+>;
+
 export type MutationEffectActionType<
   K extends MutationActionTypeKind = MutationActionTypeKind,
 > = EffectActionTypeBuilder<Effect.Mutation, K>;
