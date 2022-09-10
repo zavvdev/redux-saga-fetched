@@ -16,7 +16,7 @@ import {
   createAction,
   createActionWithoutData,
 } from "../../modules/reducer/utils";
-import { Domain } from "../../types/common";
+import { Domain, Key } from "../../types/common";
 import { MutationEffectState } from "../../types/modules/mutation";
 import { QueryEffectState } from "../../types/modules/query";
 import { StateNode } from "../../types/state";
@@ -24,7 +24,7 @@ import { createKey } from "../../utils";
 
 describe("reducer", () => {
   const domain: Domain = "domainMock";
-  const key = ["mock", "key"];
+  const key: Key = ["mock", "key"];
   const createdKey = createKey(key);
   const state = {} as StateNode;
 
