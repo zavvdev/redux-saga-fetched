@@ -27,28 +27,37 @@ type GetResetArgs = {
   domain: Domain;
 };
 
-export const getReset = ({ effectActionTypePatterns, domain }: GetResetArgs) =>
-  function* reset(key: Key) {
+export const getReset = ({
+  effectActionTypePatterns,
+  domain,
+}: GetResetArgs) => {
+  return function* reset(key: Key) {
     const createdKey = createKey(key);
-    const isNotReset: boolean = yield select((state: State) => {
-      return state?.[domain]?.[createdKey]?.status !== DataStatus.Reset;
+    const isKeyDataPresent: boolean = yield select((state: State) => {
+      return !!state?.[domain]?.[createdKey];
     });
-    const effect: Effect = yield select((state: State) => {
-      return state?.[domain]?.[createdKey]?.type;
-    });
-    const effectActionTypePattern = getActionTypePattern({
-      effect,
-      effectActionTypePatterns,
-    });
-    if (isNotReset && effectActionTypePattern) {
-      yield put({
-        type: createActionType({
-          createdKey,
-          effectActionTypePattern,
-        }),
-        payload: {
-          createdKey,
-        },
+    if (isKeyDataPresent) {
+      const isNotReset: boolean = yield select((state: State) => {
+        return state[domain][createdKey]?.status !== DataStatus.Reset;
       });
+      const effect: Effect = yield select((state: State) => {
+        return state[domain][createdKey]?.type;
+      });
+      const effectActionTypePattern = getActionTypePattern({
+        effect,
+        effectActionTypePatterns,
+      });
+      if (isNotReset && effectActionTypePattern) {
+        yield put({
+          type: createActionType({
+            createdKey,
+            effectActionTypePattern,
+          }),
+          payload: {
+            createdKey,
+          },
+        });
+      }
     }
   };
+};
