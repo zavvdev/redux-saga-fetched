@@ -46,5 +46,8 @@
       "error",
       "type"
     ]
-  }
+  },
+  "ignorePatterns": [
+    "dist/"
+  ]
 }
