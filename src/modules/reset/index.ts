@@ -3,6 +3,7 @@ import { createActionType, createKey } from "../../utils";
 import { DataStatus, Domain, Effect, Key } from "../../types/common";
 import { State } from "../../types/state";
 import { EffectActionTypePatterns } from "../../types/action";
+import { createActionWithoutData } from "../reducer/utils";
 
 type GetActionTypePatternArgs = {
   effect: Effect;
@@ -48,15 +49,15 @@ export const getReset = ({
         effectActionTypePatterns,
       });
       if (isNotReset && effectActionTypePattern) {
-        yield put({
-          type: createActionType({
+        yield put(
+          createActionWithoutData({
+            type: createActionType({
+              createdKey,
+              effectActionTypePattern,
+            }),
             createdKey,
-            effectActionTypePattern,
           }),
-          payload: {
-            createdKey,
-          },
-        });
+        );
       }
     }
   };
