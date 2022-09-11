@@ -28,7 +28,13 @@ export const getInvalidate = ({
           return state[domain][createdKey]?.isValid === true;
         },
       );
-      if (isNotInvalidated) {
+      const isAlreadyInProgress: boolean = yield select(
+        (state: State<QueryEffectState>) => {
+          const stateNode = state[domain][createdKey];
+          return stateNode?.isLoading || stateNode?.isFetching;
+        },
+      );
+      if (isNotInvalidated && !isAlreadyInProgress) {
         yield put(
           createActionWithoutData({
             type: createActionType({
