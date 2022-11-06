@@ -1,1 +1,1 @@
-redux-saga-fetched readme
+redux-saga-query readme

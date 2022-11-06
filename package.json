@@ -1,5 +1,5 @@
 {
-  "name": "redux-saga-fetched",
+  "name": "redux-saga-query",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zavvdev/redux-saga-fetched.git"
+    "url": "git+https://github.com/zavvdev/redux-saga-query.git"
   },
   "keywords": [
     "saga",
@@ -23,9 +23,9 @@
   "author": "zavvdev",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zavvdev/redux-saga-fetched/issues"
+    "url": "https://github.com/zavvdev/redux-saga-query/issues"
   },
-  "homepage": "https://github.com/zavvdev/redux-saga-fetched#readme",
+  "homepage": "https://github.com/zavvdev/redux-saga-query#readme",
   "devDependencies": {
     "@types/jest": "^29.0.0",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
