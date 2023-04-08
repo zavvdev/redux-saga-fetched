@@ -1,6 +1,6 @@
 {
   "name": "redux-saga-query",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Caching & automation api requests with redux-saga",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
