@@ -1,5 +1,11 @@
 # redux-saga-query
 
+## 0.0.5
+
+### Patch Changes
+
+- eabf92e: Added files to package.json
+
 ## 0.0.4
 
 ### Patch Changes
