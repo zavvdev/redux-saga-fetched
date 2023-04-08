@@ -12,7 +12,8 @@
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "lint": "tsc",
     "ci": "pnpm run lint && pnpm run test && pnpm run build",
-    "release": "pnpm run lint && pnpm run test && pnpm run build && changeset publish"
+    "release": "pnpm run lint && pnpm run test && pnpm run build && changeset publish",
+    "prepare-release": "pnpm changeset"
   },
   "repository": {
     "type": "git",
@@ -26,7 +27,7 @@
     "fetch"
   ],
   "author": "zavvdev",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/zavvdev/redux-saga-query/issues"
   },
