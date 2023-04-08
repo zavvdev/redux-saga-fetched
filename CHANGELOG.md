@@ -1,5 +1,11 @@
 # redux-saga-query
 
+## 0.0.4
+
+### Patch Changes
+
+- 981c8f5: Test 2
+
 ## 0.0.3
 
 ### Patch Changes
