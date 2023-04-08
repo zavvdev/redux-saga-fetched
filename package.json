@@ -1,15 +1,17 @@
 {
   "name": "redux-saga-query",
-  "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "version": "0.0.1",
+  "description": "Caching & automation api requests with redux-saga",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "vitest",
     "test": "vitest run",
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "lint": "tsc",
-    "ci": "pnpm run lint && pnpm run test && pnpm run build"
+    "ci": "pnpm run lint && pnpm run test && pnpm run build",
+    "release": "pnpm run lint && pnpm run test && pnpm run build && changeset publish"
   },
   "repository": {
     "type": "git",
@@ -23,18 +25,16 @@
     "fetch"
   ],
   "author": "zavvdev",
-  "license": "MIT",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/zavvdev/redux-saga-query/issues"
   },
   "homepage": "https://github.com/zavvdev/redux-saga-query#readme",
   "devDependencies": {
+    "@changesets/cli": "^2.26.1",
     "@types/node": "^18.15.11",
     "tsup": "^6.7.0",
     "typescript": "^5.0.4",
     "vitest": "^0.29.8"
-  },
-  "files": [
-    "dist/**/*"
-  ]
+  }
 }
