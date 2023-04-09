@@ -1,5 +1,11 @@
 # redux-saga-query
 
+## 0.0.7
+
+### Patch Changes
+
+- 8d80043: Added prettier config
+
 ## 0.0.6
 
 ### Patch Changes
