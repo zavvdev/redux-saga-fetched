@@ -1,4 +1,4 @@
-import { ActionType, Domain, Effect } from "../01-types/general";
+import { ActionKind, Domain, Effect } from "../01-types/general";
 import {
   composeActionTypePattern,
   genInstanceId,
@@ -7,22 +7,22 @@ import {
 export function createEffectActionTypePatterns(domain: Domain) {
   const instanceId = genInstanceId();
 
-  const pattern = <A extends ActionType>(actionType: A) =>
+  const pattern = <A extends ActionKind>(actionType: A) =>
     composeActionTypePattern(domain, actionType, instanceId);
 
   return {
-    [Effect.query]: {
-      [ActionType.request]: pattern(ActionType.request),
-      [ActionType.success]: pattern(ActionType.success),
-      [ActionType.failure]: pattern(ActionType.failure),
-      [ActionType.invalidate]: pattern(ActionType.invalidate),
-      [ActionType.reset]: pattern(ActionType.reset),
+    [Effect.Query]: {
+      [ActionKind.request]: pattern(ActionKind.request),
+      [ActionKind.success]: pattern(ActionKind.success),
+      [ActionKind.failure]: pattern(ActionKind.failure),
+      [ActionKind.invalidate]: pattern(ActionKind.invalidate),
+      [ActionKind.reset]: pattern(ActionKind.reset),
     },
-    [Effect.mutation]: {
-      [ActionType.request]: pattern(ActionType.request),
-      [ActionType.success]: pattern(ActionType.success),
-      [ActionType.failure]: pattern(ActionType.failure),
-      [ActionType.reset]: pattern(ActionType.reset),
+    [Effect.Mutation]: {
+      [ActionKind.request]: pattern(ActionKind.request),
+      [ActionKind.success]: pattern(ActionKind.success),
+      [ActionKind.failure]: pattern(ActionKind.failure),
+      [ActionKind.reset]: pattern(ActionKind.reset),
     },
   };
 }

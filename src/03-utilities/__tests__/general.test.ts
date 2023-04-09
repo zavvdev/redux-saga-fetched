@@ -1,11 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { createInitOptions } from "../general";
 import { InitOptions, QueryOptions } from "../../01-types/general";
-import {
-  DEFAULT_CACHE_TIME_MS,
-  DEFAULT_STALE_TIME_MS,
-  MESSAGES,
-} from "../../02-config/general";
+import { DEFAULT_STALE_TIME_MS, MESSAGES } from "../../02-config/general";
 
 describe("createInitOptions", () => {
   it("should throw error for invalid domain option", () => {
@@ -19,7 +15,6 @@ describe("createInitOptions", () => {
       domain: "api",
       query: {
         staleTime: DEFAULT_STALE_TIME_MS,
-        cacheTime: DEFAULT_CACHE_TIME_MS,
       },
     } satisfies InitOptions);
   });
@@ -27,7 +22,6 @@ describe("createInitOptions", () => {
   it("should return custom options", () => {
     const customQueryOptions: QueryOptions = {
       staleTime: 3 * 60 * 1000,
-      cacheTime: 4 * 60 * 1000,
     };
     expect(
       createInitOptions({

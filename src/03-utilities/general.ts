@@ -1,14 +1,13 @@
+import { DEFAULT_STALE_TIME_MS, MESSAGES } from "../02-config/general";
 import {
-  DEFAULT_CACHE_TIME_MS,
-  DEFAULT_STALE_TIME_MS,
-  MESSAGES,
-} from "../02-config/general";
-import {
-  ActionType,
+  ActionKind,
   ActionTypePattern,
   Domain,
+  Effect,
   InitOptions,
   InstanceId,
+  MutationEffectState,
+  QueryEffectState,
 } from "../01-types/general";
 import { v4 as uuid } from "uuid";
 
@@ -20,7 +19,6 @@ export function createInitOptions(options: InitOptions): Required<InitOptions> {
     domain: options.domain,
     query: {
       staleTime: options.query?.staleTime || DEFAULT_STALE_TIME_MS,
-      cacheTime: options.query?.cacheTime || DEFAULT_CACHE_TIME_MS,
     },
   };
 }
@@ -29,10 +27,48 @@ export function genInstanceId(): InstanceId {
   return uuid();
 }
 
-export function composeActionTypePattern<A extends ActionType>(
+export function composeActionTypePattern<A extends ActionKind>(
   domain: Domain,
   actionType: A,
-  id: string,
+  id: InstanceId,
 ): ActionTypePattern<A> {
   return `${domain}@${actionType}#${id}`;
+}
+
+export function createQueryEffectState<T>({
+  isLoading,
+  isFetching,
+  isSuccess,
+  isError,
+  timestamp,
+  data,
+}: Omit<QueryEffectState<T>, "type">): QueryEffectState<T> {
+  return {
+    type: Effect.Query,
+    isLoading,
+    isFetching,
+    isSuccess,
+    isError,
+    timestamp,
+    data,
+  };
+}
+
+export function createMutationEffectState<T>({
+  isLoading,
+  isSuccess,
+  isError,
+  data,
+}: Omit<MutationEffectState<T>, "type">): MutationEffectState<T> {
+  return {
+    type: Effect.Mutation,
+    isLoading,
+    isSuccess,
+    isError,
+    data,
+  };
+}
+
+export function isObject(value: unknown) {
+  return value !== null && typeof value === "object";
 }

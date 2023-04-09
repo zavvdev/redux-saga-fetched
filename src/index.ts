@@ -1,3 +1,1 @@
-import { initSagaQuery } from "./init";
-
-initSagaQuery({ domain: "api" });
+export { initSagaQuery } from "./init";
