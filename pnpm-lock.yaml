@@ -1,5 +1,13 @@
 lockfileVersion: "6.0"
 
+dependencies:
+  redux-saga:
+    specifier: ^1.2.3
+    version: 1.2.3
+  uuid:
+    specifier: ^9.0.0
+    version: 9.0.0
+
 devDependencies:
   "@changesets/cli":
     specifier: ^2.26.1
@@ -7,6 +15,9 @@ devDependencies:
   "@types/node":
     specifier: ^18.15.11
     version: 18.15.11
+  "@types/uuid":
+    specifier: ^9.0.1
+    version: 9.0.1
   husky:
     specifier: ^8.0.3
     version: 8.0.3
@@ -65,7 +76,6 @@ packages:
     engines: { node: ">=6.9.0" }
     dependencies:
       regenerator-runtime: 0.13.11
-    dev: true
 
   /@changesets/apply-release-plan@6.1.3:
     resolution:
@@ -622,6 +632,62 @@ packages:
       fastq: 1.15.0
     dev: true
 
+  /@redux-saga/core@1.2.3:
+    resolution:
+      {
+        integrity: sha512-U1JO6ncFBAklFTwoQ3mjAeQZ6QGutsJzwNBjgVLSWDpZTRhobUzuVDS1qH3SKGJD8fvqoaYOjp6XJ3gCmeZWgA==,
+      }
+    dependencies:
+      "@babel/runtime": 7.21.0
+      "@redux-saga/deferred": 1.2.1
+      "@redux-saga/delay-p": 1.2.1
+      "@redux-saga/is": 1.1.3
+      "@redux-saga/symbols": 1.1.3
+      "@redux-saga/types": 1.2.1
+      redux: 4.2.1
+      typescript-tuple: 2.2.1
+    dev: false
+
+  /@redux-saga/deferred@1.2.1:
+    resolution:
+      {
+        integrity: sha512-cmin3IuuzMdfQjA0lG4B+jX+9HdTgHZZ+6u3jRAOwGUxy77GSlTi4Qp2d6PM1PUoTmQUR5aijlA39scWWPF31g==,
+      }
+    dev: false
+
+  /@redux-saga/delay-p@1.2.1:
+    resolution:
+      {
+        integrity: sha512-MdiDxZdvb1m+Y0s4/hgdcAXntpUytr9g0hpcOO1XFVyyzkrDu3SKPgBFOtHn7lhu7n24ZKIAT1qtKyQjHqRd+w==,
+      }
+    dependencies:
+      "@redux-saga/symbols": 1.1.3
+    dev: false
+
+  /@redux-saga/is@1.1.3:
+    resolution:
+      {
+        integrity: sha512-naXrkETG1jLRfVfhOx/ZdLj0EyAzHYbgJWkXbB3qFliPcHKiWbv/ULQryOAEKyjrhiclmr6AMdgsXFyx7/yE6Q==,
+      }
+    dependencies:
+      "@redux-saga/symbols": 1.1.3
+      "@redux-saga/types": 1.2.1
+    dev: false
+
+  /@redux-saga/symbols@1.1.3:
+    resolution:
+      {
+        integrity: sha512-hCx6ZvU4QAEUojETnX8EVg4ubNLBFl1Lps4j2tX7o45x/2qg37m3c6v+kSp8xjDJY+2tJw4QB3j8o8dsl1FDXg==,
+      }
+    dev: false
+
+  /@redux-saga/types@1.2.1:
+    resolution:
+      {
+        integrity: sha512-1dgmkh+3so0+LlBWRhGA33ua4MYr7tUOj+a9Si28vUi0IUFNbff1T3sgpeDJI/LaC75bBYnQ0A3wXjn0OrRNBA==,
+      }
+    dev: false
+
   /@types/chai-subset@1.3.3:
     resolution:
       {
@@ -679,6 +745,13 @@ packages:
     resolution:
       {
         integrity: sha512-KQf+QAMWKMrtBMsB8/24w53tEsxllMj6TuA80TT/5igJalLI/zm0L3oXRbIAl4Ohfc85gyHX/jhMwsVkmhLU4A==,
+      }
+    dev: true
+
+  /@types/uuid@9.0.1:
+    resolution:
+      {
+        integrity: sha512-rFT3ak0/2trgvp4yYZo5iKFEPsET7vKydKF+VRCxlQ9bpheehyAJH89dAkaLEq/j/RZXJIqcgsmPJKUP1Z28HA==,
       }
     dev: true
 
@@ -3180,12 +3253,29 @@ packages:
       strip-indent: 3.0.0
     dev: true
 
+  /redux-saga@1.2.3:
+    resolution:
+      {
+        integrity: sha512-HDe0wTR5nhd8Xr5xjGzoyTbdAw6rjy1GDplFt3JKtKN8/MnkQSRqK/n6aQQhpw5NI4ekDVOaW+w4sdxPBaCoTQ==,
+      }
+    dependencies:
+      "@redux-saga/core": 1.2.3
+    dev: false
+
+  /redux@4.2.1:
+    resolution:
+      {
+        integrity: sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w==,
+      }
+    dependencies:
+      "@babel/runtime": 7.21.0
+    dev: false
+
   /regenerator-runtime@0.13.11:
     resolution:
       {
         integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==,
       }
-    dev: true
 
   /regexp.prototype.flags@1.4.3:
     resolution:
@@ -3938,6 +4028,31 @@ packages:
       is-typed-array: 1.1.10
     dev: true
 
+  /typescript-compare@0.0.2:
+    resolution:
+      {
+        integrity: sha512-8ja4j7pMHkfLJQO2/8tut7ub+J3Lw2S3061eJLFQcvs3tsmJKp8KG5NtpLn7KcY2w08edF74BSVN7qJS0U6oHA==,
+      }
+    dependencies:
+      typescript-logic: 0.0.0
+    dev: false
+
+  /typescript-logic@0.0.0:
+    resolution:
+      {
+        integrity: sha512-zXFars5LUkI3zP492ls0VskH3TtdeHCqu0i7/duGt60i5IGPIpAHE/DWo5FqJ6EjQ15YKXrt+AETjv60Dat34Q==,
+      }
+    dev: false
+
+  /typescript-tuple@2.2.1:
+    resolution:
+      {
+        integrity: sha512-Zcr0lbt8z5ZdEzERHAMAniTiIKerFCMgd7yjq1fPnDJ43et/k9twIFQMUYff9k5oXcsQ0WpvFcgzK2ZKASoW6Q==,
+      }
+    dependencies:
+      typescript-compare: 0.0.2
+    dev: false
+
   /typescript@5.0.4:
     resolution:
       {
@@ -3973,6 +4088,14 @@ packages:
       }
     engines: { node: ">= 4.0.0" }
     dev: true
+
+  /uuid@9.0.0:
+    resolution:
+      {
+        integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==,
+      }
+    hasBin: true
+    dev: false
 
   /validate-npm-package-license@3.0.4:
     resolution:

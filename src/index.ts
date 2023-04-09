@@ -1,7 +1,3 @@
-export function isEven(n: number) {
-  return n % 2 === 0;
-}
+import { initSagaQuery } from "./init";
 
-export function isNullish(v: unknown) {
-  return v === null || v === undefined;
-}
+initSagaQuery({ domain: "api" });
