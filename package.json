@@ -11,9 +11,11 @@
     "test": "vitest run",
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "lint": "tsc",
-    "ci": "pnpm run lint && pnpm run test && pnpm run build",
+    "ci": "npx prettier --check . && pnpm run lint && pnpm run test && pnpm run build",
     "release": "pnpm run lint && pnpm run test && pnpm run build && changeset publish",
-    "prepare-release": "pnpm changeset"
+    "prepare-release": "pnpm changeset",
+    "prettify": "npx prettier --write .",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -35,11 +37,17 @@
   "devDependencies": {
     "@changesets/cli": "^2.26.1",
     "@types/node": "^18.15.11",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
+    "prettier": "2.8.7",
     "tsup": "^6.7.0",
     "typescript": "^5.0.4",
     "vitest": "^0.29.8"
   },
   "files": [
     "dist/**/*"
-  ]
+  ],
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
 }
