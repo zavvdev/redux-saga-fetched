@@ -29,10 +29,10 @@ export function genInstanceId(): InstanceId {
 
 export function composeActionTypePattern<A extends ActionKind>(
   domain: Domain,
-  actionType: A,
+  actionKind: A,
   id: InstanceId,
 ): ActionTypePattern<A> {
-  return `${domain}@${actionType}#${id}`;
+  return `${domain}@${actionKind}#${id}`;
 }
 
 export function createQueryEffectState<T>({
