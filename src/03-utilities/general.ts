@@ -72,3 +72,7 @@ export function createMutationEffectState<T>({
 export function isObject(value: unknown) {
   return value !== null && typeof value === "object";
 }
+
+export function genTimestamp() {
+  return Number(new Date());
+}

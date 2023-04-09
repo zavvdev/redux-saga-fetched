@@ -1,5 +1,5 @@
 import { QueryEffectState } from "../01-types/general";
-import { createQueryEffectState } from "../03-utilities/general";
+import { createQueryEffectState, genTimestamp } from "../03-utilities/general";
 
 export const createQueryEffectRequestState = (
   state: Partial<QueryEffectState>,
@@ -22,7 +22,7 @@ export const createQueryEffectSuccessState = (data: unknown) => {
     isFetching: false,
     isSuccess: true,
     isError: false,
-    timestamp: Number(new Date()),
+    timestamp: genTimestamp(),
     data: data || null,
   });
 };

@@ -5,6 +5,7 @@ import {
   createMutationEffectState,
   createQueryEffectState,
   genInstanceId,
+  genTimestamp,
   isObject,
 } from "../general";
 import {
@@ -104,5 +105,11 @@ describe("isObject", () => {
     expect(isObject(null)).toBe(false);
     expect(isObject("")).toBe(false);
     expect(isObject(42)).toBe(false);
+  });
+});
+
+describe("genTimestamp", () => {
+  it("should generate numeric timestamp", () => {
+    expect(typeof genTimestamp()).toBe("number");
   });
 });
