@@ -19,17 +19,17 @@ describe("createEffectActionTypePatterns", () => {
 
     expect(createEffectActionTypePatterns(domain)).toEqual({
       [Effect.Query]: {
-        [ActionKind.request]: `${domain}@${ActionKind.request}#${id}`,
-        [ActionKind.success]: `${domain}@${ActionKind.success}#${id}`,
-        [ActionKind.failure]: `${domain}@${ActionKind.failure}#${id}`,
-        [ActionKind.invalidate]: `${domain}@${ActionKind.invalidate}#${id}`,
-        [ActionKind.reset]: `${domain}@${ActionKind.reset}#${id}`,
+        [ActionKind.Request]: `${Effect.Query}_${ActionKind.Request}#${domain}${id}`,
+        [ActionKind.Success]: `${Effect.Query}_${ActionKind.Success}#${domain}${id}`,
+        [ActionKind.Failure]: `${Effect.Query}_${ActionKind.Failure}#${domain}${id}`,
+        [ActionKind.Invalidate]: `${Effect.Query}_${ActionKind.Invalidate}#${domain}${id}`,
+        [ActionKind.Reset]: `${Effect.Query}_${ActionKind.Reset}#${domain}${id}`,
       },
       [Effect.Mutation]: {
-        [ActionKind.request]: `${domain}@${ActionKind.request}#${id}`,
-        [ActionKind.success]: `${domain}@${ActionKind.success}#${id}`,
-        [ActionKind.failure]: `${domain}@${ActionKind.failure}#${id}`,
-        [ActionKind.reset]: `${domain}@${ActionKind.reset}#${id}`,
+        [ActionKind.Request]: `${Effect.Mutation}_${ActionKind.Request}#${domain}${id}`,
+        [ActionKind.Success]: `${Effect.Mutation}_${ActionKind.Success}#${domain}${id}`,
+        [ActionKind.Failure]: `${Effect.Mutation}_${ActionKind.Failure}#${domain}${id}`,
+        [ActionKind.Reset]: `${Effect.Mutation}_${ActionKind.Reset}#${domain}${id}`,
       },
     });
 

@@ -57,9 +57,10 @@ describe("genInstanceId", () => {
 describe("composeActionTypePattern", () => {
   it("should compose action type pattern", () => {
     const domain = "testDomain";
-    const actionKind = ActionKind.request;
+    const effect = Effect.Query;
+    const actionKind = ActionKind.Request;
     const id = "testId";
-    const pattern = composeActionTypePattern(domain, actionKind, id);
+    const pattern = composeActionTypePattern(domain, effect, actionKind, id);
     expect(pattern).toBe(`${domain}@${actionKind}#${id}`);
   });
 });

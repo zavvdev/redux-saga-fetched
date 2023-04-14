@@ -7,22 +7,24 @@ import {
 export function createEffectActionTypePatterns(domain: Domain) {
   const instanceId = genInstanceId();
 
-  const pattern = <A extends ActionKind>(actionType: A) =>
-    composeActionTypePattern(domain, actionType, instanceId);
+  const pattern = <E extends Effect, A extends ActionKind>(
+    effect: E,
+    actionKind: A,
+  ) => composeActionTypePattern(domain, effect, actionKind, instanceId);
 
   return {
     [Effect.Query]: {
-      [ActionKind.request]: pattern(ActionKind.request),
-      [ActionKind.success]: pattern(ActionKind.success),
-      [ActionKind.failure]: pattern(ActionKind.failure),
-      [ActionKind.invalidate]: pattern(ActionKind.invalidate),
-      [ActionKind.reset]: pattern(ActionKind.reset),
+      [ActionKind.Request]: pattern(Effect.Query, ActionKind.Request),
+      [ActionKind.Success]: pattern(Effect.Query, ActionKind.Success),
+      [ActionKind.Failure]: pattern(Effect.Query, ActionKind.Failure),
+      [ActionKind.Invalidate]: pattern(Effect.Query, ActionKind.Invalidate),
+      [ActionKind.Reset]: pattern(Effect.Query, ActionKind.Reset),
     },
     [Effect.Mutation]: {
-      [ActionKind.request]: pattern(ActionKind.request),
-      [ActionKind.success]: pattern(ActionKind.success),
-      [ActionKind.failure]: pattern(ActionKind.failure),
-      [ActionKind.reset]: pattern(ActionKind.reset),
+      [ActionKind.Request]: pattern(Effect.Mutation, ActionKind.Request),
+      [ActionKind.Success]: pattern(Effect.Mutation, ActionKind.Success),
+      [ActionKind.Failure]: pattern(Effect.Mutation, ActionKind.Failure),
+      [ActionKind.Reset]: pattern(Effect.Mutation, ActionKind.Reset),
     },
   };
 }

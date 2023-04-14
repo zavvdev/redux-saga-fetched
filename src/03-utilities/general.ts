@@ -27,12 +27,16 @@ export function genInstanceId(): InstanceId {
   return uuid();
 }
 
-export function composeActionTypePattern<A extends ActionKind>(
+export function composeActionTypePattern<
+  E extends Effect,
+  A extends ActionKind,
+>(
   domain: Domain,
+  effect: E,
   actionKind: A,
   id: InstanceId,
-): ActionTypePattern<A> {
-  return `${domain}@${actionKind}#${id}`;
+): ActionTypePattern<E, A> {
+  return `${effect}_${actionKind}#${domain}${id}`;
 }
 
 export function createQueryEffectState<T>({

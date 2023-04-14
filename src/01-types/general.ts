@@ -18,17 +18,22 @@ export enum Effect {
 }
 
 export enum ActionKind {
-  request = "request",
-  success = "success",
-  failure = "failure",
-  invalidate = "invalidate",
-  reset = "reset",
+  Request = "request",
+  Success = "success",
+  Failure = "failure",
+  Invalidate = "invalidate",
+  Reset = "reset",
 }
 
-export type ActionTypePattern<A extends ActionKind> =
-  `${Domain}@${A}#${InstanceId}`;
+export type ActionTypePattern<
+  E extends Effect,
+  A extends ActionKind,
+> = `${E}_${A}#${Domain}${InstanceId}`;
 
-export type ActionType = `${CreatedKey}_${ActionTypePattern<ActionKind>}`;
+export type ActionType = `${CreatedKey}_${ActionTypePattern<
+  Effect,
+  ActionKind
+>}`;
 
 export type ActionPayload<T = unknown> = {
   createdKey: CreatedKey;
