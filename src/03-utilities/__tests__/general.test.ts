@@ -61,7 +61,7 @@ describe("composeActionTypePattern", () => {
     const actionKind = ActionKind.Request;
     const id = "testId";
     const pattern = composeActionTypePattern(domain, effect, actionKind, id);
-    expect(pattern).toBe(`${domain}@${actionKind}#${id}`);
+    expect(pattern).toBe(`${effect}_${actionKind}#${domain}${id}`);
   });
 });
 
