@@ -1,11 +1,14 @@
 import { DEFAULT_STALE_TIME_MS, MESSAGES } from "../02-config/general";
 import {
   ActionKind,
+  ActionType,
   ActionTypePattern,
+  CreatedKey,
   Domain,
   Effect,
   InitOptions,
   InstanceId,
+  Key,
   MutationEffectState,
   QueryEffectState,
 } from "../01-types/general";
@@ -79,4 +82,15 @@ export function isObject(value: unknown) {
 
 export function genTimestamp() {
   return Number(new Date());
+}
+
+export function createKey(key: Key): CreatedKey {
+  return key.join("-");
+}
+
+export function composeActionType(
+  createdKey: CreatedKey,
+  pattern: ActionTypePattern,
+): ActionType {
+  return `${createdKey}_${pattern}`;
 }

@@ -1,7 +1,9 @@
 import { describe, it, expect } from "vitest";
 import {
+  composeActionType,
   composeActionTypePattern,
   createInitOptions,
+  createKey,
   createMutationEffectState,
   createQueryEffectState,
   genInstanceId,
@@ -112,5 +114,19 @@ describe("isObject", () => {
 describe("genTimestamp", () => {
   it("should generate numeric timestamp", () => {
     expect(typeof genTimestamp()).toBe("number");
+  });
+});
+
+describe("createKey", () => {
+  it("should create key", () => {
+    expect(createKey([4, "2"])).toBe("4-2");
+  });
+});
+
+describe("composeActionType", () => {
+  it("should compose action type", () => {
+    const key = "4-2";
+    const pattern = "query_request#api424242";
+    expect(composeActionType(key, pattern)).toBe(`${key}_${pattern}`);
   });
 });

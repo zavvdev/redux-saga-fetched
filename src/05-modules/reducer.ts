@@ -29,8 +29,9 @@ export const getReducer = (
         Query 
        * * * */
 
-      const queryState = (isObject(state?.[payload.createdKey]) ||
-        {}) as QueryEffectState;
+      const queryState = (
+        isObject(state?.[payload.createdKey]) ? state[payload.createdKey] : {}
+      ) as QueryEffectState;
 
       if (type.includes(effectActionTypePatterns.query.request)) {
         return {

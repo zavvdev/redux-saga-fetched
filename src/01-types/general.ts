@@ -2,6 +2,7 @@ export type Domain = string;
 export type InstanceId = string;
 export type CreatedKey = string;
 export type QueryTimestamp = number;
+export type Key = (string | number)[];
 
 export type QueryOptions = {
   staleTime: number;
@@ -26,28 +27,20 @@ export enum ActionKind {
 }
 
 export type ActionTypePattern<
-  E extends Effect,
-  A extends ActionKind,
+  E extends Effect = Effect,
+  A extends ActionKind = ActionKind,
 > = `${E}_${A}#${Domain}${InstanceId}`;
 
-export type ActionType = `${CreatedKey}_${ActionTypePattern<
-  Effect,
-  ActionKind
->}`;
+export type ActionType = `${CreatedKey}_${ActionTypePattern}`;
 
 export type ActionPayload<T = unknown> = {
   createdKey: CreatedKey;
-  data: T;
+  data?: T;
 };
 
 export type Action<T = unknown> = {
   type: ActionType;
   payload: ActionPayload<T>;
-};
-
-export type ActionWithoutData = {
-  type: ActionType;
-  payload: Omit<ActionPayload, "data">;
 };
 
 export type QueryEffectState<D = unknown> = {
