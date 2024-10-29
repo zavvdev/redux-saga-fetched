@@ -1,58 +1,28 @@
 {
   "name": "redux-saga-query",
-  "version": "0.0.6",
-  "private": false,
-  "description": "Caching & automation api requests with redux-saga",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "dev": "vitest",
     "test": "vitest run",
-    "build": "tsup src/index.ts --format cjs,esm --dts",
-    "lint": "tsc",
-    "ci": "npx prettier --check . && pnpm run lint && pnpm run test && pnpm run build",
-    "release": "pnpm run lint && pnpm run test && pnpm run build && changeset publish",
-    "prepare-release": "pnpm changeset",
-    "prettify": "npx prettier --write .",
-    "prepare": "husky install"
+    "lint": "eslint . --max-warnings=0",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+    "analyze": "pnpm lint && pnpm prettier && pnpm test",
+    "prepare": "husky"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zavvdev/redux-saga-query.git"
-  },
-  "keywords": [
-    "saga",
-    "redux-saga",
-    "redux",
-    "cache",
-    "fetch"
-  ],
-  "author": "zavvdev",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/zavvdev/redux-saga-query/issues"
-  },
-  "homepage": "https://github.com/zavvdev/redux-saga-query#readme",
-  "devDependencies": {
-    "@changesets/cli": "^2.26.1",
-    "@types/node": "^18.15.11",
-    "@types/uuid": "^9.0.1",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.2.1",
-    "prettier": "2.8.7",
-    "tsup": "^6.7.0",
-    "typescript": "^5.0.4",
-    "vitest": "^0.29.8"
-  },
-  "files": [
-    "dist/**/*"
-  ],
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
-  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "redux-saga": "^1.2.3",
-    "uuid": "^9.0.0"
+    "redux-saga": "^1.3.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "eslint": "^9.13.0",
+    "globals": "^15.11.0",
+    "husky": "^9.1.6",
+    "prettier": "^3.3.3",
+    "vitest": "^2.1.4"
   }
 }
