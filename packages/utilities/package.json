@@ -9,8 +9,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "utilities": "link:packages/utilities"
-  }
+  "license": "ISC"
 }
