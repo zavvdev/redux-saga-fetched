@@ -11,6 +11,9 @@ importers:
       redux-saga:
         specifier: ^1.3.0
         version: 1.3.0
+      utilities:
+        specifier: link:packages/utilities
+        version: link:packages/utilities
     devDependencies:
       '@eslint/js':
         specifier: ^9.13.0
