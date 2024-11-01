@@ -1,1 +1,0 @@
-redux-saga-query readme
