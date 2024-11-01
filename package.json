@@ -1,0 +1,31 @@
+{
+  "name": "redux-saga-query",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run",
+    "lint": "eslint . --max-warnings=0",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+    "analyze": "pnpm lint && pnpm prettier && pnpm test",
+    "prepare": "husky"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "redux-saga": "^1.3.0",
+    "utilities": "link:packages/utilities",
+    "uuid": "^11.0.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "eslint": "^9.13.0",
+    "globals": "^15.11.0",
+    "husky": "^9.1.6",
+    "prettier": "^3.3.3",
+    "vitest": "^2.1.4"
+  }
+}
