@@ -1,6 +1,15 @@
 export { Either } from "./Either.js";
 
 /**
+ * identity :: x -> x
+ *
+ * @template {unknown} T
+ * @param {T} x
+ * @returns {T}
+ */
+export var identity = (x) => x;
+
+/**
  * pipe :: (x, (x -> y), (y -> z), ..., (b -> c)) -> c
  *
  * @template {unknown} X
@@ -24,4 +33,5 @@ export var pipe = (x, ...fns) => fns.reduce((r, f) => f(r), x);
 export var cond =
   (elseClause, ...ifClauses) =>
   (x) =>
-    ifClauses.find((ifClause) => ifClause[0](x))?.[1]?.(x) || elseClause(x);
+    ifClauses.find((ifClause) => ifClause[0](x))?.[1]?.(x) ||
+    elseClause(x);
