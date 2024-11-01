@@ -1,21 +1,19 @@
 import { identity, pipe, Either as E } from "utilities";
 import { string } from "../validators.js";
 
-function InstanceId(id) {
-  this.$instanceId = id;
-}
+var InstanceId = {
+  from: function (idCreator) {
+    var terminate = (error) => {
+      throw new Error(error);
+    };
 
-InstanceId.from = function (idCreator) {
-  var terminate = (error) => {
-    throw new Error(error);
-  };
-
-  return pipe(
-    idCreator(),
-    string,
-    E.chain(identity),
-    E.chainLeft(terminate),
-  );
+    return pipe(
+      idCreator(),
+      string,
+      E.chain(identity),
+      E.chainLeft(terminate),
+    );
+  },
 };
 
 export { InstanceId };
