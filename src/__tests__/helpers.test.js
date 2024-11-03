@@ -1,11 +1,14 @@
 import { describe, test, expect } from "vitest";
-import { createActionPatterns } from "../helpers.js";
+import {
+  createActionType,
+  createActionTypePatterns,
+} from "../helpers.js";
 
-describe("createActionPatterns", () => {
+describe("createActionTypePatterns", () => {
   test("should return an object with action patterns", () => {
     var instanceId = "123";
     var domain = "test";
-    var patterns = createActionPatterns(() => instanceId)(domain);
+    var patterns = createActionTypePatterns(() => instanceId)(domain);
 
     expect(patterns).toEqual({
       query: {
@@ -20,5 +23,11 @@ describe("createActionPatterns", () => {
         failure: `mutation_failure@${domain}#${instanceId}`,
       },
     });
+  });
+});
+
+describe("createActionType", () => {
+  test("should return an action type string", () => {
+    expect(createActionType("key")("request")).toBe("key@request");
   });
 });
