@@ -19,3 +19,32 @@ export function number(x) {
   }
   return E.left("Expected a number");
 }
+
+/**
+ * array :: x -> Either
+ */
+export function array(x) {
+  if (Array.isArray(x)) {
+    return E.right(x);
+  }
+  return E.left("Expected an array");
+}
+
+/**
+ * isNotNullish :: x -> boolean
+ */
+export function isNotNullish(x) {
+  return x !== null && x !== undefined;
+}
+
+/**
+ * arrayOf :: [string] -> x -> Either
+ */
+export var arrayOf = (types) => (x) => {
+  for (let n of x) {
+    if (!types.includes(typeof n)) {
+      return E.left("Expected an array of " + types.join(", "));
+    }
+  }
+  return E.right(x);
+};
