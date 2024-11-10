@@ -143,26 +143,22 @@ var toNextState = (prevState, getNextState) => (action) =>
 
 var getReducer = function (actionTypePatterns) {
   return function (state, action = {}) {
-    var { query: q, mutation: m } = actionTypePatterns;
-
-    var qs = queryStates;
-    var ms = mutationStates;
-
+    var { query, mutation } = actionTypePatterns;
     var stateIdentity = () => state;
 
-    var stateGetters = [
-      [q.request, qs.request],
-      [q.success, qs.success],
-      [q.failure, qs.failure],
-      [q.invalidate, qs.invalidate],
-      [m.request, ms.request],
-      [m.success, ms.success],
-      [m.failure, ms.failure],
+    var patternToStateGetter = [
+      [query.request, queryStates.request],
+      [query.success, queryStates.success],
+      [query.failure, queryStates.failure],
+      [query.invalidate, queryStates.invalidate],
+      [mutation.request, mutationStates.request],
+      [mutation.success, mutationStates.success],
+      [mutation.failure, mutationStates.failure],
     ];
 
     var mapToState = cond(
       stateIdentity,
-      ...stateGetters.map(([pattern, getNextState]) => [
+      ...patternToStateGetter.map(([pattern, getNextState]) => [
         actionTypeMatch(pattern),
         toNextState(state, getNextState),
       ]),
