@@ -21,6 +21,19 @@ export var identity = (x) => x;
 export var pipe = (x, ...fns) => fns.reduce((r, f) => f(r), x);
 
 /**
+ * compose :: ((y -> z), (x -> y),  ..., (a -> b)) -> a -> z
+ *
+ * @template {unknown} T
+ * @template {unknown} R
+ * @param {Array<Function>} fns
+ * @returns {(x: T) => T | R}
+ */
+export var compose =
+  (...fns) =>
+  (x) =>
+    fns.reduceRight((r, f) => f(r), x);
+
+/**
  * cond :: (a -> b), [(a -> Boolean, a -> b)], ... [(a -> Boolean, a -> b)] -> a -> b
  *
  * @template {unknown} F

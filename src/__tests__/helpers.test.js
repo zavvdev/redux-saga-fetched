@@ -1,5 +1,6 @@
 import { describe, test, expect } from "vitest";
 import {
+  createAction,
   createActionType,
   createActionTypePatterns,
 } from "../helpers.js";
@@ -29,5 +30,19 @@ describe("createActionTypePatterns", () => {
 describe("createActionType", () => {
   test("should return an action type string", () => {
     expect(createActionType("key")("request")).toBe("key@request");
+  });
+});
+
+describe("createAction", () => {
+  test("should return an action object", () => {
+    var action = createAction("key")("type", "data");
+
+    expect(action).toEqual({
+      type: "type",
+      payload: {
+        key: "key",
+        data: "data",
+      },
+    });
   });
 });

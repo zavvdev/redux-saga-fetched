@@ -32,3 +32,14 @@ export var createActionTypePatterns =
 export var createActionType = (key) => (pattern) => {
   return `${key}@${pattern}`;
 };
+
+/**
+ * createAction :: string -> string, any -> object
+ */
+export var createAction = (key) => (type, data) => ({
+  type,
+  payload: {
+    key,
+    data,
+  },
+});
