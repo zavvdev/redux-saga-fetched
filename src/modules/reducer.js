@@ -44,7 +44,7 @@ var queryStates = {
       isFetching,
       isLoaded: false,
       isError: false,
-      isValid: false,
+      timestamp: undefined,
       data: dataFallback(state?.[payload.key]?.data),
     };
   },
@@ -59,7 +59,7 @@ var queryStates = {
       isFetching: false,
       isLoaded: true,
       isError: false,
-      isValid: true,
+      timestamp: payload.timestamp,
       data: dataFallback(payload?.data),
     }),
 
@@ -73,7 +73,7 @@ var queryStates = {
       isFetching: false,
       isLoaded: false,
       isError: true,
-      isValid: false,
+      timestamp: undefined,
       data: dataFallback(state?.[payload?.key]?.data),
     }),
 
@@ -87,7 +87,7 @@ var queryStates = {
       isFetching: !!state?.[payload.key]?.isFetching,
       isLoaded: !!state?.[payload.key]?.isLoaded,
       isError: !!state?.[payload.key]?.isError,
-      isValid: false,
+      timestamp: undefined,
       data: dataFallback(state?.[payload.key]?.data),
     }),
 };

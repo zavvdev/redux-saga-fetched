@@ -36,10 +36,11 @@ export var createActionType = (key) => (pattern) => {
 /**
  * createAction :: string -> string, any -> object
  */
-export var createAction = (key) => (type, data) => ({
+export var createAction = (key) => (type, data, timestamp) => ({
   type,
   payload: {
     key,
     data,
+    timestamp,
   },
 });

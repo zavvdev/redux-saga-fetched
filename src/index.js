@@ -12,11 +12,6 @@ function initSagaQuery({ domain, staleTime }) {
     InstanceId.from(uuidv4),
   )(options.domain);
 
-  // TODO: maybe we should not make selector public
-  // and let to access data only through query
-
-  // TODO: Add timestamp for query state
-
   return {
     reducer: getReducer(actionTypePatterns),
     selector: getSelector(options.domain),

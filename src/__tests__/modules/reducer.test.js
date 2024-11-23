@@ -38,7 +38,7 @@ describe("query", () => {
           isFetching: false,
           isLoaded: false,
           isError: false,
-          isValid: false,
+          timestamp: undefined,
           data: null,
         },
       });
@@ -52,7 +52,7 @@ describe("query", () => {
           isFetching: false,
           isLoaded: true,
           isError: false,
-          isValid: true,
+          timestamp: 1234343434,
           data: "data",
         },
       };
@@ -66,7 +66,7 @@ describe("query", () => {
           isFetching: true,
           isLoaded: false,
           isError: false,
-          isValid: false,
+          timestamp: undefined,
           data: "data",
         },
       });
@@ -79,7 +79,11 @@ describe("query", () => {
         some: "some",
       };
 
-      var action = createAction(key)(patterns.query.success, "data");
+      var action = createAction(key)(
+        patterns.query.success,
+        "data",
+        1234,
+      );
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -88,7 +92,7 @@ describe("query", () => {
           isFetching: false,
           isLoaded: true,
           isError: false,
-          isValid: true,
+          timestamp: 1234,
           data: "data",
         },
       });
@@ -99,7 +103,11 @@ describe("query", () => {
         some: "some",
       };
 
-      var action = createAction(key)(patterns.query.success);
+      var action = createAction(key)(
+        patterns.query.success,
+        null,
+        1234,
+      );
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -108,7 +116,7 @@ describe("query", () => {
           isFetching: false,
           isLoaded: true,
           isError: false,
-          isValid: true,
+          timestamp: 1234,
           data: null,
         },
       });
@@ -130,7 +138,7 @@ describe("query", () => {
           isFetching: false,
           isLoaded: false,
           isError: true,
-          isValid: false,
+          timestamp: undefined,
           data: null,
         },
       });
@@ -144,7 +152,7 @@ describe("query", () => {
           isFetching: false,
           isLoaded: true,
           isError: false,
-          isValid: true,
+          timestamp: 2738497,
           data: "data",
         },
       };
@@ -158,7 +166,7 @@ describe("query", () => {
           isFetching: false,
           isLoaded: false,
           isError: true,
-          isValid: false,
+          timestamp: undefined,
           data: "data",
         },
       });
@@ -180,7 +188,7 @@ describe("query", () => {
           isFetching: false,
           isLoaded: false,
           isError: false,
-          isValid: false,
+          timestamp: undefined,
           data: null,
         },
       });
@@ -194,7 +202,7 @@ describe("query", () => {
           isFetching: false,
           isLoaded: true,
           isError: false,
-          isValid: true,
+          timestamp: 2738497,
           data: "data",
         },
       };
@@ -208,7 +216,7 @@ describe("query", () => {
           isFetching: false,
           isLoaded: true,
           isError: false,
-          isValid: false,
+          timestamp: undefined,
           data: "data",
         },
       });
