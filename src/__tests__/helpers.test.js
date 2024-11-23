@@ -17,6 +17,7 @@ describe("createActionTypePatterns", () => {
         success: `query_success@${domain}#${instanceId}`,
         failure: `query_failure@${domain}#${instanceId}`,
         invalidate: `query_invalidate@${domain}#${instanceId}`,
+        reset: `query_reset@${domain}#${instanceId}`,
       },
       mutation: {
         request: `mutation_request@${domain}#${instanceId}`,

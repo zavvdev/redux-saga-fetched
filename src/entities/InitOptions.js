@@ -1,4 +1,4 @@
-import { Either as E, cond, pipe } from "utilities";
+import { Either as E, cond, identity, pipe } from "utilities";
 import { number, string } from "../validators.js";
 
 function InitOptions(domain, staleTime) {
@@ -19,6 +19,18 @@ InitOptions.from = function ({ domain, staleTime }) {
     [string(domain), number(staleTime)],
     cond(init, [withErrors, terminate]),
   );
+};
+
+InitOptions.prototype.merge = function (nextOptions) {
+  return InitOptions.from({
+    domain: nextOptions.domain || this.domain,
+    staleTime: pipe(
+      nextOptions.staleTime,
+      number,
+      E.chain(identity),
+      E.chainLeft(() => this.staleTime),
+    ),
+  });
 };
 
 export { InitOptions };

@@ -48,3 +48,11 @@ export var arrayOf = (types) => (x) => {
   }
   return E.right(x);
 };
+
+export var positive = (x) => {
+  if (x >= 0) {
+    return E.right(x);
+  }
+
+  return E.left("Expected a positive number");
+};

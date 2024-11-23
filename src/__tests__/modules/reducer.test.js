@@ -222,6 +222,56 @@ describe("query", () => {
       });
     });
   });
+
+  describe("RESET", () => {
+    test("no prev state", () => {
+      var state = {
+        some: "some",
+      };
+
+      var action = createAction(key)(patterns.query.reset);
+
+      expect(reducer(state, action)).toEqual({
+        ...state,
+        [key]: {
+          isLoading: false,
+          isFetching: false,
+          isLoaded: false,
+          isError: false,
+          timestamp: undefined,
+          data: null,
+        },
+      });
+    });
+
+    test("with prev state", () => {
+      var state = {
+        some: "some",
+        [key]: {
+          isLoading: false,
+          isFetching: false,
+          isLoaded: true,
+          isError: false,
+          timestamp: 2738497,
+          data: "data",
+        },
+      };
+
+      var action = createAction(key)(patterns.query.reset);
+
+      expect(reducer(state, action)).toEqual({
+        ...state,
+        [key]: {
+          isLoading: false,
+          isFetching: false,
+          isLoaded: false,
+          isError: false,
+          timestamp: undefined,
+          data: null,
+        },
+      });
+    });
+  });
 });
 
 describe("mutation", () => {

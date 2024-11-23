@@ -29,7 +29,7 @@ var assignKey = (key) => (nextKeyState) => ({
 // States
 // ================
 
-var queryStates = {
+export var queryStates = {
   /**
    * request :: state -> action -> keylessQueryState
    */
@@ -90,6 +90,18 @@ var queryStates = {
       timestamp: undefined,
       data: dataFallback(state?.[payload.key]?.data),
     }),
+
+  /**
+   * reset :: state -> action -> keylessQueryState
+   */
+  reset: () => () => ({
+    isLoading: false,
+    isFetching: false,
+    isLoaded: false,
+    isError: false,
+    timestamp: undefined,
+    data: null,
+  }),
 };
 
 var mutationStates = {
@@ -149,6 +161,7 @@ var getReducer = function (actionTypePatterns) {
     [query.success, queryStates.success],
     [query.failure, queryStates.failure],
     [query.invalidate, queryStates.invalidate],
+    [query.reset, queryStates.reset],
     [mutation.request, mutationStates.request],
     [mutation.success, mutationStates.success],
     [mutation.failure, mutationStates.failure],

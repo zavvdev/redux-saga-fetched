@@ -17,6 +17,7 @@ export var createActionTypePatterns =
         success: queryPattern("success"),
         failure: queryPattern("failure"),
         invalidate: queryPattern("invalidate"),
+        reset: queryPattern("reset"),
       },
       mutation: {
         request: mutationPattern("request"),
