@@ -46,6 +46,7 @@ export var queryStates = {
       isError: false,
       timestamp: undefined,
       data: dataFallback(state?.[payload.key]?.data),
+      error: null,
     };
   },
 
@@ -61,6 +62,7 @@ export var queryStates = {
       isError: false,
       timestamp: payload.timestamp,
       data: dataFallback(payload?.data),
+      error: null,
     }),
 
   /**
@@ -75,6 +77,7 @@ export var queryStates = {
       isError: true,
       timestamp: undefined,
       data: dataFallback(state?.[payload?.key]?.data),
+      error: payload.error || null,
     }),
 
   /**
@@ -89,6 +92,7 @@ export var queryStates = {
       isError: !!state?.[payload.key]?.isError,
       timestamp: undefined,
       data: dataFallback(state?.[payload.key]?.data),
+      error: state?.[payload.key]?.error || null,
     }),
 
   /**
@@ -101,6 +105,7 @@ export var queryStates = {
     isError: false,
     timestamp: undefined,
     data: null,
+    error: null,
   }),
 };
 
@@ -115,6 +120,7 @@ var mutationStates = {
       isLoaded: false,
       isError: false,
       data: dataFallback(state?.[payload.key]?.data),
+      error: null,
     }),
 
   /**
@@ -127,6 +133,7 @@ var mutationStates = {
       isLoaded: true,
       isError: false,
       data: dataFallback(payload?.data),
+      error: null,
     }),
 
   /**
@@ -139,6 +146,7 @@ var mutationStates = {
       isLoaded: false,
       isError: true,
       data: dataFallback(state?.[payload?.key]?.data),
+      error: payload.error || null,
     }),
 };
 

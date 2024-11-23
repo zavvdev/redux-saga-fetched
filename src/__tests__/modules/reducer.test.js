@@ -17,7 +17,7 @@ test("should return previous state", () => {
     some: "some",
   };
 
-  var action = createAction(key)("missing_type", {});
+  var action = createAction(key)({ type: "missing_type", data: {} });
 
   expect(reducer(state, action)).toEqual(state);
 });
@@ -29,7 +29,10 @@ describe("query", () => {
         some: "some",
       };
 
-      var action = createAction(key)(patterns.query.request, {});
+      var action = createAction(key)({
+        type: patterns.query.request,
+        data: {},
+      });
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -40,6 +43,7 @@ describe("query", () => {
           isError: false,
           timestamp: undefined,
           data: null,
+          error: null,
         },
       });
     });
@@ -54,10 +58,14 @@ describe("query", () => {
           isError: false,
           timestamp: 1234343434,
           data: "data",
+          error: null,
         },
       };
 
-      var action = createAction(key)(patterns.query.request, {});
+      var action = createAction(key)({
+        type: patterns.query.request,
+        data: {},
+      });
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -68,6 +76,7 @@ describe("query", () => {
           isError: false,
           timestamp: undefined,
           data: "data",
+          error: null,
         },
       });
     });
@@ -79,11 +88,11 @@ describe("query", () => {
         some: "some",
       };
 
-      var action = createAction(key)(
-        patterns.query.success,
-        "data",
-        1234,
-      );
+      var action = createAction(key)({
+        type: patterns.query.success,
+        data: "data",
+        timestamp: 1234,
+      });
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -94,6 +103,7 @@ describe("query", () => {
           isError: false,
           timestamp: 1234,
           data: "data",
+          error: null,
         },
       });
     });
@@ -103,11 +113,11 @@ describe("query", () => {
         some: "some",
       };
 
-      var action = createAction(key)(
-        patterns.query.success,
-        null,
-        1234,
-      );
+      var action = createAction(key)({
+        type: patterns.query.success,
+        data: null,
+        timestamp: 1234,
+      });
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -118,6 +128,7 @@ describe("query", () => {
           isError: false,
           timestamp: 1234,
           data: null,
+          error: null,
         },
       });
     });
@@ -129,7 +140,10 @@ describe("query", () => {
         some: "some",
       };
 
-      var action = createAction(key)(patterns.query.failure);
+      var action = createAction(key)({
+        type: patterns.query.failure,
+        error: "error",
+      });
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -140,6 +154,7 @@ describe("query", () => {
           isError: true,
           timestamp: undefined,
           data: null,
+          error: "error",
         },
       });
     });
@@ -154,10 +169,14 @@ describe("query", () => {
           isError: false,
           timestamp: 2738497,
           data: "data",
+          error: null,
         },
       };
 
-      var action = createAction(key)(patterns.query.failure);
+      var action = createAction(key)({
+        type: patterns.query.failure,
+        error: "error",
+      });
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -168,6 +187,7 @@ describe("query", () => {
           isError: true,
           timestamp: undefined,
           data: "data",
+          error: "error",
         },
       });
     });
@@ -179,7 +199,9 @@ describe("query", () => {
         some: "some",
       };
 
-      var action = createAction(key)(patterns.query.invalidate);
+      var action = createAction(key)({
+        type: patterns.query.invalidate,
+      });
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -190,6 +212,7 @@ describe("query", () => {
           isError: false,
           timestamp: undefined,
           data: null,
+          error: null,
         },
       });
     });
@@ -204,10 +227,13 @@ describe("query", () => {
           isError: false,
           timestamp: 2738497,
           data: "data",
+          error: "error",
         },
       };
 
-      var action = createAction(key)(patterns.query.invalidate);
+      var action = createAction(key)({
+        type: patterns.query.invalidate,
+      });
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -218,6 +244,7 @@ describe("query", () => {
           isError: false,
           timestamp: undefined,
           data: "data",
+          error: "error",
         },
       });
     });
@@ -229,7 +256,7 @@ describe("query", () => {
         some: "some",
       };
 
-      var action = createAction(key)(patterns.query.reset);
+      var action = createAction(key)({ type: patterns.query.reset });
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -240,6 +267,7 @@ describe("query", () => {
           isError: false,
           timestamp: undefined,
           data: null,
+          error: null,
         },
       });
     });
@@ -254,10 +282,11 @@ describe("query", () => {
           isError: false,
           timestamp: 2738497,
           data: "data",
+          error: "error",
         },
       };
 
-      var action = createAction(key)(patterns.query.reset);
+      var action = createAction(key)({ type: patterns.query.reset });
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -268,6 +297,7 @@ describe("query", () => {
           isError: false,
           timestamp: undefined,
           data: null,
+          error: null,
         },
       });
     });
@@ -281,7 +311,9 @@ describe("mutation", () => {
         some: "some",
       };
 
-      var action = createAction(key)(patterns.mutation.request);
+      var action = createAction(key)({
+        type: patterns.mutation.request,
+      });
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -290,6 +322,7 @@ describe("mutation", () => {
           isLoaded: false,
           isError: false,
           data: null,
+          error: null,
         },
       });
     });
@@ -302,10 +335,13 @@ describe("mutation", () => {
           isLoaded: true,
           isError: false,
           data: "data",
+          error: null,
         },
       };
 
-      var action = createAction(key)(patterns.mutation.request);
+      var action = createAction(key)({
+        type: patterns.mutation.request,
+      });
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -314,6 +350,7 @@ describe("mutation", () => {
           isLoaded: false,
           isError: false,
           data: "data",
+          error: null,
         },
       });
     });
@@ -325,10 +362,10 @@ describe("mutation", () => {
         some: "some",
       };
 
-      var action = createAction(key)(
-        patterns.mutation.success,
-        "data",
-      );
+      var action = createAction(key)({
+        type: patterns.mutation.success,
+        data: "data",
+      });
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -337,6 +374,7 @@ describe("mutation", () => {
           isLoaded: true,
           isError: false,
           data: "data",
+          error: null,
         },
       });
     });
@@ -346,7 +384,9 @@ describe("mutation", () => {
         some: "some",
       };
 
-      var action = createAction(key)(patterns.mutation.success);
+      var action = createAction(key)({
+        type: patterns.mutation.success,
+      });
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -355,6 +395,7 @@ describe("mutation", () => {
           isLoaded: true,
           isError: false,
           data: null,
+          error: null,
         },
       });
     });
@@ -366,7 +407,10 @@ describe("mutation", () => {
         some: "some",
       };
 
-      var action = createAction(key)(patterns.mutation.failure);
+      var action = createAction(key)({
+        type: patterns.mutation.failure,
+        error: "error",
+      });
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -375,6 +419,7 @@ describe("mutation", () => {
           isLoaded: false,
           isError: true,
           data: null,
+          error: "error",
         },
       });
     });
@@ -387,10 +432,14 @@ describe("mutation", () => {
           isLoaded: true,
           isError: false,
           data: "data",
+          error: null,
         },
       };
 
-      var action = createAction(key)(patterns.mutation.failure);
+      var action = createAction(key)({
+        type: patterns.mutation.failure,
+        error: "error",
+      });
 
       expect(reducer(state, action)).toEqual({
         ...state,
@@ -399,6 +448,7 @@ describe("mutation", () => {
           isLoaded: false,
           isError: true,
           data: "data",
+          error: "error",
         },
       });
     });

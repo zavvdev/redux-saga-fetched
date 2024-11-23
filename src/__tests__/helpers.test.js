@@ -36,7 +36,12 @@ describe("createActionType", () => {
 
 describe("createAction", () => {
   test("should return an action object", () => {
-    var action = createAction("key")("type", "data", "timestamp");
+    var action = createAction("key")({
+      type: "type",
+      data: "data",
+      timestamp: "timestamp",
+      error: "error",
+    });
 
     expect(action).toEqual({
       type: "type",
@@ -44,6 +49,7 @@ describe("createAction", () => {
         key: "key",
         data: "data",
         timestamp: "timestamp",
+        error: "error",
       },
     });
   });

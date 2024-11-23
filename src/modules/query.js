@@ -1,8 +1,7 @@
 import { call, put, select } from "redux-saga/effects";
-import { pipe, Either as E } from "utilities";
+import { Either as E } from "utilities";
 import { Key } from "../entities/Key";
 import { createAction, createActionType } from "../helpers";
-import { queryStates } from "./reducer";
 import { number } from "../validators";
 
 export var selectIsInProgress =
@@ -28,7 +27,7 @@ export var selectIsValid =
 export var selectData =
   (domain, key) =>
   (state = {}) => {
-    return state?.[domain]?.[key] || queryStates.reset()();
+    return state?.[domain]?.[key] || null;
   };
 
 var getQuery = ({
@@ -38,13 +37,14 @@ var getQuery = ({
 }) => {
   return function* ({ key, fn, options }) {
     var options_ = initOptions.merge({
-      staleTime: options.staleTime,
+      staleTime: options?.staleTime,
     });
 
     var key_ = Key.from(key);
 
     var actionType = createActionType(key_);
     var action = createAction(key_);
+    var stateSelector = () => selectData(options_.domain, key_);
 
     try {
       var isInProgress = yield select(
@@ -61,28 +61,31 @@ var getQuery = ({
       );
 
       if (isInProgress || isValid) {
-        return yield select(selectData(options_.domain, key_));
+        return yield select(stateSelector());
       }
 
-      yield put(pipe(patterns.query.request, actionType, action));
+      yield put(action({ type: actionType(patterns.query.request) }));
 
       var data = yield call(fn);
       var nextTimestamp = createTimestamp();
 
       yield put(
-        action(
-          actionType(patterns.query.success),
+        action({
+          type: actionType(patterns.query.success),
           data,
-          nextTimestamp,
-        ),
+          timestamp: nextTimestamp,
+        }),
       );
 
-      return queryStates.success()({
-        data,
-        timestamp: nextTimestamp,
-      });
+      return data;
     } catch (e) {
-      yield put(pipe(patterns.query.failure, actionType, action));
+      yield put(
+        action({
+          type: actionType(patterns.query.failure),
+          error: e,
+        }),
+      );
+
       throw e;
     }
   };
