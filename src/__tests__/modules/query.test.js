@@ -1,5 +1,6 @@
 import { expect, test, describe } from "vitest";
 import { runSaga } from "redux-saga";
+import { InitOptions } from "../../entities/InitOptions";
 import {
   getQuery,
   selectData,
@@ -10,8 +11,7 @@ import {
   createAction,
   createActionType,
   createActionTypePatterns,
-} from "../../helpers";
-import { InitOptions } from "../../entities/InitOptions";
+} from "../../modules/_helpers";
 
 describe("selectIsInProgress", () => {
   test("should return true if isLoading is true", () => {

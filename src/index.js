@@ -1,11 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
 import { InitOptions } from "./entities/InitOptions.js";
 import { InstanceId } from "./entities/InstanceId.js";
-import { createActionTypePatterns } from "./helpers.js";
+import { Timestamp } from "./entities/Timestamp.js";
+import { createActionTypePatterns } from "./modules/_helpers.js";
 import { getSelector } from "./modules/selector.js";
 import { getReducer } from "./modules/reducer.js";
 import { getQuery } from "./modules/query.js";
-import { Timestamp } from "./entities/Timestamp.js";
 
 function initSagaQuery({ domain, staleTime }) {
   var options = InitOptions.from({ domain, staleTime });

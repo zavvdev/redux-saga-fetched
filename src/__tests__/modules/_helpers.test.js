@@ -3,7 +3,7 @@ import {
   createAction,
   createActionType,
   createActionTypePatterns,
-} from "../helpers.js";
+} from "../../modules/_helpers.js";
 
 describe("createActionTypePatterns", () => {
   test("should return an object with action patterns", () => {

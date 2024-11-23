@@ -1,10 +1,10 @@
 import { describe, test, expect } from "vitest";
+import { Key } from "../../entities/Key";
 import { getReducer } from "../../modules/reducer";
 import {
   createAction,
   createActionTypePatterns,
-} from "../../helpers";
-import { Key } from "../../entities/Key";
+} from "../../modules/_helpers";
 
 var patterns = createActionTypePatterns(() => "instanceId")("domain");
 

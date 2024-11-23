@@ -1,4 +1,5 @@
 import { describe, expect, test } from "vitest";
+import { Either as E } from "utilities";
 import {
   string,
   number,
@@ -6,7 +7,6 @@ import {
   isNotNullish,
   arrayOf,
 } from "../validators";
-import { Either as E } from "utilities";
 
 describe("string", () => {
   test("should return Right", () => {

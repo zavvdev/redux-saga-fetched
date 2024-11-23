@@ -1,1 +1,3 @@
-in progress..
+### Deps:
+
+modules -> entities -> validators
