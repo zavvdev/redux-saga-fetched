@@ -6,6 +6,7 @@ import {
   selectData,
   selectIsInProgress,
   selectKeyState,
+  selectMatchedKeys,
 } from "../../modules/_helpers.js";
 
 describe("createActionTypePatterns", () => {
@@ -150,5 +151,41 @@ describe("selectKeyState", () => {
     expect(selectKeyState("domain", "key")(state)).toEqual({
       data: "data",
     });
+  });
+});
+
+describe("selectMatchedKeys", () => {
+  test("should return an empty array", () => {
+    var state = {
+      domain: {},
+    };
+
+    expect(selectMatchedKeys("key", "domain")(state)).toEqual([]);
+  });
+
+  test("should return exactly matched key", () => {
+    var state = {
+      domain: {
+        key: {},
+      },
+    };
+
+    expect(selectMatchedKeys("key", "domain")(state)).toEqual([
+      "key",
+    ]);
+  });
+
+  test("should return partially matched key", () => {
+    var state = {
+      domain: {
+        key1: {},
+        key2: {},
+      },
+    };
+
+    expect(selectMatchedKeys("key", "domain")(state)).toEqual([
+      "key1",
+      "key2",
+    ]);
   });
 });

@@ -7,26 +7,20 @@ import {
   selectMatchedKeys,
 } from "./_helpers";
 
-var getInvalidate = ({ actionTypePatterns: patterns, domain }) => {
+var getReset = ({ actionTypePatterns: patterns, domain }) => {
   return function* ({ key }) {
     var key_ = Key.from(key);
-    var keysToInvalidate = yield select(
-      selectMatchedKeys(key_, domain),
-    );
+    var keysToReset = yield select(selectMatchedKeys(key_, domain));
 
-    for (let k of keysToInvalidate) {
+    for (let k of keysToReset) {
       let keyState = yield select(selectKeyState(domain, k));
       let actionType = createActionType(k);
       let action = createAction(k);
 
-      if (
-        keyState.isValid &&
-        !keyState.isLoading &&
-        !keyState.isFetching
-      ) {
+      if (!keyState.isReset) {
         yield put(
           action({
-            type: actionType(patterns.query.invalidate),
+            type: actionType(patterns.query.reset),
           }),
         );
       }
@@ -34,4 +28,4 @@ var getInvalidate = ({ actionTypePatterns: patterns, domain }) => {
   };
 };
 
-export { getInvalidate };
+export { getReset };

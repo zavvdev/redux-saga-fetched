@@ -1,3 +1,6 @@
+import { Either as E, pipe } from "utilities";
+import { object } from "../validators";
+
 /**
  * createActionTypePatterns :: (() -> string) -> string -> patterns
  */
@@ -67,3 +70,13 @@ export var selectKeyState =
   (state = {}) => {
     return state?.[domain]?.[key] || {};
   };
+
+export var selectMatchedKeys =
+  (key, domain) =>
+  (state = {}) =>
+    pipe(
+      state?.[domain] || {},
+      object,
+      E.chain((x) => Object.keys(x).filter((k) => k.startsWith(key))),
+      E.chainLeft(() => []),
+    );

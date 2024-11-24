@@ -1,51 +1,11 @@
 import { expect, test, describe } from "vitest";
 import { runSaga } from "redux-saga";
-import {
-  getInvalidate,
-  selectKeysForInvalidation,
-} from "../../modules/invalidate";
+import { getInvalidate } from "../../modules/invalidate";
 import {
   createAction,
   createActionType,
   createActionTypePatterns,
 } from "../../modules/_helpers";
-
-describe("selectKeysForInvalidation", () => {
-  test("should return an empty array", () => {
-    var state = {
-      domain: {},
-    };
-
-    expect(selectKeysForInvalidation("key", "domain")(state)).toEqual(
-      [],
-    );
-  });
-
-  test("should return exactly matched key", () => {
-    var state = {
-      domain: {
-        key: {},
-      },
-    };
-
-    expect(selectKeysForInvalidation("key", "domain")(state)).toEqual(
-      ["key"],
-    );
-  });
-
-  test("should return partially matched key", () => {
-    var state = {
-      domain: {
-        key1: {},
-        key2: {},
-      },
-    };
-
-    expect(selectKeysForInvalidation("key", "domain")(state)).toEqual(
-      ["key1", "key2"],
-    );
-  });
-});
 
 describe("invalidate", () => {
   var domain = "domain";
