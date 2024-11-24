@@ -38,7 +38,7 @@ export var createActionType = (key) => (pattern) => {
 };
 
 /**
- * createAction :: string -> string, any -> object
+ * createAction :: string -> args -> object
  */
 export var createAction =
   (key) =>
@@ -52,12 +52,18 @@ export var createAction =
     },
   });
 
+/**
+ * selectData :: string, string -> object -> any
+ */
 export var selectData =
   (domain, key) =>
   (state = {}) => {
     return state?.[domain]?.[key]?.data || null;
   };
 
+/**
+ * selectIsInProgress :: string, string -> object -> boolean
+ */
 export var selectIsInProgress =
   (domain, key) =>
   (state = {}) => {
@@ -65,12 +71,18 @@ export var selectIsInProgress =
     return Boolean(data.isLoading || data.isFetching);
   };
 
+/**
+ * selectKeyState :: string, string -> object -> object
+ */
 export var selectKeyState =
   (domain, key) =>
   (state = {}) => {
     return state?.[domain]?.[key] || {};
   };
 
+/**
+ * selectMatchedKeys :: string, string -> object -> array
+ */
 export var selectMatchedKeys =
   (key, domain) =>
   (state = {}) =>
