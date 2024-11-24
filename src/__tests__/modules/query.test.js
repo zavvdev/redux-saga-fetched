@@ -3,7 +3,6 @@ import { runSaga } from "redux-saga";
 import { InitOptions } from "../../entities/InitOptions";
 import {
   getQuery,
-  selectData,
   selectIsInProgress,
   selectIsValid,
 } from "../../modules/query";
@@ -118,30 +117,6 @@ describe("selectIsValid", () => {
   });
 });
 
-describe("selectData", () => {
-  test("should select data by key", () => {
-    var state = {
-      domain: {
-        key: {
-          data: "data",
-        },
-      },
-    };
-
-    expect(selectData("domain", "key")(state)).toEqual({
-      data: "data",
-    });
-  });
-
-  test("should return null if data is missing", () => {
-    var state = {
-      domain: {},
-    };
-
-    expect(selectData("domain", "key")(state)).toEqual(null);
-  });
-});
-
 describe("query", () => {
   var domain = "domain";
   var key = "key";
@@ -159,7 +134,7 @@ describe("query", () => {
     domain,
   });
 
-  test("should return current state if in progress", () => {
+  test("should return current data if in progress", () => {
     var query = getQuery({
       actionTypePatterns,
       initOptions,
@@ -185,13 +160,10 @@ describe("query", () => {
       },
     );
 
-    expect(result.result()).toEqual({
-      isLoading: true,
-      data: "data",
-    });
+    expect(result.result()).toEqual("data");
   });
 
-  test("should return current state if it's valid", () => {
+  test("should return current data if it's valid", () => {
     var query = getQuery({
       actionTypePatterns,
       initOptions,
@@ -221,11 +193,7 @@ describe("query", () => {
       },
     );
 
-    expect(result.result()).toEqual({
-      isLoading: false,
-      timestamp: 100,
-      data: "data",
-    });
+    expect(result.result()).toEqual("data");
   });
 
   test("should return new data", () => {

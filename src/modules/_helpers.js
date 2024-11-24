@@ -48,3 +48,9 @@ export var createAction =
       error,
     },
   });
+
+export var selectData =
+  (domain, key) =>
+  (state = {}) => {
+    return state?.[domain]?.[key]?.data || null;
+  };

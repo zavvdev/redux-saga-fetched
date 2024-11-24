@@ -3,6 +3,7 @@ import {
   createAction,
   createActionType,
   createActionTypePatterns,
+  selectData,
 } from "../../modules/_helpers.js";
 
 describe("createActionTypePatterns", () => {
@@ -52,5 +53,27 @@ describe("createAction", () => {
         error: "error",
       },
     });
+  });
+});
+
+describe("selectData", () => {
+  test("should select data by key", () => {
+    var state = {
+      domain: {
+        key: {
+          data: "data",
+        },
+      },
+    };
+
+    expect(selectData("domain", "key")(state)).toEqual("data");
+  });
+
+  test("should return null if data is missing", () => {
+    var state = {
+      domain: {},
+    };
+
+    expect(selectData("domain", "key")(state)).toEqual(null);
   });
 });

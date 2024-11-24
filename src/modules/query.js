@@ -2,7 +2,11 @@ import { call, put, select } from "redux-saga/effects";
 import { Either as E } from "utilities";
 import { Key } from "../entities/Key";
 import { number } from "../validators";
-import { createAction, createActionType } from "./_helpers";
+import {
+  createAction,
+  createActionType,
+  selectData,
+} from "./_helpers";
 
 export var selectIsInProgress =
   (domain, key) =>
@@ -22,12 +26,6 @@ export var selectIsValid =
     }
 
     return createTimestamp() - timestamp < staleTime;
-  };
-
-export var selectData =
-  (domain, key) =>
-  (state = {}) => {
-    return state?.[domain]?.[key] || null;
   };
 
 var getQuery = ({
