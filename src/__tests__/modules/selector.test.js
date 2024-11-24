@@ -10,5 +10,5 @@ test("should return selector that selects data from state by key", () => {
 
   var selector = getSelector("domain");
 
-  expect(selector(state)(["key"])).toBe("value");
+  expect(selector(["key"])(state)).toBe("value");
 });

@@ -58,7 +58,6 @@ var getQuery = ({
 
       yield put(action({ type: actionType(patterns.query.request) }));
 
-      // TODO: after first request action this function never settles
       var data = yield call(fn);
       var nextTimestamp = createTimestamp();
 
