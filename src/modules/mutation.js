@@ -4,14 +4,8 @@ import {
   createAction,
   createActionType,
   selectData,
+  selectIsInProgress,
 } from "./_helpers";
-
-export var selectIsInProgress =
-  (domain, key) =>
-  (state = {}) => {
-    var data = state?.[domain]?.[key] || {};
-    return Boolean(data.isLoading);
-  };
 
 var getMutation = ({ actionTypePatterns: patterns, domain }) => {
   return function* ({ key, fn }) {

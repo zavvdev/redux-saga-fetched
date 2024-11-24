@@ -7,6 +7,7 @@ import { getSelector } from "./modules/selector.js";
 import { getReducer } from "./modules/reducer.js";
 import { getQuery } from "./modules/query.js";
 import { getMutation } from "./modules/mutation.js";
+import { getInvalidate } from "./modules/invalidate.js";
 
 function initSagaQuery({ domain, staleTime }) {
   var options = InitOptions.from({ domain, staleTime });
@@ -29,6 +30,11 @@ function initSagaQuery({ domain, staleTime }) {
     }),
 
     mutation: getMutation({
+      actionTypePatterns,
+      domain: options.domain,
+    }),
+
+    invalidate: getInvalidate({
       actionTypePatterns,
       domain: options.domain,
     }),

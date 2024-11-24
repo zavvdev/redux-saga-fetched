@@ -4,6 +4,8 @@ import {
   createActionType,
   createActionTypePatterns,
   selectData,
+  selectIsInProgress,
+  selectKeyState,
 } from "../../modules/_helpers.js";
 
 describe("createActionTypePatterns", () => {
@@ -75,5 +77,78 @@ describe("selectData", () => {
     };
 
     expect(selectData("domain", "key")(state)).toEqual(null);
+  });
+});
+
+describe("selectIsInProgress", () => {
+  test("should return true if isLoading is true", () => {
+    var state = {
+      domain: {
+        key: {
+          isLoading: true,
+        },
+      },
+    };
+
+    expect(selectIsInProgress("domain", "key")(state)).toBe(true);
+  });
+
+  test("should return true if isFetching is true", () => {
+    var state = {
+      domain: {
+        key: {
+          isFetching: true,
+        },
+      },
+    };
+
+    expect(selectIsInProgress("domain", "key")(state)).toBe(true);
+  });
+
+  test("should return false if isFetching and isLoading is false", () => {
+    var state = {
+      domain: {
+        key: {
+          isFetching: false,
+          isLoading: false,
+        },
+      },
+    };
+
+    expect(selectIsInProgress("domain", "key")(state)).toBe(false);
+  });
+
+  test("should return false if isFetching and isLoading is missing", () => {
+    var state = {
+      domain: {
+        key: {},
+      },
+    };
+
+    expect(selectIsInProgress("domain", "key")(state)).toBe(false);
+  });
+});
+
+describe("selectKeyState", () => {
+  test("should return an empty object if key is missing", () => {
+    var state = {
+      domain: {},
+    };
+
+    expect(selectKeyState("domain", "key")(state)).toEqual({});
+  });
+
+  test("should return key state", () => {
+    var state = {
+      domain: {
+        key: {
+          data: "data",
+        },
+      },
+    };
+
+    expect(selectKeyState("domain", "key")(state)).toEqual({
+      data: "data",
+    });
   });
 });

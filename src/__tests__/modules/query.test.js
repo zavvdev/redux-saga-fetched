@@ -1,65 +1,12 @@
 import { expect, test, describe } from "vitest";
 import { runSaga } from "redux-saga";
 import { InitOptions } from "../../entities/InitOptions";
-import {
-  getQuery,
-  selectIsInProgress,
-  selectIsValid,
-} from "../../modules/query";
+import { getQuery, selectIsValid } from "../../modules/query";
 import {
   createAction,
   createActionType,
   createActionTypePatterns,
 } from "../../modules/_helpers";
-
-describe("selectIsInProgress", () => {
-  test("should return true if isLoading is true", () => {
-    var state = {
-      domain: {
-        key: {
-          isLoading: true,
-        },
-      },
-    };
-
-    expect(selectIsInProgress("domain", "key")(state)).toBe(true);
-  });
-
-  test("should return true if isFetching is true", () => {
-    var state = {
-      domain: {
-        key: {
-          isFetching: true,
-        },
-      },
-    };
-
-    expect(selectIsInProgress("domain", "key")(state)).toBe(true);
-  });
-
-  test("should return false if isFetching and isLoading is false", () => {
-    var state = {
-      domain: {
-        key: {
-          isFetching: false,
-          isLoading: false,
-        },
-      },
-    };
-
-    expect(selectIsInProgress("domain", "key")(state)).toBe(false);
-  });
-
-  test("should return false if isFetching and isLoading is missing", () => {
-    var state = {
-      domain: {
-        key: {},
-      },
-    };
-
-    expect(selectIsInProgress("domain", "key")(state)).toBe(false);
-  });
-});
 
 describe("selectIsValid", () => {
   test("should return false if timestamp is missing", () => {

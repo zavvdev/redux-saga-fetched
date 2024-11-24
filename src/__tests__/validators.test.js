@@ -6,6 +6,8 @@ import {
   array,
   isNotNullish,
   arrayOf,
+  positive,
+  object,
 } from "../validators";
 
 describe("string", () => {
@@ -96,5 +98,37 @@ describe("arrayOf", () => {
     expect(
       arrayOf(["string", "number"])(["1", 2, false]),
     ).toStrictEqual(E.left("Expected an array of string, number"));
+  });
+});
+
+describe("positive", () => {
+  test("should return Right", () => {
+    expect(positive(123)).toStrictEqual(E.right(123));
+    expect(positive(0)).toStrictEqual(E.right(0));
+  });
+
+  test("should return Left", () => {
+    expect(positive(-1)).toStrictEqual(
+      E.left("Expected a positive number"),
+    );
+  });
+});
+
+describe("object", () => {
+  test("should return Right", () => {
+    expect(object({})).toStrictEqual(E.right({}));
+  });
+
+  test("should return Left", () => {
+    expect(object("123")).toStrictEqual(E.left("Expected an object"));
+    expect(object(123)).toStrictEqual(E.left("Expected an object"));
+    expect(object(null)).toStrictEqual(E.left("Expected an object"));
+    expect(object(undefined)).toStrictEqual(
+      E.left("Expected an object"),
+    );
+    expect(object(false)).toStrictEqual(E.left("Expected an object"));
+    expect(object(["1", "2"])).toStrictEqual(
+      E.left("Expected an object"),
+    );
   });
 });

@@ -54,3 +54,16 @@ export var selectData =
   (state = {}) => {
     return state?.[domain]?.[key]?.data || null;
   };
+
+export var selectIsInProgress =
+  (domain, key) =>
+  (state = {}) => {
+    var data = state?.[domain]?.[key] || {};
+    return Boolean(data.isLoading || data.isFetching);
+  };
+
+export var selectKeyState =
+  (domain, key) =>
+  (state = {}) => {
+    return state?.[domain]?.[key] || {};
+  };
