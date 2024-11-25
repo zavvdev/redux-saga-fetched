@@ -1,4 +1,4 @@
-import { call, put, select } from "redux-saga/effects";
+import { call, put, select, spawn } from "redux-saga/effects";
 import { Either as E } from "utilities";
 import { Key } from "../entities/Key";
 import { number } from "../validators";
@@ -22,6 +22,40 @@ export var selectIsValid =
     return createTimestamp() - timestamp < staleTime;
   };
 
+export function* executor({
+  fn,
+  action,
+  actionType,
+  patterns,
+  createTimestamp,
+}) {
+  try {
+    yield put(action({ type: actionType(patterns.query.request) }));
+
+    var data = yield call(fn);
+    var nextTimestamp = createTimestamp();
+
+    yield put(
+      action({
+        type: actionType(patterns.query.success),
+        data,
+        timestamp: nextTimestamp,
+      }),
+    );
+
+    return data;
+  } catch (e) {
+    yield put(
+      action({
+        type: actionType(patterns.query.failure),
+        error: e,
+      }),
+    );
+
+    throw e;
+  }
+}
+
 var getQuery = ({
   actionTypePatterns: patterns,
   initOptions,
@@ -38,48 +72,30 @@ var getQuery = ({
     var action = createAction(key_);
     var stateSelector = () => selectData(options_.domain, key_);
 
-    try {
-      var isInProgress = yield select(
-        selectIsInProgress(options_.domain, key_),
-      );
+    var isInProgress = yield select(
+      selectIsInProgress(options_.domain, key_),
+    );
 
-      var isValid = yield select(
-        selectIsValid(
-          options_.domain,
-          key_,
-          createTimestamp,
-          options_.staleTime,
-        ),
-      );
+    var isValid = yield select(
+      selectIsValid(
+        options_.domain,
+        key_,
+        createTimestamp,
+        options_.staleTime,
+      ),
+    );
 
-      if (isInProgress || isValid) {
-        return yield select(stateSelector());
-      }
-
-      yield put(action({ type: actionType(patterns.query.request) }));
-
-      var data = yield call(fn);
-      var nextTimestamp = createTimestamp();
-
-      yield put(
-        action({
-          type: actionType(patterns.query.success),
-          data,
-          timestamp: nextTimestamp,
-        }),
-      );
-
-      return data;
-    } catch (e) {
-      yield put(
-        action({
-          type: actionType(patterns.query.failure),
-          error: e,
-        }),
-      );
-
-      throw e;
+    if (isInProgress || isValid) {
+      return yield select(stateSelector());
     }
+
+    yield spawn(executor, {
+      fn,
+      action,
+      actionType,
+      patterns,
+      createTimestamp,
+    });
   };
 };
 
