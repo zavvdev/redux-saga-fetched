@@ -6,5 +6,4 @@ export var bookSchema = yup.object({
   author_fullname: yup.string().required(),
   publish_date: yup.string().required(),
   price: yup.string().required(),
-  cover_url: yup.string().required(),
 });

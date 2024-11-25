@@ -1,19 +1,19 @@
 import * as yup from "yup";
 import { bookSchema } from "../../entity/book";
-import { API_URL } from "./_config";
+import { delay } from "../utilities";
+import { booksMock } from "./_mock";
 
 export var BooksApi = {
   getAll: async function () {
-    var response = await fetch(`${API_URL}/books`);
-    var books = await response.json();
+    await delay(2000);
 
     return yup
       .array()
       .of(bookSchema)
-      .validateSync(books, { strict: true });
+      .validateSync(booksMock, { strict: true });
   },
 
-  order: async function (dto) {
+  order: async function (dto, error = false) {
     var request = yup
       .object({
         book_ids: yup.array().of(yup.number()).required(),
@@ -21,9 +21,12 @@ export var BooksApi = {
       })
       .validateSync(dto, { strict: true });
 
-    return await fetch(`${API_URL}/order`, {
-      method: "POST",
-      body: JSON.stringify(request),
-    });
+    await delay(2000);
+
+    if (error) {
+      throw new Error("Order failed");
+    } else {
+      return request;
+    }
   },
 };
