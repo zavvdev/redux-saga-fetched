@@ -1,7 +1,7 @@
-import { selector } from "../../store/api";
+import { selector } from "../../../store/api";
 
 export var selectBooks = (state) => {
-  var books = selector(["books"])(state)?.data || [];
+  var books = selector(["books-query"])(state)?.data || [];
 
   return books.map((book) => ({
     id: book.id,
@@ -12,11 +12,11 @@ export var selectBooks = (state) => {
 };
 
 export var selectIsBooksLoading = (state) => {
-  var state_ = selector(["books"])(state);
+  var state_ = selector(["books-query"])(state);
   return state_?.isLoading ?? false;
 };
 
 export var selectIsBooksFetching = (state) => {
-  var state_ = selector(["books"])(state);
+  var state_ = selector(["books-query"])(state);
   return state_?.isFetching ?? false;
 };

@@ -3,8 +3,8 @@ import {
   selectBooks,
   selectIsBooksFetching,
   selectIsBooksLoading,
-} from "../../../../../application/features/books/selectors";
-import { fetchBooksAction } from "../../../../../application/features/books/actions";
+} from "../../../../../application/features/books/query/selectors";
+import { fetchBooksAction } from "../../../../../application/features/books/query/actions";
 import { Book } from "../atoms/book";
 import { Button } from "../../../atoms/button";
 
@@ -24,14 +24,7 @@ export var Query = connect(
 )(({ books, isBooksLoading, isBooksFetching, fetchBooks }) => {
   return (
     <div>
-      <Button
-        simple
-        onClick={() => {
-          fetchBooks();
-          setTimeout(() => fetchBooks(), 500);
-        }}
-        className="mb-2"
-      >
+      <Button simple onClick={fetchBooks} className="mb-2">
         Get Books
       </Button>
       <div className="flex flex-col gap-2">

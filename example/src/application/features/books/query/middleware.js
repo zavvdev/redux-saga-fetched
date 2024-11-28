@@ -1,11 +1,11 @@
 import { takeLeading, call } from "redux-saga/effects";
-import { BooksApi } from "../../../infrastructure/api/book-api";
+import { BooksApi } from "../../../../infrastructure/api/book-api";
 import { fetchBooksAction } from "./actions";
-import { query } from "../../store/api";
+import { query } from "../../../store/api";
 
 function* fetchBooks() {
   var books = yield call(query, {
-    key: ["books"],
+    key: ["books-query"],
     fn: () => BooksApi.getAll(),
   });
 

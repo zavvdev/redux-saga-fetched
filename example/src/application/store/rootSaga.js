@@ -1,5 +1,5 @@
 import { all, spawn, call } from "redux-saga/effects";
-import { booksMiddleware } from "../features/books/middleware";
+import { booksMiddleware } from "../features/books/query/middleware";
 
 export function* rootSaga() {
   const sagas = [booksMiddleware];
