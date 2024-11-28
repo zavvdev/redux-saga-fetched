@@ -1,31 +1,46 @@
-import { useEffect } from "react";
-import { connect } from "react-redux";
-import {
-  selectBooks,
-  selectIsBooksLoading,
-} from "../../../../application/features/books/selectors";
-import { fetchBooksAction } from "../../../../application/features/books/actions";
+import { useState } from "react";
+import { Button } from "../../atoms/button";
+import { Query } from "./molecules/query";
 
-var mapStateToProps = (state) => ({
-  books: selectBooks(state),
-  isBooksLoading: selectIsBooksLoading(state),
-});
+var Tab = {
+  Query: "query",
+  QueryError: "query-error",
+  Mutation: "mutation",
+  MutationError: "mutation-error",
+};
 
-var mapDispatchToProps = (dispatch) => ({
-  fetchBooks: () => dispatch(fetchBooksAction()),
-});
+export function Books() {
+  var [tab, setTab] = useState(Tab.Query);
 
-export var Books = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(({ books, isBooksLoading, fetchBooks }) => {
-  useEffect(() => {
-    fetchBooks();
-  }, []);
-
-  if (isBooksLoading) {
-    return <div>Loading...</div>;
-  }
-
-  return <div>{JSON.stringify(books, null, 2)}</div>;
-});
+  return (
+    <div className="px-10 pb-10">
+      <div className="flex gap-4 my-10">
+        <Button
+          active={tab === Tab.Query}
+          onClick={() => setTab(Tab.Query)}
+        >
+          Query
+        </Button>
+        <Button
+          active={tab === Tab.QueryError}
+          onClick={() => setTab(Tab.QueryError)}
+        >
+          Query Error
+        </Button>
+        <Button
+          active={tab === Tab.Mutation}
+          onClick={() => setTab(Tab.Mutation)}
+        >
+          Mutation
+        </Button>
+        <Button
+          active={tab === Tab.MutationError}
+          onClick={() => setTab(Tab.MutationError)}
+        >
+          Mutation Error
+        </Button>
+      </div>
+      {tab === Tab.Query && <Query />}
+    </div>
+  );
+}

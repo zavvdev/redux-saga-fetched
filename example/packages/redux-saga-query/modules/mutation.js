@@ -1,4 +1,4 @@
-import { call, put, select, spawn } from "redux-saga/effects";
+import { call, put, select } from "redux-saga/effects";
 import { Key } from "../entities/Key";
 import {
   createAction,
@@ -7,7 +7,7 @@ import {
   selectIsInProgress,
 } from "./_helpers";
 
-export function* executor({ fn, action, actionType, patterns }) {
+function* executor({ fn, action, actionType, patterns }) {
   try {
     yield put(
       action({ type: actionType(patterns.mutation.request) }),
@@ -49,7 +49,7 @@ var getMutation = ({ actionTypePatterns: patterns, domain }) => {
       return yield select(stateSelector());
     }
 
-    yield spawn(executor, { fn, action, actionType, patterns });
+    return yield call(executor, { fn, action, actionType, patterns });
   };
 };
 

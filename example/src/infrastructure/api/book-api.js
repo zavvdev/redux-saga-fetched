@@ -4,13 +4,20 @@ import { delay } from "../utilities";
 import { booksMock } from "./_mock";
 
 export var BooksApi = {
-  getAll: async function () {
+  getAll: async function (error = false) {
     await delay(2000);
+
+    if (error) {
+      throw new Error("Failed to fetch books");
+    }
 
     return yup
       .array()
       .of(bookSchema)
-      .validateSync(booksMock, { strict: true });
+      .validateSync(booksMock, { strict: true })
+      .map((value) => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value);
   },
 
   order: async function (dto, error = false) {

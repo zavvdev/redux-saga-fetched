@@ -1,12 +1,23 @@
-import { takeLatest, call } from "redux-saga/effects";
+import { takeLeading, call } from "redux-saga/effects";
 import { BooksApi } from "../../../infrastructure/api/book-api";
 import { fetchBooksAction } from "./actions";
 import { query } from "../../store/api";
 
 function* fetchBooks() {
-  yield call(query, { key: ["books"], fn: () => BooksApi.getAll() });
+  var books = yield call(query, {
+    key: ["books"],
+    fn: () => BooksApi.getAll(),
+  });
+
+  if (
+    books.find((book) => book.author_fullname === "Robert Martin")
+  ) {
+    console.log("Uncle Bob is here!");
+  }
 }
 
 export function* booksMiddleware() {
-  yield takeLatest(fetchBooksAction.type, fetchBooks);
+  // Since query can be cancelled due to inProgress status or staleTime,
+  // use takeLeading to wait for the previous query to finish before starting a new one
+  yield takeLeading(fetchBooksAction.type, fetchBooks);
 }

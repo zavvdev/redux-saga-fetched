@@ -1,4 +1,4 @@
-import { call, put, select, spawn } from "redux-saga/effects";
+import { call, put, select } from "redux-saga/effects";
 import { Either as E } from "utilities";
 import { Key } from "../entities/Key";
 import { number } from "../validators";
@@ -22,7 +22,7 @@ export var selectIsValid =
     return createTimestamp() - timestamp < staleTime;
   };
 
-export function* executor({
+function* executor({
   fn,
   action,
   actionType,
@@ -89,7 +89,7 @@ var getQuery = ({
       return yield select(stateSelector());
     }
 
-    yield spawn(executor, {
+    return yield call(executor, {
       fn,
       action,
       actionType,

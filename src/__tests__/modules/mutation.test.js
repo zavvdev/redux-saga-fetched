@@ -1,6 +1,6 @@
 import { expect, test, describe } from "vitest";
 import { runSaga } from "redux-saga";
-import { executor, getMutation } from "../../modules/mutation";
+import { getMutation } from "../../modules/mutation";
 import {
   createAction,
   createActionType,
@@ -12,7 +12,6 @@ describe("mutation", () => {
   var key = "key";
 
   var action = createAction(key);
-  var actionType = createActionType(key);
 
   var actionTypePatterns = createActionTypePatterns(() => 123)(
     domain,
@@ -47,7 +46,13 @@ describe("mutation", () => {
   });
 
   test("should return new data", () => {
+    var mutation = getMutation({
+      actionTypePatterns,
+      domain,
+    });
+
     var newData = "new data";
+
     var dispatches = [];
 
     var result = runSaga(
@@ -62,12 +67,10 @@ describe("mutation", () => {
           },
         }),
       },
-      executor,
+      mutation,
       {
+        key: [key],
         fn: () => newData,
-        action,
-        actionType,
-        patterns: actionTypePatterns,
       },
     );
 
@@ -91,6 +94,11 @@ describe("mutation", () => {
   });
 
   test("should throw an error", () => {
+    var mutation = getMutation({
+      actionTypePatterns,
+      domain,
+    });
+
     var dispatches = [];
 
     var result = runSaga(
@@ -105,14 +113,12 @@ describe("mutation", () => {
           },
         }),
       },
-      executor,
+      mutation,
       {
+        key: [key],
         fn: () => {
           throw new Error("error");
         },
-        action,
-        actionType,
-        patterns: actionTypePatterns,
       },
     );
 

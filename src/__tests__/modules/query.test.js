@@ -1,11 +1,7 @@
 import { expect, test, describe } from "vitest";
 import { runSaga } from "redux-saga";
 import { InitOptions } from "../../entities/InitOptions";
-import {
-  executor,
-  getQuery,
-  selectIsValid,
-} from "../../modules/query";
+import { getQuery, selectIsValid } from "../../modules/query";
 import {
   createAction,
   createActionType,
@@ -75,7 +71,6 @@ describe("query", () => {
   var createTimestamp = () => 123;
 
   var action = createAction(key);
-  var actionType = createActionType(key);
 
   var actionTypePatterns = createActionTypePatterns(() => 123)(
     domain,
@@ -149,7 +144,14 @@ describe("query", () => {
   });
 
   test("should return new data", () => {
+    var query = getQuery({
+      actionTypePatterns,
+      initOptions,
+      createTimestamp,
+    });
+
     var newData = "new data";
+
     var dispatches = [];
 
     var result = runSaga(
@@ -165,13 +167,13 @@ describe("query", () => {
           },
         }),
       },
-      executor,
+      query,
       {
+        key: [key],
         fn: () => newData,
-        action,
-        actionType,
-        patterns: actionTypePatterns,
-        createTimestamp,
+        options: {
+          staleTime: 21,
+        },
       },
     );
 
@@ -192,6 +194,12 @@ describe("query", () => {
   });
 
   test("should throw an error", () => {
+    var query = getQuery({
+      actionTypePatterns,
+      initOptions,
+      createTimestamp,
+    });
+
     var dispatches = [];
 
     var result = runSaga(
@@ -207,15 +215,15 @@ describe("query", () => {
           },
         }),
       },
-      executor,
+      query,
       {
+        key: [key],
         fn: () => {
           throw new Error("error");
         },
-        action,
-        actionType,
-        patterns: actionTypePatterns,
-        createTimestamp,
+        options: {
+          staleTime: 21,
+        },
       },
     );
 
