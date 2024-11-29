@@ -1,8 +1,6 @@
 # redux-saga-query
 
-[![npm version]](https://www.npmjs.com/package/redux-saga-query)
-
-`redux-saga-query` is a library that aims to make api state management easier providing an abstraction around basic redux/redux-saga flow when working with data fetching.
+This library aims to make api state management easier providing an abstraction around basic redux/redux-saga flow when working with data fetching.
 
 You might have written code that uses redux and redux-saga to implement data fetching with REQUEST, SUCCESS, FAILURE actions for each api request. This package abstracts away these actions and also provides predefined redux store records for storing and caching requested data.
 
