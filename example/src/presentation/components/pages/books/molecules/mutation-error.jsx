@@ -20,7 +20,7 @@ export var MutationError = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(({ isFirstBookOrdering, isBooksLoading, orderFirstBook }) => {
-  var [email, setEmail] = useState("");
+  var [email, setEmail] = useState("zavvdev@mutation.com");
 
   return (
     <div>

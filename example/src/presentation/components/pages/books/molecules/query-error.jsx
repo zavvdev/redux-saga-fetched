@@ -27,7 +27,7 @@ export var QueryError = connect(
         className="mb-2"
         disabled={isBooksLoading}
       >
-        Get Books With Error
+        Get Books With Error (retry 1)
       </Button>
       <div className="flex flex-col gap-2">
         {isBooksLoading ? (

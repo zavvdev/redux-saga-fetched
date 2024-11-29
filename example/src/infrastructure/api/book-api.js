@@ -5,6 +5,7 @@ import { booksMock } from "./_mock";
 
 export var BooksApi = {
   getAll: async function (error = false) {
+    console.log("REQUEST -- BooksApi.getAll");
     await delay(2000);
 
     if (error) {
@@ -27,6 +28,8 @@ export var BooksApi = {
         order_email: yup.string().email().required(),
       })
       .validateSync(dto, { strict: true });
+
+    console.log("REQUEST -- BooksApi.order");
 
     await delay(2000);
 

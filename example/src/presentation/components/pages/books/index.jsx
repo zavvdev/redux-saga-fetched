@@ -4,6 +4,7 @@ import { Query } from "./molecules/query";
 import { QueryError } from "./molecules/query-error";
 import { Mutation } from "./molecules/mutation";
 import { MutationError } from "./molecules/mutation-error";
+import { MutationErrorRetry } from "./molecules/mutation-error-retry";
 
 var Tab = {
   Query: "query",
@@ -54,6 +55,7 @@ export function Books() {
       {tab === Tab.QueryError && <QueryError />}
       {tab === Tab.Mutation && <Mutation />}
       {tab === Tab.MutationError && <MutationError />}
+      {tab === Tab.MutationErrorRetry && <MutationErrorRetry />}
     </div>
   );
 }
