@@ -1,7 +1,7 @@
 import { takeLeading, call } from "redux-saga/effects";
 import { BooksApi } from "../../../../infrastructure/api/book-api";
 import { mutation, query } from "../../../store/api";
-import { orderFirstBookAction } from "./action";
+import { orderFirstBookAction } from "./actions";
 
 function* orderFirstBook(action) {
   var books = yield call(query, {

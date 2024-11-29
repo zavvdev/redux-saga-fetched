@@ -3,6 +3,7 @@ import { Button } from "../../atoms/button";
 import { Query } from "./molecules/query";
 import { QueryError } from "./molecules/query-error";
 import { Mutation } from "./molecules/mutation";
+import { MutationError } from "./molecules/mutation-error";
 
 var Tab = {
   Query: "query",
@@ -52,6 +53,7 @@ export function Books() {
       {tab === Tab.Query && <Query />}
       {tab === Tab.QueryError && <QueryError />}
       {tab === Tab.Mutation && <Mutation />}
+      {tab === Tab.MutationError && <MutationError />}
     </div>
   );
 }

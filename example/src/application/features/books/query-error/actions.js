@@ -1,5 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
 
-export var fetchBooksAction = createAction(
+export var fetchBooksErrorAction = createAction(
   "books-query-error/fetchBooks",
 );

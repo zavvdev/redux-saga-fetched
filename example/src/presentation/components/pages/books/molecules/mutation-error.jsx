@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { Button } from "../../../atoms/button";
-import { selectIsFirstBookOrdering } from "../../../../../application/features/books/mutation/selectors";
-import { orderFirstBookAction } from "../../../../../application/features/books/mutation/actions";
+import { selectIsFirstBookOrdering } from "../../../../../application/features/books/mutation-error/selectors";
+import { orderFirstBookErrorAction } from "../../../../../application/features/books/mutation-error/actions";
 import { useState } from "react";
 import { Input } from "../../../atoms/input";
 import { selectIsBooksFetching } from "../../../../../application/features/books/query/selectors";
@@ -13,10 +13,10 @@ var mapStateToProps = (state) => ({
 
 var mapDispatchToProps = (dispatch) => ({
   orderFirstBook: ({ email }) =>
-    dispatch(orderFirstBookAction({ email })),
+    dispatch(orderFirstBookErrorAction({ email })),
 });
 
-export var Mutation = connect(
+export var MutationError = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(({ isFirstBookOrdering, isBooksLoading, orderFirstBook }) => {
@@ -41,7 +41,7 @@ export var Mutation = connect(
         className="mb-2"
         disabled={isFirstBookOrdering || isBooksLoading}
       >
-        Order First Book
+        Order First Book With Error
       </Button>
       <div className="flex flex-col gap-2">
         {isBooksLoading && <div>Loading books...</div>}

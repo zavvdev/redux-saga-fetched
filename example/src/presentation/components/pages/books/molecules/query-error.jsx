@@ -3,7 +3,7 @@ import {
   selectError,
   selectIsBooksLoading,
 } from "../../../../../application/features/books/query-error/selectors";
-import { fetchBooksAction } from "../../../../../application/features/books/query-error/actions";
+import { fetchBooksErrorAction } from "../../../../../application/features/books/query-error/actions";
 import { Button } from "../../../atoms/button";
 
 var mapStateToProps = (state) => ({
@@ -12,7 +12,7 @@ var mapStateToProps = (state) => ({
 });
 
 var mapDispatchToProps = (dispatch) => ({
-  fetchBooks: () => dispatch(fetchBooksAction()),
+  fetchBooks: () => dispatch(fetchBooksErrorAction()),
 });
 
 export var QueryError = connect(
