@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Button } from "../../atoms/button";
 import { Query } from "./molecules/query";
 import { QueryError } from "./molecules/query-error";
+import { Mutation } from "./molecules/mutation";
 
 var Tab = {
   Query: "query",
   QueryError: "query-error",
   Mutation: "mutation",
   MutationError: "mutation-error",
+  MutationErrorRetry: "mutation-error-retry",
 };
 
 export function Books() {
@@ -40,9 +42,16 @@ export function Books() {
         >
           Mutation Error
         </Button>
+        <Button
+          active={tab === Tab.MutationErrorRetry}
+          onClick={() => setTab(Tab.MutationErrorRetry)}
+        >
+          Mutation Error Retry
+        </Button>
       </div>
       {tab === Tab.Query && <Query />}
       {tab === Tab.QueryError && <QueryError />}
+      {tab === Tab.Mutation && <Mutation />}
     </div>
   );
 }

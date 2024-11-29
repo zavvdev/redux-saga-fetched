@@ -8,9 +8,12 @@ function* fetchBooks() {
     yield call(query, {
       key: ["books-query-error"],
       fn: () => BooksApi.getAll(true),
+      options: {
+        retry: 1,
+      },
     });
   } catch (e) {
-    console.log("fetchBooks error:", e);
+    window.alert(`fetchBooks error: ${e}`);
   }
 }
 

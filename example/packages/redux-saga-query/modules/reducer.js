@@ -35,13 +35,11 @@ export var queryStates = {
    */
   request: (state) => (action) => {
     var { payload } = action;
-
     var isLoading = !state?.[payload.key]?.data;
-    var isFetching = !!state?.[payload.key]?.data;
 
     return {
       isLoading,
-      isFetching,
+      isFetching: true,
       isLoaded: false,
       isError: false,
       isValid: false,

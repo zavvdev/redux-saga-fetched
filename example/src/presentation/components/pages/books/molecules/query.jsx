@@ -24,7 +24,12 @@ export var Query = connect(
 )(({ books, isBooksLoading, isBooksFetching, fetchBooks }) => {
   return (
     <div>
-      <Button simple onClick={fetchBooks} className="mb-2">
+      <Button
+        simple
+        onClick={fetchBooks}
+        className="mb-2"
+        disabled={isBooksFetching}
+      >
         Get Books
       </Button>
       <div className="flex flex-col gap-2">

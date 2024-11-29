@@ -21,7 +21,12 @@ export var QueryError = connect(
 )(({ isBooksLoading, fetchBooks, error }) => {
   return (
     <div>
-      <Button simple onClick={fetchBooks} className="mb-2">
+      <Button
+        simple
+        onClick={fetchBooks}
+        className="mb-2"
+        disabled={isBooksLoading}
+      >
         Get Books With Error
       </Button>
       <div className="flex flex-col gap-2">
