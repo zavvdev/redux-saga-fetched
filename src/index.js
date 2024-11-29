@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import {
   QueryOptions,
   MutationOptions,
@@ -19,6 +18,8 @@ import {
   QUERY_DEFAULTS,
 } from "./config.js";
 
+var instanceCount = 1;
+
 /**
  * @param {{
  *  domain: string;
@@ -36,6 +37,7 @@ import {
  *    retry?: number;
  *    retryDelay?: number;
  *  };
+ *  createInstanceId?: () => string;
  * }} options
  */
 function initSagaQuery({
@@ -45,6 +47,7 @@ function initSagaQuery({
   retryDelay,
   query,
   mutation,
+  createInstanceId,
 }) {
   var domain_ = Domain.from(domain);
 
@@ -64,7 +67,9 @@ function initSagaQuery({
   });
 
   var actionTypePatterns = createActionTypePatterns(() =>
-    InstanceId.from(uuidv4),
+    InstanceId.from(
+      createInstanceId || (() => String(instanceCount++)),
+    ),
   )(domain_);
 
   var createTimestamp = () => Timestamp.from(Date.now);
