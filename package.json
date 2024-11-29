@@ -11,7 +11,8 @@
     "prettier:fix": "prettier --write .",
     "analyze": "pnpm lint && pnpm prettier && pnpm test",
     "build": "esbuild src/index.js --bundle --packages=external --format=esm --minify --keep-names --outfile=./dist/index.js",
-    "prepare": "husky"
+    "prepare": "husky",
+    "prepare-release": "pnpm build && node ./scripts/prepare-release.js"
   },
   "keywords": [
     "redux",

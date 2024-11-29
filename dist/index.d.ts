@@ -75,4 +75,4 @@ declare function initSagaQuery(args: {
   createInstanceId?: () => string;
 }): Modules;
 
-export { initSagaQuery }; 
+export { initSagaQuery };
