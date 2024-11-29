@@ -1,4 +1,4 @@
-import { Either as E, cond, identity, pipe } from "utilities";
+import { Either as E, cond, identity, pipe } from "../_utils";
 import { fn, number, numberOrUndefined } from "../validators.js";
 
 /**

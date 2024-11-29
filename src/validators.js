@@ -1,4 +1,4 @@
-import { Either as E } from "utilities";
+import { Either as E } from "./_utils";
 
 /**
  * string :: x -> Either

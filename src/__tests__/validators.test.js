@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { Either as E } from "utilities";
+import { Either as E } from "../_utils";
 import {
   string,
   number,
@@ -8,6 +8,8 @@ import {
   arrayOf,
   positive,
   object,
+  fn,
+  numberOrUndefined,
 } from "../validators";
 
 describe("string", () => {
@@ -129,6 +131,53 @@ describe("object", () => {
     expect(object(false)).toStrictEqual(E.left("Expected an object"));
     expect(object(["1", "2"])).toStrictEqual(
       E.left("Expected an object"),
+    );
+  });
+});
+
+describe("fn", () => {
+  test("should return Right", () => {
+    var fun = () => {};
+    expect(fn(fun)).toStrictEqual(E.right(fun));
+  });
+
+  test("should return Left", () => {
+    expect(fn("123")).toStrictEqual(E.left("Expected a function"));
+    expect(fn(123)).toStrictEqual(E.left("Expected a function"));
+    expect(fn(null)).toStrictEqual(E.left("Expected a function"));
+    expect(fn(undefined)).toStrictEqual(
+      E.left("Expected a function"),
+    );
+    expect(fn(false)).toStrictEqual(E.left("Expected a function"));
+    expect(fn(["1", "2"])).toStrictEqual(
+      E.left("Expected a function"),
+    );
+  });
+});
+
+describe("numberOrUndefined", () => {
+  test("should return Right", () => {
+    expect(numberOrUndefined(123)).toStrictEqual(E.right(123));
+    expect(numberOrUndefined(undefined)).toStrictEqual(
+      E.right(undefined),
+    );
+  });
+
+  test("should return Left", () => {
+    expect(numberOrUndefined("123")).toStrictEqual(
+      E.left("Expected a number or undefined"),
+    );
+    expect(numberOrUndefined(null)).toStrictEqual(
+      E.left("Expected a number or undefined"),
+    );
+    expect(numberOrUndefined(false)).toStrictEqual(
+      E.left("Expected a number or undefined"),
+    );
+    expect(numberOrUndefined(["1", "2"])).toStrictEqual(
+      E.left("Expected a number or undefined"),
+    );
+    expect(numberOrUndefined({})).toStrictEqual(
+      E.left("Expected a number or undefined"),
     );
   });
 });

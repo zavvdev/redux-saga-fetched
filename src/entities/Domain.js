@@ -1,4 +1,4 @@
-import { Either as E, identity, pipe } from "utilities";
+import { Either as E, identity, pipe } from "../_utils";
 import { string } from "../validators";
 
 var Domain = {

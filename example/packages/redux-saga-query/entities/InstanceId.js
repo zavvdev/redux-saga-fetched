@@ -1,4 +1,4 @@
-import { identity, pipe, Either as E } from "utilities";
+import { identity, pipe, Either as E } from "../_utils";
 import { string } from "../validators.js";
 
 var InstanceId = {

@@ -1,4 +1,4 @@
-import { pipe, Either as E } from "utilities";
+import { pipe, Either as E } from "../_utils";
 import { array, arrayOf, isNotNullish } from "../validators";
 
 var Key = {

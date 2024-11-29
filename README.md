@@ -1,3 +1,1 @@
-### Deps:
-
-modules -> entities -> validators
+# Redux Saga Query

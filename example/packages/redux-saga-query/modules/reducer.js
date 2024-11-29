@@ -1,4 +1,4 @@
-import { pipe, Either as E, cond } from "utilities";
+import { pipe, Either as E, cond } from "../_utils";
 import { string } from "../validators";
 
 // ================
