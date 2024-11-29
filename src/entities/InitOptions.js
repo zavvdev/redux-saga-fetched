@@ -1,12 +1,23 @@
 import { Either as E, cond, identity, pipe } from "utilities";
-import { number, string } from "../validators.js";
+import { fn, number, string } from "../validators.js";
 
-function InitOptions(domain, staleTime) {
+var DEFAULT = {
+  extractError: (e) => e.message,
+};
+
+function InitOptions(domain, staleTime, extractError) {
   this.domain = domain;
   this.staleTime = staleTime;
+  this.extractError = extractError;
 }
 
-InitOptions.from = function ({ domain, staleTime }) {
+InitOptions.from = function ({ domain, staleTime, extractError }) {
+  var options = {
+    domain,
+    staleTime,
+    extractError: extractError || DEFAULT.extractError,
+  };
+
   var withErrors = (x) => x.some(E.isLeft);
 
   var terminate = (x) => {
@@ -16,20 +27,28 @@ InitOptions.from = function ({ domain, staleTime }) {
   var init = (x) => new InitOptions(...x.map(E.join));
 
   return pipe(
-    [string(domain), number(staleTime)],
+    [
+      string(options.domain),
+      number(options.staleTime),
+      fn(options.extractError),
+    ],
     cond(init, [withErrors, terminate]),
   );
 };
 
 InitOptions.prototype.merge = function (nextOptions) {
-  return InitOptions.from({
-    domain: nextOptions.domain || this.domain,
-    staleTime: pipe(
-      nextOptions.staleTime,
-      number,
+  var next = (value, valueName, validateFn) =>
+    pipe(
+      value,
+      validateFn,
       E.chain(identity),
-      E.chainLeft(() => this.staleTime),
-    ),
+      E.chainLeft(() => this[valueName]),
+    );
+
+  return InitOptions.from({
+    domain: next(nextOptions.domain, "domain", string),
+    staleTime: next(nextOptions.staleTime, "staleTime", number),
+    extractError: next(nextOptions.extractError, "extractError", fn),
   });
 };
 

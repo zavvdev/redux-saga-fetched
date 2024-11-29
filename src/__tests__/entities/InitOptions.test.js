@@ -3,12 +3,15 @@ import { InitOptions } from "../../entities/InitOptions";
 import { expect } from "vitest";
 
 test("should create InitOptions entity", () => {
+  var extractError = (e) => e.response.data;
+
   expect(
     InitOptions.from({
       domain: "api",
       staleTime: 1000,
+      extractError,
     }),
-  ).toStrictEqual(new InitOptions("api", 1000));
+  ).toStrictEqual(new InitOptions("api", 1000, extractError));
 });
 
 test("should throw error if domain is not a string", () => {
@@ -27,6 +30,16 @@ test("should throw error if staleTime is not a number", () => {
       staleTime: "1000",
     });
   }).toThrow("Expected a number");
+});
+
+test("should throw error if extractError is not a function", () => {
+  expect(() => {
+    InitOptions.from({
+      domain: "api",
+      staleTime: "1000",
+      extractError: "error",
+    });
+  }).toThrow("Expected a function");
 });
 
 describe("merge", () => {
@@ -66,21 +79,39 @@ describe("merge", () => {
     );
   });
 
-  test("should merge domain and staleTime", () => {
+  test("should merge extractError", () => {
+    var initOptions = InitOptions.from({
+      domain: "api",
+      staleTime: 1000,
+      extractError: (e) => e.name,
+    });
+
+    var nextOptions = {
+      domain: "api2",
+      staleTime: 2000,
+      extractError: (e) => e.response.data,
+    };
+
+    expect(initOptions.merge(nextOptions)).toStrictEqual(
+      InitOptions.from(nextOptions),
+    );
+  });
+
+  test("should not merge domain if it's not a string", () => {
     var initOptions = InitOptions.from({
       domain: "api",
       staleTime: 1000,
     });
 
     var nextOptions = {
-      domain: "api2",
-      staleTime: 2000,
+      domain: null,
+      staleTime: 1000,
     };
 
     expect(initOptions.merge(nextOptions)).toStrictEqual(
       InitOptions.from({
-        domain: "api2",
-        staleTime: 2000,
+        domain: "api",
+        staleTime: 1000,
       }),
     );
   });
@@ -100,6 +131,30 @@ describe("merge", () => {
       InitOptions.from({
         domain: "api2",
         staleTime: 1000,
+      }),
+    );
+  });
+
+  test("should not merge extractError if it's not a function", () => {
+    var extractError = (e) => e.name;
+
+    var initOptions = InitOptions.from({
+      domain: "api",
+      staleTime: 1000,
+      extractError,
+    });
+
+    var nextOptions = {
+      domain: "api2",
+      staleTime: 1000,
+      extractError: "error",
+    };
+
+    expect(initOptions.merge(nextOptions)).toStrictEqual(
+      InitOptions.from({
+        domain: "api2",
+        staleTime: 1000,
+        extractError,
       }),
     );
   });

@@ -6,10 +6,16 @@ import {
   createActionType,
   createActionTypePatterns,
 } from "../../modules/_helpers";
+import { InitOptions } from "../../entities/InitOptions";
 
 describe("mutation", () => {
   var domain = "domain";
   var key = "key";
+
+  var initOptions = InitOptions.from({
+    staleTime: 1000,
+    domain,
+  });
 
   var action = createAction(key);
 
@@ -20,7 +26,7 @@ describe("mutation", () => {
   test("should return current data if in progress", () => {
     var mutation = getMutation({
       actionTypePatterns,
-      domain,
+      initOptions,
     });
 
     var result = runSaga(
@@ -48,7 +54,7 @@ describe("mutation", () => {
   test("should return new data", () => {
     var mutation = getMutation({
       actionTypePatterns,
-      domain,
+      initOptions,
     });
 
     var newData = "new data";
@@ -93,10 +99,10 @@ describe("mutation", () => {
     ]);
   });
 
-  test("should throw an error", () => {
+  test("should throw an error with default extractError fn", () => {
     var mutation = getMutation({
       actionTypePatterns,
-      domain,
+      initOptions,
     });
 
     var dispatches = [];
@@ -122,7 +128,7 @@ describe("mutation", () => {
       },
     );
 
-    expect(result.error()).toEqual(new Error("error"));
+    expect(result.error()).toEqual("error");
 
     expect(dispatches.length).toBe(2);
 
@@ -136,7 +142,58 @@ describe("mutation", () => {
         type: createActionType(key)(
           actionTypePatterns.mutation.failure,
         ),
-        error: new Error("error"),
+        error: "error",
+      }),
+    ]);
+  });
+
+  test("should throw an error with custom extractError fn", () => {
+    var mutation = getMutation({
+      actionTypePatterns,
+      initOptions,
+    });
+
+    var dispatches = [];
+
+    var result = runSaga(
+      {
+        dispatch: (action) => dispatches.push(action),
+        getState: () => ({
+          [domain]: {
+            [key]: {
+              isLoading: false,
+              data: "data",
+            },
+          },
+        }),
+      },
+      mutation,
+      {
+        key: [key],
+        fn: () => {
+          throw new TypeError("error");
+        },
+        options: {
+          extractError: (e) => e.name,
+        },
+      },
+    );
+
+    expect(result.error()).toEqual("TypeError");
+
+    expect(dispatches.length).toBe(2);
+
+    expect(dispatches).toEqual([
+      action({
+        type: createActionType(key)(
+          actionTypePatterns.mutation.request,
+        ),
+      }),
+      action({
+        type: createActionType(key)(
+          actionTypePatterns.mutation.failure,
+        ),
+        error: "TypeError",
       }),
     ]);
   });

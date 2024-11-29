@@ -32,7 +32,7 @@ function initSagaQuery({ domain, staleTime }) {
 
     mutation: getMutation({
       actionTypePatterns,
-      domain: options.domain,
+      initOptions: options,
     }),
 
     invalidate: getInvalidate({

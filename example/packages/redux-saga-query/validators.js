@@ -70,3 +70,14 @@ export function object(x) {
 
   return E.left("Expected an object");
 }
+
+/**
+ * fn :: x -> Either
+ */
+export function fn(x) {
+  if (typeof x === "function") {
+    return E.right(x);
+  }
+
+  return E.left("Expected a function");
+}

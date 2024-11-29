@@ -1,8 +1,9 @@
 import { all, spawn, call } from "redux-saga/effects";
 import { booksMiddleware } from "../features/books/query/middleware";
+import { booksErrorMiddleware } from "../features/books/query-error/middleware";
 
 export function* rootSaga() {
-  const sagas = [booksMiddleware];
+  const sagas = [booksMiddleware, booksErrorMiddleware];
 
   yield all(
     sagas.map((saga) =>

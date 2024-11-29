@@ -193,7 +193,7 @@ describe("query", () => {
     ]);
   });
 
-  test("should throw an error", () => {
+  test("should throw an error with default extractError fn", () => {
     var query = getQuery({
       actionTypePatterns,
       initOptions,
@@ -227,7 +227,7 @@ describe("query", () => {
       },
     );
 
-    expect(result.error()).toEqual(new Error("error"));
+    expect(result.error()).toEqual("error");
 
     expect(dispatches.length).toBe(2);
 
@@ -237,7 +237,57 @@ describe("query", () => {
       }),
       action({
         type: createActionType(key)(actionTypePatterns.query.failure),
-        error: new Error("error"),
+        error: "error",
+      }),
+    ]);
+  });
+
+  test("should throw an error with custom extractError fn", () => {
+    var query = getQuery({
+      actionTypePatterns,
+      initOptions,
+      createTimestamp,
+    });
+
+    var dispatches = [];
+
+    var result = runSaga(
+      {
+        dispatch: (action) => dispatches.push(action),
+        getState: () => ({
+          [domain]: {
+            [key]: {
+              isLoading: false,
+              timestamp: 100,
+              data: "data",
+            },
+          },
+        }),
+      },
+      query,
+      {
+        key: [key],
+        fn: () => {
+          throw new TypeError("error");
+        },
+        options: {
+          staleTime: 21,
+          extractError: (e) => e.name,
+        },
+      },
+    );
+
+    expect(result.error()).toEqual("TypeError");
+
+    expect(dispatches.length).toBe(2);
+
+    expect(dispatches).toEqual([
+      action({
+        type: createActionType(key)(actionTypePatterns.query.request),
+      }),
+      action({
+        type: createActionType(key)(actionTypePatterns.query.failure),
+        error: "TypeError",
       }),
     ]);
   });

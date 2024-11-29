@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "../../atoms/button";
 import { Query } from "./molecules/query";
+import { QueryError } from "./molecules/query-error";
 
 var Tab = {
   Query: "query",
@@ -41,6 +42,7 @@ export function Books() {
         </Button>
       </div>
       {tab === Tab.Query && <Query />}
+      {tab === Tab.QueryError && <QueryError />}
     </div>
   );
 }

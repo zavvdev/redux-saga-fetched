@@ -28,6 +28,7 @@ function* executor({
   actionType,
   patterns,
   createTimestamp,
+  extractError,
 }) {
   try {
     yield put(action({ type: actionType(patterns.query.request) }));
@@ -45,14 +46,16 @@ function* executor({
 
     return data;
   } catch (e) {
+    var e_ = extractError(e);
+
     yield put(
       action({
         type: actionType(patterns.query.failure),
-        error: e,
+        error: e_,
       }),
     );
 
-    throw e;
+    throw e_;
   }
 }
 
@@ -64,6 +67,7 @@ var getQuery = ({
   return function* ({ key, fn, options }) {
     var options_ = initOptions.merge({
       staleTime: options?.staleTime,
+      extractError: options?.extractError,
     });
 
     var key_ = Key.from(key);
@@ -95,6 +99,7 @@ var getQuery = ({
       actionType,
       patterns,
       createTimestamp,
+      extractError: options_.extractError,
     });
   };
 };
