@@ -7,6 +7,7 @@ import {
   createActionType,
   selectData,
   selectIsInProgress,
+  withRetry,
 } from "./_helpers";
 
 export var selectIsValid =
@@ -29,11 +30,13 @@ function* executor({
   patterns,
   createTimestamp,
   extractError,
+  retry,
+  retryDelay,
 }) {
   try {
     yield put(action({ type: actionType(patterns.query.request) }));
 
-    var data = yield call(fn);
+    var data = yield call(withRetry, fn, retry, retryDelay);
     var nextTimestamp = createTimestamp();
 
     yield put(
@@ -60,6 +63,7 @@ function* executor({
 }
 
 var getQuery = ({
+  domain,
   actionTypePatterns: patterns,
   initOptions,
   createTimestamp,
@@ -68,21 +72,21 @@ var getQuery = ({
     var options_ = initOptions.merge({
       staleTime: options?.staleTime,
       extractError: options?.extractError,
+      retry: options?.retry,
+      retryDelay: options?.retryDelay,
     });
 
     var key_ = Key.from(key);
 
     var actionType = createActionType(key_);
     var action = createAction(key_);
-    var stateSelector = () => selectData(options_.domain, key_);
+    var stateSelector = () => selectData(domain, key_);
 
-    var isInProgress = yield select(
-      selectIsInProgress(options_.domain, key_),
-    );
+    var isInProgress = yield select(selectIsInProgress(domain, key_));
 
     var isValid = yield select(
       selectIsValid(
-        options_.domain,
+        domain,
         key_,
         createTimestamp,
         options_.staleTime,
@@ -100,6 +104,8 @@ var getQuery = ({
       patterns,
       createTimestamp,
       extractError: options_.extractError,
+      retry: options_.retry,
+      retryDelay: options_.retryDelay,
     });
   };
 };

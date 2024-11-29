@@ -1,5 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
-import { InitOptions } from "./entities/InitOptions.js";
+import {
+  QueryOptions,
+  MutationOptions,
+} from "./entities/InitOptions.js";
 import { InstanceId } from "./entities/InstanceId.js";
 import { Timestamp } from "./entities/Timestamp.js";
 import { createActionTypePatterns } from "./modules/_helpers.js";
@@ -9,40 +12,89 @@ import { getQuery } from "./modules/query.js";
 import { getMutation } from "./modules/mutation.js";
 import { getInvalidate } from "./modules/invalidate.js";
 import { getReset } from "./modules/reset.js";
+import { Domain } from "./entities/Domain.js";
+import {
+  DEFAULTS,
+  MUTATION_DEFAULTS,
+  QUERY_DEFAULTS,
+} from "./config.js";
 
-function initSagaQuery({ domain, staleTime }) {
-  var options = InitOptions.from({ domain, staleTime });
+/**
+ * @param {{
+ *  domain: string;
+ *  extractError?: <T extends Error>(e: T) => any;
+ *  retry?: number;
+ *  retryDelay?: number;
+ *  query: {
+ *    staleTime: number;
+ *    extractError?: <T extends Error>(e: T) => any;
+ *    retry?: number;
+ *    retryDelay?: number;
+ *  };
+ *  mutation?: {
+ *    extractError?: <T extends Error>(e: T) => any;
+ *    retry?: number;
+ *    retryDelay?: number;
+ *  };
+ * }} options
+ */
+function initSagaQuery({
+  domain,
+  extractError,
+  retry,
+  retryDelay,
+  query,
+  mutation,
+}) {
+  var domain_ = Domain.from(domain);
+
+  var queryOptions = QueryOptions.from({
+    staleTime: query.staleTime,
+    extractError:
+      extractError || query.extractError || DEFAULTS.extractError,
+    retry: retry ?? query.retry ?? QUERY_DEFAULTS.retry,
+    retryDelay: retryDelay ?? query.retryDelay,
+  });
+
+  var mutationOptions = MutationOptions.from({
+    extractError:
+      extractError || mutation?.extractError || DEFAULTS.extractError,
+    retry: mutation?.retry || MUTATION_DEFAULTS.retry,
+    retryDelay: mutation?.retryDelay,
+  });
 
   var actionTypePatterns = createActionTypePatterns(() =>
     InstanceId.from(uuidv4),
-  )(options.domain);
+  )(domain_);
 
   var createTimestamp = () => Timestamp.from(Date.now);
 
   return {
     reducer: getReducer(actionTypePatterns),
 
-    selector: getSelector(options.domain),
+    selector: getSelector(domain_),
 
     query: getQuery({
+      domain: domain_,
       actionTypePatterns,
-      initOptions: options,
+      initOptions: queryOptions,
       createTimestamp,
     }),
 
     mutation: getMutation({
+      domain: domain_,
       actionTypePatterns,
-      initOptions: options,
+      initOptions: mutationOptions,
     }),
 
     invalidate: getInvalidate({
+      domain: domain_,
       actionTypePatterns,
-      domain: options.domain,
     }),
 
     reset: getReset({
+      domain: domain_,
       actionTypePatterns,
-      domain: options.domain,
     }),
   };
 }

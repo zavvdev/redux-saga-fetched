@@ -56,7 +56,6 @@ export function positive(x) {
   if (x >= 0) {
     return E.right(x);
   }
-
   return E.left("Expected a positive number");
 }
 
@@ -67,7 +66,6 @@ export function object(x) {
   if (typeof x === "object" && x !== null && !Array.isArray(x)) {
     return E.right(x);
   }
-
   return E.left("Expected an object");
 }
 
@@ -78,6 +76,15 @@ export function fn(x) {
   if (typeof x === "function") {
     return E.right(x);
   }
-
   return E.left("Expected a function");
+}
+
+/**
+ * numberOrUndefined :: x -> Either
+ */
+export function numberOrUndefined(x) {
+  if (typeof x === "number" || x === undefined) {
+    return E.right(x);
+  }
+  return E.left("Expected a number or undefined");
 }

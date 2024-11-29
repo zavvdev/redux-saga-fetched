@@ -6,15 +6,18 @@ import {
   createActionType,
   createActionTypePatterns,
 } from "../../modules/_helpers";
-import { InitOptions } from "../../entities/InitOptions";
+import { MutationOptions } from "../../entities/InitOptions";
+import { Domain } from "../../entities/Domain";
+import { DEFAULTS, MUTATION_DEFAULTS } from "../../config";
+import { delay } from "../utils";
 
 describe("mutation", () => {
-  var domain = "domain";
   var key = "key";
+  var domain = Domain.from("domain");
 
-  var initOptions = InitOptions.from({
-    staleTime: 1000,
-    domain,
+  var initOptions = MutationOptions.from({
+    extractError: DEFAULTS.extractError,
+    retry: MUTATION_DEFAULTS.retry,
   });
 
   var action = createAction(key);
@@ -25,6 +28,7 @@ describe("mutation", () => {
 
   test("should return current data if in progress", () => {
     var mutation = getMutation({
+      domain,
       actionTypePatterns,
       initOptions,
     });
@@ -53,6 +57,7 @@ describe("mutation", () => {
 
   test("should return new data", () => {
     var mutation = getMutation({
+      domain,
       actionTypePatterns,
       initOptions,
     });
@@ -101,6 +106,7 @@ describe("mutation", () => {
 
   test("should throw an error with default extractError fn", () => {
     var mutation = getMutation({
+      domain,
       actionTypePatterns,
       initOptions,
     });
@@ -149,6 +155,7 @@ describe("mutation", () => {
 
   test("should throw an error with custom extractError fn", () => {
     var mutation = getMutation({
+      domain,
       actionTypePatterns,
       initOptions,
     });
@@ -178,6 +185,121 @@ describe("mutation", () => {
         },
       },
     );
+
+    expect(result.error()).toEqual("TypeError");
+
+    expect(dispatches.length).toBe(2);
+
+    expect(dispatches).toEqual([
+      action({
+        type: createActionType(key)(
+          actionTypePatterns.mutation.request,
+        ),
+      }),
+      action({
+        type: createActionType(key)(
+          actionTypePatterns.mutation.failure,
+        ),
+        error: "TypeError",
+      }),
+    ]);
+  });
+
+  test("should throw an error after custom retries", async () => {
+    var mutation = getMutation({
+      domain,
+      actionTypePatterns,
+      initOptions,
+    });
+
+    var dispatches = [];
+
+    var result = runSaga(
+      {
+        dispatch: (action) => dispatches.push(action),
+        getState: () => ({
+          [domain]: {
+            [key]: {
+              isLoading: false,
+              data: "data",
+            },
+          },
+        }),
+      },
+      mutation,
+      {
+        key: [key],
+        fn: () => {
+          throw new TypeError("error");
+        },
+        options: {
+          extractError: (e) => e.name,
+          retry: 2,
+        },
+      },
+    );
+
+    expect(result.error()).toEqual(undefined);
+
+    await delay(4050);
+
+    expect(result.error()).toEqual("TypeError");
+
+    expect(dispatches.length).toBe(2);
+
+    expect(dispatches).toEqual([
+      action({
+        type: createActionType(key)(
+          actionTypePatterns.mutation.request,
+        ),
+      }),
+      action({
+        type: createActionType(key)(
+          actionTypePatterns.mutation.failure,
+        ),
+        error: "TypeError",
+      }),
+    ]);
+  });
+
+  test("should have custom retry delay", async () => {
+    var mutation = getMutation({
+      domain,
+      actionTypePatterns,
+      initOptions,
+    });
+
+    var dispatches = [];
+
+    var result = runSaga(
+      {
+        dispatch: (action) => dispatches.push(action),
+        getState: () => ({
+          [domain]: {
+            [key]: {
+              isLoading: false,
+              data: "data",
+            },
+          },
+        }),
+      },
+      mutation,
+      {
+        key: [key],
+        fn: () => {
+          throw new TypeError("error");
+        },
+        options: {
+          extractError: (e) => e.name,
+          retry: 2,
+          retryDelay: 200,
+        },
+      },
+    );
+
+    expect(result.error()).toEqual(undefined);
+
+    await delay(405);
 
     expect(result.error()).toEqual("TypeError");
 

@@ -1,55 +1,110 @@
 import { Either as E, cond, identity, pipe } from "utilities";
-import { fn, number, string } from "../validators.js";
+import { fn, number, numberOrUndefined } from "../validators.js";
 
-var DEFAULT = {
-  extractError: (e) => e.message,
-};
+/**
+ * validate :: Object -> (x, y, (x) -> Either) -> x | Object[y]
+ */
+var validate = (target) => (value, valueName, validateFn) =>
+  pipe(
+    value,
+    validateFn,
+    E.chain(identity),
+    E.chainLeft(() => target[valueName]),
+  );
 
-function InitOptions(domain, staleTime, extractError) {
-  this.domain = domain;
-  this.staleTime = staleTime;
-  this.extractError = extractError;
-}
-
-InitOptions.from = function ({ domain, staleTime, extractError }) {
-  var options = {
-    domain,
-    staleTime,
-    extractError: extractError || DEFAULT.extractError,
-  };
-
+/**
+ * instantiate :: Constructor -> [Either] -> Object | throw
+ */
+var instantiate = (Constructor, values) => {
   var withErrors = (x) => x.some(E.isLeft);
 
   var terminate = (x) => {
     throw new Error(x.filter(E.isLeft).map(E.join).join("; "));
   };
 
-  var init = (x) => new InitOptions(...x.map(E.join));
+  var init = (Constructor) => (x) =>
+    new Constructor(...x.map(E.join));
 
   return pipe(
-    [
-      string(options.domain),
-      number(options.staleTime),
-      fn(options.extractError),
-    ],
-    cond(init, [withErrors, terminate]),
+    values,
+    cond(init(Constructor), [withErrors, terminate]),
   );
 };
 
-InitOptions.prototype.merge = function (nextOptions) {
-  var next = (value, valueName, validateFn) =>
-    pipe(
-      value,
-      validateFn,
-      E.chain(identity),
-      E.chainLeft(() => this[valueName]),
-    );
+// ===================
 
-  return InitOptions.from({
-    domain: next(nextOptions.domain, "domain", string),
-    staleTime: next(nextOptions.staleTime, "staleTime", number),
-    extractError: next(nextOptions.extractError, "extractError", fn),
-  });
-};
+var QueryOptions = (() => {
+  function Options(staleTime, extractError, retry, retryDelay) {
+    this.staleTime = staleTime;
+    this.extractError = extractError;
+    this.retry = retry;
+    this.retryDelay = retryDelay;
+  }
 
-export { InitOptions };
+  Options.from = function ({
+    staleTime,
+    extractError,
+    retry,
+    retryDelay,
+  }) {
+    return instantiate(Options, [
+      number(staleTime),
+      fn(extractError),
+      number(retry),
+      numberOrUndefined(retryDelay),
+    ]);
+  };
+
+  Options.prototype.merge = function (nextOptions) {
+    var next = validate(this);
+
+    return Options.from({
+      staleTime: next(nextOptions.staleTime, "staleTime", number),
+      extractError: next(
+        nextOptions.extractError,
+        "extractError",
+        fn,
+      ),
+      retry: next(nextOptions.retry, "retry", number),
+      retryDelay: next(nextOptions.retryDelay, "retryDelay", number),
+    });
+  };
+
+  return Options;
+})();
+
+// ===================
+
+var MutationOptions = (() => {
+  function Options(extractError, retry, retryDelay) {
+    this.extractError = extractError;
+    this.retry = retry;
+    this.retryDelay = retryDelay;
+  }
+
+  Options.from = function ({ extractError, retry, retryDelay }) {
+    return instantiate(Options, [
+      fn(extractError),
+      number(retry),
+      numberOrUndefined(retryDelay),
+    ]);
+  };
+
+  Options.prototype.merge = function (nextOptions) {
+    var next = validate(this);
+
+    return Options.from({
+      extractError: next(
+        nextOptions.extractError,
+        "extractError",
+        fn,
+      ),
+      retry: next(nextOptions.retry, "retry", number),
+      retryDelay: next(nextOptions.retryDelay, "retryDelay", number),
+    });
+  };
+
+  return Options;
+})();
+
+export { QueryOptions, MutationOptions };

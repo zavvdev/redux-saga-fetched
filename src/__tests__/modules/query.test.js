@@ -1,12 +1,15 @@
 import { expect, test, describe } from "vitest";
 import { runSaga } from "redux-saga";
-import { InitOptions } from "../../entities/InitOptions";
+import { QueryOptions } from "../../entities/InitOptions";
 import { getQuery, selectIsValid } from "../../modules/query";
 import {
   createAction,
   createActionType,
   createActionTypePatterns,
 } from "../../modules/_helpers";
+import { delay } from "../utils";
+import { Domain } from "../../entities/Domain";
+import { DEFAULTS, QUERY_DEFAULTS } from "../../config";
 
 describe("selectIsValid", () => {
   test("should return false if timestamp is missing", () => {
@@ -65,8 +68,8 @@ describe("selectIsValid", () => {
 });
 
 describe("query", () => {
-  var domain = "domain";
   var key = "key";
+  var domain = Domain.from("domain");
 
   var createTimestamp = () => 123;
 
@@ -76,13 +79,15 @@ describe("query", () => {
     domain,
   );
 
-  var initOptions = InitOptions.from({
+  var initOptions = QueryOptions.from({
     staleTime: 1000,
-    domain,
+    extractError: DEFAULTS.extractError,
+    retry: QUERY_DEFAULTS.retry,
   });
 
   test("should return current data if in progress", () => {
     var query = getQuery({
+      domain,
       actionTypePatterns,
       initOptions,
       createTimestamp,
@@ -112,6 +117,7 @@ describe("query", () => {
 
   test("should return current data if it's valid", () => {
     var query = getQuery({
+      domain,
       actionTypePatterns,
       initOptions,
       createTimestamp,
@@ -145,6 +151,7 @@ describe("query", () => {
 
   test("should return new data", () => {
     var query = getQuery({
+      domain,
       actionTypePatterns,
       initOptions,
       createTimestamp,
@@ -195,6 +202,110 @@ describe("query", () => {
 
   test("should throw an error with default extractError fn", () => {
     var query = getQuery({
+      domain,
+      actionTypePatterns,
+      initOptions,
+      createTimestamp,
+    });
+
+    var dispatches = [];
+
+    var result = runSaga(
+      {
+        dispatch: (action) => dispatches.push(action),
+        getState: () => ({
+          [domain]: {
+            [key]: {
+              isLoading: false,
+              timestamp: 100,
+              data: "data",
+            },
+          },
+        }),
+      },
+      query,
+      {
+        key: [key],
+        fn: () => {
+          throw new Error("error");
+        },
+        options: {
+          staleTime: 21,
+          retry: 0,
+        },
+      },
+    );
+
+    expect(result.error()).toEqual("error");
+
+    expect(dispatches.length).toBe(2);
+
+    expect(dispatches).toEqual([
+      action({
+        type: createActionType(key)(actionTypePatterns.query.request),
+      }),
+      action({
+        type: createActionType(key)(actionTypePatterns.query.failure),
+        error: "error",
+      }),
+    ]);
+  });
+
+  test("should throw an error with custom extractError fn", () => {
+    var query = getQuery({
+      domain,
+      actionTypePatterns,
+      initOptions,
+      createTimestamp,
+    });
+
+    var dispatches = [];
+
+    var result = runSaga(
+      {
+        dispatch: (action) => dispatches.push(action),
+        getState: () => ({
+          [domain]: {
+            [key]: {
+              isLoading: false,
+              timestamp: 100,
+              data: "data",
+            },
+          },
+        }),
+      },
+      query,
+      {
+        key: [key],
+        fn: () => {
+          throw new TypeError("error");
+        },
+        options: {
+          staleTime: 21,
+          extractError: (e) => e.name,
+          retry: 0,
+        },
+      },
+    );
+
+    expect(result.error()).toEqual("TypeError");
+
+    expect(dispatches.length).toBe(2);
+
+    expect(dispatches).toEqual([
+      action({
+        type: createActionType(key)(actionTypePatterns.query.request),
+      }),
+      action({
+        type: createActionType(key)(actionTypePatterns.query.failure),
+        error: "TypeError",
+      }),
+    ]);
+  });
+
+  test("should throw an error after default retry", async () => {
+    var query = getQuery({
+      domain,
       actionTypePatterns,
       initOptions,
       createTimestamp,
@@ -227,6 +338,10 @@ describe("query", () => {
       },
     );
 
+    expect(result.error()).toEqual(undefined);
+
+    await delay(8000);
+
     expect(result.error()).toEqual("error");
 
     expect(dispatches.length).toBe(2);
@@ -240,10 +355,11 @@ describe("query", () => {
         error: "error",
       }),
     ]);
-  });
+  }, 8000);
 
-  test("should throw an error with custom extractError fn", () => {
+  test("should throw an error after custom retry", async () => {
     var query = getQuery({
+      domain,
       actionTypePatterns,
       initOptions,
       createTimestamp,
@@ -268,16 +384,20 @@ describe("query", () => {
       {
         key: [key],
         fn: () => {
-          throw new TypeError("error");
+          throw new Error("error");
         },
         options: {
           staleTime: 21,
-          extractError: (e) => e.name,
+          retry: 1,
         },
       },
     );
 
-    expect(result.error()).toEqual("TypeError");
+    expect(result.error()).toEqual(undefined);
+
+    await delay(1000);
+
+    expect(result.error()).toEqual("error");
 
     expect(dispatches.length).toBe(2);
 
@@ -287,7 +407,63 @@ describe("query", () => {
       }),
       action({
         type: createActionType(key)(actionTypePatterns.query.failure),
-        error: "TypeError",
+        error: "error",
+      }),
+    ]);
+  });
+
+  test("should have a custom retry delay", async () => {
+    var query = getQuery({
+      domain,
+      actionTypePatterns,
+      initOptions,
+      createTimestamp,
+    });
+
+    var dispatches = [];
+
+    var result = runSaga(
+      {
+        dispatch: (action) => dispatches.push(action),
+        getState: () => ({
+          [domain]: {
+            [key]: {
+              isLoading: false,
+              timestamp: 100,
+              data: "data",
+            },
+          },
+        }),
+      },
+      query,
+      {
+        key: [key],
+        fn: () => {
+          throw new Error("error");
+        },
+        options: {
+          staleTime: 21,
+          retry: 1,
+          retryDelay: 200,
+        },
+      },
+    );
+
+    expect(result.error()).toEqual(undefined);
+
+    await delay(205);
+
+    expect(result.error()).toEqual("error");
+
+    expect(dispatches.length).toBe(2);
+
+    expect(dispatches).toEqual([
+      action({
+        type: createActionType(key)(actionTypePatterns.query.request),
+      }),
+      action({
+        type: createActionType(key)(actionTypePatterns.query.failure),
+        error: "error",
       }),
     ]);
   });

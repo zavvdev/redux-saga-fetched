@@ -1,3 +1,4 @@
+import { delay, call } from "redux-saga/effects";
 import { Either as E, pipe } from "utilities";
 import { object } from "../validators";
 
@@ -92,3 +93,23 @@ export var selectMatchedKeys =
       E.chain((x) => Object.keys(x).filter((k) => k.startsWith(key))),
       E.chainLeft(() => []),
     );
+
+/**
+ * withRetry :: () -> x, number, number -> x | throw
+ */
+export function* withRetry(fn, retries, retryDelay) {
+  function* runner(c = 0) {
+    try {
+      return yield call(fn);
+    } catch (e) {
+      if (c === retries) {
+        throw e;
+      } else {
+        yield delay(retryDelay ?? 1000 * (1 << c));
+        return yield call(runner, c + 1);
+      }
+    }
+  }
+
+  return yield call(runner);
+}

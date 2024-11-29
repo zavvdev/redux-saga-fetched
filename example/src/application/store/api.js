@@ -4,7 +4,9 @@ var DOMAIN = "api";
 
 var { reducer, query, mutation, selector } = initSagaQuery({
   domain: DOMAIN,
-  staleTime: 1000 * 60,
+  query: {
+    staleTime: 1000 * 60,
+  },
 });
 
 var apiReducer = {

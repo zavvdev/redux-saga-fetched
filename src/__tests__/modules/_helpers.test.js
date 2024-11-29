@@ -1,4 +1,5 @@
 import { describe, test, expect } from "vitest";
+import { runSaga } from "redux-saga";
 import {
   createAction,
   createActionType,
@@ -7,7 +8,9 @@ import {
   selectIsInProgress,
   selectKeyState,
   selectMatchedKeys,
+  withRetry,
 } from "../../modules/_helpers.js";
+import { delay } from "../utils.js";
 
 describe("createActionTypePatterns", () => {
   test("should return an object with action patterns", () => {
@@ -187,5 +190,154 @@ describe("selectMatchedKeys", () => {
       "key1",
       "key2",
     ]);
+  });
+});
+
+describe("withRetry", () => {
+  test("should return result of a function if no errors occured", () => {
+    var fn = () => 1;
+
+    var result = runSaga(
+      {
+        dispatch: () => {},
+        getState: () => ({}),
+      },
+      withRetry,
+      fn,
+      3,
+    );
+
+    expect(result.result()).toEqual(fn());
+  });
+
+  describe("default delay", () => {
+    test("should retry zero times", async () => {
+      var fn = () => {
+        throw new Error("error");
+      };
+
+      var result = runSaga(
+        {
+          dispatch: () => {},
+          getState: () => ({}),
+        },
+        withRetry,
+        fn,
+        0,
+      );
+
+      expect(result.error()).toEqual(new Error("error"));
+    });
+
+    test("should retry once", async () => {
+      var fn = () => {
+        throw new Error("error");
+      };
+
+      var result = runSaga(
+        {
+          dispatch: () => {},
+          getState: () => ({}),
+        },
+        withRetry,
+        fn,
+        1,
+      );
+
+      expect(result.error()).toEqual(undefined);
+
+      await delay(1050);
+
+      expect(result.error()).toEqual(new Error("error"));
+    });
+
+    test("should retry twice", async () => {
+      var fn = () => {
+        throw new Error("error");
+      };
+
+      var result = runSaga(
+        {
+          dispatch: () => {},
+          getState: () => ({}),
+        },
+        withRetry,
+        fn,
+        2,
+      );
+
+      expect(result.error()).toEqual(undefined);
+
+      await delay(4100);
+
+      expect(result.error()).toEqual(new Error("error"));
+    });
+  });
+
+  describe("custom delay", () => {
+    test("should retry zero times", async () => {
+      var fn = () => {
+        throw new Error("error");
+      };
+
+      var result = runSaga(
+        {
+          dispatch: () => {},
+          getState: () => ({}),
+        },
+        withRetry,
+        fn,
+        0,
+        1000,
+      );
+
+      expect(result.error()).toEqual(new Error("error"));
+    });
+
+    test("should retry once", async () => {
+      var fn = () => {
+        throw new Error("error");
+      };
+
+      var result = runSaga(
+        {
+          dispatch: () => {},
+          getState: () => ({}),
+        },
+        withRetry,
+        fn,
+        1,
+        500,
+      );
+
+      expect(result.error()).toEqual(undefined);
+
+      await delay(505);
+
+      expect(result.error()).toEqual(new Error("error"));
+    });
+
+    test("should retry twice", async () => {
+      var fn = () => {
+        throw new Error("error");
+      };
+
+      var result = runSaga(
+        {
+          dispatch: () => {},
+          getState: () => ({}),
+        },
+        withRetry,
+        fn,
+        2,
+        500,
+      );
+
+      expect(result.error()).toEqual(undefined);
+
+      await delay(1010);
+
+      expect(result.error()).toEqual(new Error("error"));
+    });
   });
 });
