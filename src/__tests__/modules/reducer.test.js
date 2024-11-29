@@ -38,7 +38,7 @@ describe("query", () => {
         ...state,
         [key]: {
           isLoading: true,
-          isFetching: false,
+          isFetching: true,
           isLoaded: false,
           isError: false,
           isValid: false,
