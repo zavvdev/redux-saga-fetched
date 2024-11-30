@@ -1,7 +1,7 @@
 {
   "name": "redux-saga-query",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Automation of API state management with redux-saga",
   "main": "index.js",
   "types": "index.d.ts",
