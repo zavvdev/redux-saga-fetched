@@ -105,20 +105,20 @@ Use this function to initialize redux-saga-query. You should call it once per do
 
 - **Required**: No
 - **Type**: Function
-- **Description**: Accepts an error thrown by `fn` function of query or mutation and returns some value. Value returned by this function will be re-thrown and stored in domain storage, so it should be serializable. Applies for both queries and mutations
+- **Description**: Accepts an error thrown by _fn_ function of query or mutation and returns some value. Value returned by this function will be re-thrown and stored in domain storage, so it should be serializable. Applies for both queries and mutations
 - **Default value**: Function that extracts a message from error or error name if message is missing. If both are missing - returns _"An error occurred"_ string
 
 `retry`
 
 - **Required**: No
 - **Type**: Number
-- **Description**: Amount of retries that should be done for query and mutation `fn` function in case it throws an error
+- **Description**: Amount of retries that should be done for query and mutation _fn_ function in case it throws an error
 
 `retryDelay`
 
 - **Required**: No
 - **Type**: Number
-- **Description**: Amount of time in milliseconds that should pass until next retry will be executed in case `fn` function of query or mutation throws an error
+- **Description**: Amount of time in milliseconds that should pass until next retry will be executed in case _fn_ function of query or mutation throws an error
 
 `query`
 
@@ -199,47 +199,47 @@ Use this function to initialize redux-saga-query. You should call it once per do
 `isLoading`
 
 - **Type**: Boolean
-- **Description**: Has value `true` if `fn` function of query is being requested for the first time
+- **Description**: Has value _true_ if _fn_ function of query is being requested for the first time
 
 `isFetching`
 
 - **Type**: Boolean
-- **Description**: Has value `true` if `fn` function of query is being requested at any time
+- **Description**: Has value _true_ if _fn_ function of query is being requested at any time
 
 `isLoaded`
 
 - **Type**: Boolean
-- **Description**: Has value `true` if `fn` function of query has successfully derived its data
+- **Description**: Has value _true_ if _fn_ function of query has successfully derived its data
 
 `isError`
 
 - **Type**: Boolean
-- **Description**: Has value `true` if `fn` function of query has thrown an error or any error has been thrown during query execution
+- **Description**: Has value _true_ if _fn_ function of query has thrown an error or any error has been thrown during query execution
 
 `isValid`
 
 - **Type**: Boolean
-- **Description**: Has value `true` if query data doesn't need to be requested again. In other words, it's not stale because `staleTime` milliseconds has not passed yet. But keep in mind that this value won't be updated automatically if nothing is being requested yet using the respective query Key. For example, if you have data that is valid and you didn't request it again after it had become invalid, this field will still show you that it's valid even if its staleTime had already passed. The only way to update state and get fresh status of this field is to trigger request again somewhere
+- **Description**: Has value _true_ if query data doesn't need to be requested again. In other words, it's not stale because _staleTime_ milliseconds has not passed yet. But keep in mind that this value won't be updated automatically if nothing is being requested yet using the respective query Key. For example, if you have data that is valid and you didn't request it again after it had become invalid, this field will still show you that it's valid even if its staleTime had already passed. The only way to update state and get fresh status of this field is to trigger request again somewhere
 
 `isReset`
 
 - **Type**: Boolean
-- **Description**: Has value `true` if fn query data is in reset state. Technically, a reset state is when you have no data but a query record is present in the domain state. Redux-saga-query does not reset your data. It can only be reset by you manually by calling [reset](https://github.com/zavvdev/redux-saga-query/tree/main?tab=readme-ov-file#initsagaquery) function
+- **Description**: Has value _true_ if fn query data is in reset state. Technically, a reset state is when you have no data but a query record is present in the domain state. Redux-saga-query does not reset your data. It can only be reset by you manually by calling [reset](https://github.com/zavvdev/redux-saga-query/tree/main?tab=readme-ov-file#initsagaquery) function
 
 `timestamp`
 
 - **Type**: Number | Undefined
-- **Description**: Has the last timestamp when `fn` function of query has successfully derived its data
+- **Description**: Has the last timestamp when _fn_ function of query has successfully derived its data
 
 `data`
 
 - **Type**: Unknown | Null
-- **Description**: Data derived from `fn` function of query
+- **Description**: Data derived from _fn_ function of query
 
 `error`
 
 - **Type**: Unknown | Null
-- **Description**: Value returned by `extractError` function
+- **Description**: Value returned by _extractError_ function
 
 ### MutationRecord
 
@@ -249,27 +249,27 @@ Use this function to initialize redux-saga-query. You should call it once per do
 `isLoading`
 
 - **Type**: Boolean
-- **Description**: Has value `true` if `fn` function of mutation is being executed
+- **Description**: Has value _true_ if _fn_ function of mutation is being executed
 
 `isLoaded`
 
 - **Type**: Boolean
-- **Description**: Has value `true` if `fn` function of mutation has successfully derived its data
+- **Description**: Has value _true_ if _fn_ function of mutation has successfully derived its data
 
 `isError`
 
 - **Type**: Boolean
-- **Description**: Has value `true` if `fn` function of mutation has thrown an error or any error has been thrown during mutation execution
+- **Description**: Has value _true_ if _fn_ function of mutation has thrown an error or any error has been thrown during mutation execution
 
 `data`
 
 - **Type**: Unknown | Null
-- **Description**: Data derived from `fn` function of mutation
+- **Description**: Data derived from _fn_ function of mutation
 
 `error`
 
 - **Type**: Unknown | Null
-- **Description**: Value returned by `extractError` function
+- **Description**: Value returned by _extractError_ function
 
 ### reducer
 
@@ -302,10 +302,10 @@ Use this function to initialize redux-saga-query. You should call it once per do
 
   `fn` - Any function that returns some serializable data
 
-  `options` - Fully partial [options](https://github.com/zavvdev/redux-saga-query/blob/272e83e5e8038f11e0231e6f4700f56e8d096b94/src/index.d.ts#L1) that will be applied only for this specific query. Represented as an object the same as in `initSagaQuery` _query_ argument but fully partial
+  `options` - Fully partial [options](https://github.com/zavvdev/redux-saga-query/blob/272e83e5e8038f11e0231e6f4700f56e8d096b94/src/index.d.ts#L1) that will be applied only for this specific query. Represented as an object the same as in [initSagaQuery](https://github.com/zavvdev/redux-saga-query?tab=readme-ov-file#initsagaquery) _query_ argument but fully partial
 
-- **Returns**: Generator function which yields redux-saga effects. Returns the result of `fn` if it has successfully derived data or throws an error with value returned from `extractError` function
-- **Description**: Caches the data returned from `fn` function
+- **Returns**: Generator function which yields redux-saga effects. Returns the result of _fn_ if it has successfully derived data or throws an error with value returned from _extractError_ function
+- **Description**: Caches the data returned from _fn_ function
 
 ### mutation
 
@@ -316,10 +316,10 @@ Use this function to initialize redux-saga-query. You should call it once per do
 
   `fn` - Any function that returns some serializable data
 
-  `options` - [Options](https://github.com/zavvdev/redux-saga-query/blob/272e83e5e8038f11e0231e6f4700f56e8d096b94/src/index.d.ts#L8) that will be applied only for this specific mutation. Represented as an object the same as in `initSagaQuery` _mutation_ argument
+  `options` - [Options](https://github.com/zavvdev/redux-saga-query/blob/272e83e5e8038f11e0231e6f4700f56e8d096b94/src/index.d.ts#L8) that will be applied only for this specific mutation. Represented as an object the same as in [initSagaQuery](https://github.com/zavvdev/redux-saga-query?tab=readme-ov-file#initsagaquery) _mutation_ argument
 
-- **Returns**: Generator function which yields redux-saga effects. Returns the result of `fn` if it has successfully derived data or throws an error with value returned from `extractError` function
-- **Description**: Does not cache the data returned from `fn` function
+- **Returns**: Generator function which yields redux-saga effects. Returns the result of _fn_ if it has successfully derived data or throws an error with value returned from _extractError_ function
+- **Description**: Does not cache the data returned from _fn_ function
 
 ### invalidate
 
