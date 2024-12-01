@@ -83,4 +83,140 @@ function* fetchBooks() {
 }
 ```
 
-Here we used `query` function to retrieve a list of books from external api. Under the hood this function dispatches `REQUEST` action if data is stale, makes a new call using your function, caches the result to storage and returns it back where you called it. If data is not stale, it doesn't make new request and returns back cached data from storage. More information in Documentation and [Example](https://github.com/zavvdev/redux-saga-query/tree/main/example).
+Here we used `query` function to retrieve a list of books from external api. Under the hood this function dispatches `REQUEST` action if data is stale, makes a new call using your function, caches the result to storage and returns it back where you called it. If data is not stale, it doesn't make new request and returns back cached data from storage. More information in [Documentation](https://github.com/zavvdev/redux-saga-query/tree/main?tab=readme-ov-file#documentation) and [Example](https://github.com/zavvdev/redux-saga-query/tree/main/example).
+
+# Documentation
+
+## API
+
+### initSagaQuery
+
+Use this function to initialize redux-saga-query. You should call it once per domain. Domain is responsible for storing cached data. It's just an object with keys that store you data. You can have one or multiple domains. For example, one common `api` domain.
+
+**Arguments**
+
+`domain`
+
+    **Required**: Yes
+
+    **Type**: string
+
+    **Description**: Should be unique for each function call
+
+`extractError`
+
+    **Required**: No
+
+    **Type**: Function
+
+    **Description**: Accepts an error thrown by `fn` argument of query/mutation function and returns some value. Value returned by this function will be re-thrown and stored in domain storage, so it should be serializable. This function is applied for both queries and mutations.
+
+    **Default value**: Function that extracts message from error or error name if message is missing. If both missing - returns "An error occurred" string.
+
+`retry`
+
+    **Required**: No
+
+    **Type**: number
+
+    **Description**: Amount of retries that should be done for query and mutation `fn` function in case it throws an error.
+
+`retryDelay`
+
+    **Required**: No
+
+    **Type**: number
+
+    **Description**: Amount of time in milliseconds that should pass until next retry will be executed it case `fn` function of query or mutation throws an error.
+
+`query`
+
+    **Required**: Yes
+
+    **Type**: Object
+
+    **Description**: Configuration that will be applied only for queries.
+
+    `staleTime`
+
+        **Required**: Yes
+
+        **Type**: number
+
+        **Description**: Amount of time in milliseconds that should pass, so query data can be considered as stale. If data is stale, it will be requested again next time query gets executed.
+
+    `extractError`
+
+        **Required**: No
+
+        **Type**: Function
+
+        **Description**: Same as global, but applies only for queries.
+
+        **Default value**: Same as global.
+
+    `retry`
+
+        **Required**: No
+
+        **Type**: number
+
+        **Description**: Same as global, but applies only for queries.
+
+        **Default value**: 3
+
+    `retryDelay`
+
+        **Required**: No
+
+        **Type**: number
+
+        **Description**: Same as global, but applies only for queries.
+
+        **Default value**: Exponential backoff.
+
+`mutation`
+
+    **Required**: No
+
+    **Type**: Object
+
+    **Description**: Configuration that will be applied only for mutations.
+
+    `extractError`
+
+        **Required**: No
+
+        **Type**: Function
+
+        **Description**: Same as global, but applies only for mutations.
+
+        **Default value**: Same as global.
+
+    `retry`
+
+        **Required**: No
+
+        **Type**: number
+
+        **Description**: Same as global, but applies only for mutations.
+
+        **Default value**: 0
+
+    `retryDelay`
+
+        **Required**: No
+
+        **Type**: number
+
+        **Description**: Same as global, but applies only for mutations.
+
+`createInstanceId`
+
+    **Required**: No
+
+    **Type**: Function
+
+    **Description**: Returns a string that will be used as unique identifier for constructing action type patterns.
+
+    **Default value**: Function that returns a string with number counted for each created domain with `initSagaQuery` function.
