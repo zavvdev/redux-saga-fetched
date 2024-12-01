@@ -24,8 +24,8 @@ importers:
         specifier: ^1.3.0
         version: 1.3.0
       redux-saga-query:
-        specifier: ^1.0.1
-        version: 1.0.1
+        specifier: ^1.0.2
+        version: 1.0.2
       yup:
         specifier: ^1.4.0
         version: 1.4.0
@@ -1157,8 +1157,8 @@ packages:
     resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
     engines: {node: '>=0.10.0'}
 
-  redux-saga-query@1.0.1:
-    resolution: {integrity: sha512-knR2PMFHOqBmUckku6QWdy0J9j5AsLW0LgG1QmzispSiliQSxfXXlCnkStUHqmctqv1cHkznS/AIr6nCG1xpaQ==}
+  redux-saga-query@1.0.2:
+    resolution: {integrity: sha512-Ts5LfHv40xNPD+ekC6cO1iGfpP/kE6pNPbQ5WOGpg9LZCjajROvVKD/0UVbUxoFo9nZY8cMxv5smx2F3zeUrZA==}
 
   redux-saga@1.3.0:
     resolution: {integrity: sha512-J9RvCeAZXSTAibFY0kGw6Iy4EdyDNW7k6Q+liwX+bsck7QVsU78zz8vpBRweEfANxnnlG/xGGeOvf6r8UXzNJQ==}
@@ -2548,7 +2548,7 @@ snapshots:
     dependencies:
       loose-envify: 1.4.0
 
-  redux-saga-query@1.0.1:
+  redux-saga-query@1.0.2:
     dependencies:
       redux-saga: 1.3.0
 
