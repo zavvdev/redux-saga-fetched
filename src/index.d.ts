@@ -46,7 +46,7 @@ interface Modules {
 
   selector: (
     key: Key,
-  ) => (state: State) => QueryRecord | MutationRecord;
+  ) => (state: State) => QueryRecord | MutationRecord | null;
 
   query: <T extends unknown>(args: {
     key: Key;
