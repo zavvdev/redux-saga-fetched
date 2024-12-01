@@ -96,12 +96,9 @@ Use this function to initialize redux-saga-query. You should call it once per do
 **Arguments**
 
 `domain`
-
-    **Required**: Yes
-
-    **Type**: string
-
-    **Description**: Should be unique for each function call
+**Required**: Yes
+**Type**: string
+**Description**: Should be unique for each function call
 
 `extractError`
 
