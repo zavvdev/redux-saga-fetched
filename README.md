@@ -124,7 +124,7 @@ Use this function to initialize redux-saga-query. You should call it once per do
 
 - **Required**: Yes
 - **Type**: Object
-- **Description**: Configuration for queries
+- **Description**: [Configuration](https://github.com/zavvdev/redux-saga-query/blob/3cc865dafe4194b1caccb39574e4a87c2ca18962/src/index.d.ts#L1) for queries
 
   `staleTime`
 
@@ -157,7 +157,7 @@ Use this function to initialize redux-saga-query. You should call it once per do
 
 - **Required**: No
 - **Type**: Object
-- **Description**: Configuration for mutations
+- **Description**: [Configuration](https://github.com/zavvdev/redux-saga-query/blob/3cc865dafe4194b1caccb39574e4a87c2ca18962/src/index.d.ts#L8) for mutations
 
   `extractError`
 
@@ -185,3 +185,88 @@ Use this function to initialize redux-saga-query. You should call it once per do
 - **Type**: Function
 - **Description**: Returns a string that is used as unique identifier for constructing action type patterns
 - **Default value**: Function that returns a string with number counted for each created domain with _initSagaQuery_ function
+
+### Key
+
+- **Type**: [Array<string | number | bigint | boolean>](https://github.com/zavvdev/redux-saga-query/blob/3cc865dafe4194b1caccb39574e4a87c2ca18962/src/index.d.ts#L14)
+- **Description**: Unique identifier for each query or mutation which used as part of dispatched action type by redux-saga-query
+
+### QueryRecord
+
+- **Type**: [Object](https://github.com/zavvdev/redux-saga-query/blob/3cc865dafe4194b1caccb39574e4a87c2ca18962/src/index.d.ts#L16)
+- **Description**: Object in domain storage that represents query state. Consists of next fields:
+
+`isLoading`
+
+- **Type**: Boolean
+- **Description**: Has value `true` if `fn` function of query is being requested for the first time
+
+`isFetching`
+
+- **Type**: Boolean
+- **Description**: Has value `true` if `fn` function of query is being requested at any time
+
+`isLoaded`
+
+- **Type**: Boolean
+- **Description**: Has value `true` if `fn` function of query has been successfully derived its data
+
+`isError`
+
+- **Type**: Boolean
+- **Description**: Has value `true` if `fn` function of query has thrown an error or any error has been thrown during query execution
+
+`isValid`
+
+- **Type**: Boolean
+- **Description**: Has value `true` if `fn` query data doesn't need to be requested again. In other words, it's not stale because `staleTime` milliseconds has not been passed yet. But keep in mind that this value won't be updated automatically if nothing is being requested yet using its query Key. For example, if you have data that is valid and you don't request it again after it has become invalid, this field will still show you that it's valid event if it's staleTime has already passed. The only way to update state and get fresh status of this field is to trigger request again somewhere
+
+`isReset`
+
+- **Type**: Boolean
+- **Description**: Has value `true` if `fn` query data is in reset state. Technically, reset state is when you have no data but query record is present in domain state. Redux-saga-query does not make reset of your data. It can only be reset by you manually by calling `reset` function
+
+`timestamp`
+
+- **Type**: Number | Undefined
+- **Description**: Has the last timestamp when `fn` function of query has been successfully derived its data
+
+`data`
+
+- **Type**: Unknown | Null
+- **Description**: Data derived from `fn` function of query
+
+`error`
+
+- **Type**: Unknown | Null
+- **Description**: Value returned by `extractError` function (default or custom)
+
+### MutationRecord
+
+- **Type**: [Object](https://github.com/zavvdev/redux-saga-query/blob/3cc865dafe4194b1caccb39574e4a87c2ca18962/src/index.d.ts#L28)
+- **Description**: Object in domain storage that represents mutation state. Consists of next fields:
+
+`isLoading`
+
+- **Type**: Boolean
+- **Description**: Has value `true` if `fn` function of mutation is being executed
+
+`isLoaded`
+
+- **Type**: Boolean
+- **Description**: Has value `true` if `fn` function of mutation has been successfully derived its data
+
+`isError`
+
+- **Type**: Boolean
+- **Description**: Has value `true` if `fn` function of mutation has thrown an error or any error has been thrown during mutation execution
+
+`data`
+
+- **Type**: Unknown | Null
+- **Description**: Data derived from `fn` function of mutation
+
+`error`
+
+- **Type**: Unknown | Null
+- **Description**: Value returned by `extractError` function (default or custom)

@@ -21,7 +21,7 @@ export interface QueryRecord {
   isValid: boolean;
   isReset: boolean;
   timestamp: number | undefined;
-  data: unknown;
+  data: unknown | null;
   error: unknown | null;
 }
 
@@ -29,7 +29,7 @@ export interface MutationRecord {
   isLoading: boolean;
   isLoaded: boolean;
   isError: boolean;
-  data: unknown;
+  data: unknown | null;
   error: unknown | null;
 }
 
