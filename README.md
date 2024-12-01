@@ -96,124 +96,92 @@ Use this function to initialize redux-saga-query. You should call it once per do
 **Arguments**
 
 `domain`
-**Required**: Yes
-**Type**: string
-**Description**: Should be unique for each function call
+
+- **Required**: Yes
+- **Type**: String
+- **Description**: Should be unique for each function call
 
 `extractError`
 
-    **Required**: No
-
-    **Type**: Function
-
-    **Description**: Accepts an error thrown by `fn` argument of query/mutation function and returns some value. Value returned by this function will be re-thrown and stored in domain storage, so it should be serializable. This function is applied for both queries and mutations.
-
-    **Default value**: Function that extracts message from error or error name if message is missing. If both missing - returns "An error occurred" string.
+- **Required**: No
+- **Type**: Function
+- **Description**: Accepts an error thrown by `fn` function of query or mutation and returns some value. Value returned by this function will be re-thrown and stored in domain storage, so it should be serializable. Applies for both queries and mutations
+- **Default value**: Function that extracts a message from error or error name if message is missing. If both are missing - returns _"An error occurred"_ string
 
 `retry`
 
-    **Required**: No
-
-    **Type**: number
-
-    **Description**: Amount of retries that should be done for query and mutation `fn` function in case it throws an error.
+- **Required**: No
+- **Type**: Number
+- **Description**: Amount of retries that should be done for query and mutation `fn` function in case it throws an error
 
 `retryDelay`
 
-    **Required**: No
-
-    **Type**: number
-
-    **Description**: Amount of time in milliseconds that should pass until next retry will be executed it case `fn` function of query or mutation throws an error.
+- **Required**: No
+- **Type**: Number
+- **Description**: Amount of time in milliseconds that should pass until next retry will be executed it case `fn` function of query or mutation throws an error
 
 `query`
 
-    **Required**: Yes
+- **Required**: Yes
+- **Type**: Object
+- **Description**: Configuration for queries
 
-    **Type**: Object
+  `staleTime`
 
-    **Description**: Configuration that will be applied only for queries.
+  - **Required**: Yes
+  - **Type**: Number
+  - **Description**: Amount of time in milliseconds that should pass, so query data can be considered as stale. If data is stale, it will be requested again next time when query gets executed
 
-    `staleTime`
+  `extractError`
 
-        **Required**: Yes
+  - **Required**: No
+  - **Type**: Function
+  - **Description**: Same as global, but applies only for queries
+  - **Default value**: Same as global
 
-        **Type**: number
+  `retry`
 
-        **Description**: Amount of time in milliseconds that should pass, so query data can be considered as stale. If data is stale, it will be requested again next time query gets executed.
+  - **Required**: No
+  - **Type**: Number
+  - **Description**: Same as global, but applies only for queries
+  - **Default value**: 3
 
-    `extractError`
+  `retryDelay`
 
-        **Required**: No
-
-        **Type**: Function
-
-        **Description**: Same as global, but applies only for queries.
-
-        **Default value**: Same as global.
-
-    `retry`
-
-        **Required**: No
-
-        **Type**: number
-
-        **Description**: Same as global, but applies only for queries.
-
-        **Default value**: 3
-
-    `retryDelay`
-
-        **Required**: No
-
-        **Type**: number
-
-        **Description**: Same as global, but applies only for queries.
-
-        **Default value**: Exponential backoff.
+  - **Required**: No
+  - **Type**: Number
+  - **Description**: Same as global, but applies only for queries
+  - **Default value**: Exponential backoff
 
 `mutation`
 
-    **Required**: No
+- **Required**: No
+- **Type**: Object
+- **Description**: Configuration for mutations
 
-    **Type**: Object
+  `extractError`
 
-    **Description**: Configuration that will be applied only for mutations.
+  - **Required**: No
+  - **Type**: Function
+  - **Description**: Same as global, but applies only for mutations
+  - **Default value**: Same as global
 
-    `extractError`
+  `retry`
 
-        **Required**: No
+  - **Required**: No
+  - **Type**: Number
+  - **Description**: Same as global, but applies only for mutations
+  - **Default value**: 0
 
-        **Type**: Function
+  `retryDelay`
 
-        **Description**: Same as global, but applies only for mutations.
-
-        **Default value**: Same as global.
-
-    `retry`
-
-        **Required**: No
-
-        **Type**: number
-
-        **Description**: Same as global, but applies only for mutations.
-
-        **Default value**: 0
-
-    `retryDelay`
-
-        **Required**: No
-
-        **Type**: number
-
-        **Description**: Same as global, but applies only for mutations.
+  - **Required**: No
+  - **Type**: Number
+  - **Description**: Same as global, but applies only for mutations
 
 `createInstanceId`
 
-    **Required**: No
-
-    **Type**: Function
-
-    **Description**: Returns a string that will be used as unique identifier for constructing action type patterns.
-
-    **Default value**: Function that returns a string with number counted for each created domain with `initSagaQuery` function.
+- **Required**: No
+- **Type**: Function
+- **Description**: Returns a string that is used as unique identifier for constructing action type patterns
+- **Default value**: Function that returns a string with number counted for each created domain with _initSagaQuery_ function
