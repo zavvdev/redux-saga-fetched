@@ -1,10 +1,14 @@
 {
   "name": "redux-saga-query",
   "type": "module",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Automation of API state management with redux-saga",
   "main": "index.js",
   "types": "index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zavvdev/redux-saga-query"
+  },
   "keywords": [
     "redux",
     "redux-saga",
