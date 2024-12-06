@@ -17,6 +17,7 @@ import {
   MUTATION_DEFAULTS,
   QUERY_DEFAULTS,
 } from "./config.js";
+import { getCreateActionType } from "./modules/createActionType.js";
 
 var instanceCount = 1;
 
@@ -101,6 +102,8 @@ function initSagaQuery({
       domain: domain_,
       actionTypePatterns,
     }),
+
+    createActionType: getCreateActionType({ actionTypePatterns }),
   };
 }
 

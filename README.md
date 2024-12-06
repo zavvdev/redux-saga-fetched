@@ -340,3 +340,19 @@ Use this function to initialize redux-saga-query. You should call it once per do
 
 - **Returns**: Void
 - **Description**: Searches in domain for any partially matched keys. If found any - resets their data if it hasn't been reset yet. Reset means that domain still has a record for this specific query but without any data
+
+### createActionType
+
+- **Type**: Function
+- **Arguments**: Object with next fields
+
+  `type` - "query" | "mutation"
+
+  `stage` - "request" | "success" | "failure" | "invalidate" | "reset"
+
+  `key` - [Key](https://github.com/zavvdev/redux-saga-query/tree/main?tab=readme-ov-file#key)
+
+- **Returns**: String
+- **Description**: Returns a string that represents an action type, composed from passed arguments. This function can be useful when you need, for example, to wait for action dispatched by redux-saga-query.
+
+You may want to run your specific domain logic as soon as some mutation or query is successfully completed. By default you can't get action types generated under the hood, but this function allows you to do so.

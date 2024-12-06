@@ -1,6 +1,7 @@
 import { delay, call } from "redux-saga/effects";
 import { Either as E, pipe } from "../_utils";
 import { object } from "../validators";
+import { EFFECT_STAGE_TYPES, EFFECT_TYPES } from "../config";
 
 /**
  * createActionTypePatterns :: (() -> string) -> string -> patterns
@@ -16,17 +17,17 @@ export var createActionTypePatterns =
     var mutationPattern = pattern("mutation");
 
     return {
-      query: {
-        request: queryPattern("request"),
-        success: queryPattern("success"),
-        failure: queryPattern("failure"),
-        invalidate: queryPattern("invalidate"),
-        reset: queryPattern("reset"),
+      [EFFECT_TYPES.query]: {
+        [EFFECT_STAGE_TYPES.request]: queryPattern("request"),
+        [EFFECT_STAGE_TYPES.success]: queryPattern("success"),
+        [EFFECT_STAGE_TYPES.failure]: queryPattern("failure"),
+        [EFFECT_STAGE_TYPES.invalidate]: queryPattern("invalidate"),
+        [EFFECT_STAGE_TYPES.reset]: queryPattern("reset"),
       },
-      mutation: {
-        request: mutationPattern("request"),
-        success: mutationPattern("success"),
-        failure: mutationPattern("failure"),
+      [EFFECT_TYPES.mutation]: {
+        [EFFECT_STAGE_TYPES.request]: mutationPattern("request"),
+        [EFFECT_STAGE_TYPES.success]: mutationPattern("success"),
+        [EFFECT_STAGE_TYPES.failure]: mutationPattern("failure"),
       },
     };
   };

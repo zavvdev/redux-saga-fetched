@@ -9,3 +9,16 @@ export var QUERY_DEFAULTS = {
 export var MUTATION_DEFAULTS = {
   retry: 0,
 };
+
+export var EFFECT_TYPES = {
+  query: "query",
+  mutation: "mutation",
+};
+
+export var EFFECT_STAGE_TYPES = {
+  request: "request",
+  success: "success",
+  failure: "failure",
+  invalidate: "invalidate",
+  reset: "reset",
+};

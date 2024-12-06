@@ -48,3 +48,13 @@ export var cond =
   (x) =>
     ifClauses.find((ifClause) => ifClause[0](x))?.[1]?.(x) ||
     elseClause(x);
+
+/**
+ * prop :: String -> Object -> a
+ *
+ * @template {Object} T
+ * @template {unknown} R
+ * @param {string} k
+ * @returns {(x: T) => R}
+ */
+export var prop = (k) => (x) => x[k];
