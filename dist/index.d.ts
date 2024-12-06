@@ -1,3 +1,12 @@
+export type Effect = "query" | "mutation";
+
+export type EffectStage =
+  | "request"
+  | "success"
+  | "failure"
+  | "invalidate"
+  | "reset";
+
 export interface QueryOptions {
   staleTime: number;
   extractError?: <T extends Error>(e: T) => any;
@@ -63,6 +72,12 @@ interface Modules {
   invalidate: (key: Key) => void;
 
   reset: (key: Key) => void;
+
+  createActionType: (args: {
+    type: Effect;
+    stage: EffectStage;
+    key: Key;
+  }) => string;
 }
 
 declare function initSagaQuery(args: {
